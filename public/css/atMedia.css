@@ -1,0 +1,420 @@
+@media (max-width: 2100px) {
+
+    /* 2100 */
+    .box-comment-container {
+        left: 1vw;
+        width: 20vw;
+    }
+
+    .second {
+        width: 20vw;
+    }
+
+    .posting-instructions {
+        font-size: clamp(0.5rem, 0.8vw, 0.8rem);
+    }
+}
+
+@media (min-width: 1920px) {
+
+    /*My Screen*/
+
+    .design-comment {
+        left: 17vw;
+    }
+
+    #menu-buttons-container {
+        width: 5%;
+    }
+
+    #contact-info-container {
+        width: 20%;
+    }
+
+    .box-comment-container {
+        width: 20vw;
+    }
+
+    .second {
+        width: 20vw;
+    }
+
+    .posting-instructions {
+        font-size: clamp(0.5rem, 1.3vw, 1.3rem);
+    }
+}
+
+@media (max-width: 1920px) {
+    /* XL - Laptop*/
+
+    #contact-footer {
+        font-size: clamp(0.5rem, 1.3vw, 1.3rem);
+        margin-top: 30vh;
+    }
+
+
+    .image-shape-container {
+        left: -50vw;
+        top: -35vh;
+    }
+
+    #image-shape {
+        width: 100vw;
+        height: 35vh;
+        clip-path: polygon(0% 0%,
+                50% 90%,
+                100% 0%,
+                100% 100%,
+                0% 100%);
+    }
+
+    #menu-buttons-container {
+        width: 5%;
+    }
+
+    #contact-info-container {
+        height: 90vh;
+    }
+
+    #main-window-container {
+        height: 90vh;
+    }
+
+    /*forum tweaks*/
+    .comment-window-section {
+        height: 42vh;
+    }
+
+    .design-comment {
+        height: 45vh;
+        left: 15vw;
+    }
+
+    .design-comment::before {
+        top: 20vh;
+    }
+
+    .design-comment::after {
+        height: 47vh;
+        top: -1vh;
+    }
+
+    .posting-instructions {
+        font-size: clamp(0.2rem, 1.2vw, 1.2rem);
+    }
+
+}
+
+@media (max-width: 1700px) {
+    .design-container {
+        left: 1vw;
+    }
+}
+
+@media (max-width: 1500px) {
+
+    /* 1500 */
+    #contact-footer {
+        font-size: clamp(0.5rem, 1.3vw, 1.3rem);
+        margin-top: 20vh;
+    }
+
+    .box-comment-container {
+        left: 1vw;
+        width: 22vw;
+    }
+
+    .second {
+        width: 20vw;
+        margin-right: -2vw;
+    }
+
+    .posting-instructions {
+        font-size: clamp(0.5rem, 1.1vw, 1.1rem);
+    }
+
+    .design-container {
+        left: 3vw;
+    }
+    .grid-projects{
+        font-size: clamp(0.5rem, 1.2vw, 1.2rem);
+     }
+}
+
+@media (max-width: 1200px) {
+    /*Large - menu moves up*/
+
+    .icon-menu{
+        font-size: clamp(0.5rem, 3vw, 3rem);
+        
+    }
+
+    #menu-buttons-container{
+        gap: 7vw;
+    }
+
+
+    #contact-footer {
+        font-size: clamp(0.5rem, 1.3vw, 1.3rem);
+        margin-top: 13vh;
+    }
+
+    #menu-buttons-container {
+        top: 0;
+        flex-direction: row;
+        height: 8vh;
+        gap: 2vw;
+        width: 100vw;
+    }
+
+    #contact-info-container {
+        height: 80vh;
+        margin: 0;
+    }
+
+    #main-window-container {
+        height: 80vh;
+        margin: 0;
+    }
+
+    #columns-container {
+        align-items: flex-start;
+        margin: 0;
+    }
+
+    .font-size {
+        font-size: clamp(0.2rem, 1vw, 1rem);
+    }
+
+    .main-page-icon {
+        left: 50vw;
+        width: 10vw;
+        height: 10vh;
+    }
+
+    .image-shape-container {
+        left: -50vw;
+        top: -33vh;
+    }
+
+    /*forum page*/
+    .box-comment-container {
+        width: 25vh;
+        height: auto;
+        margin-left: 1vh;
+    }
+
+    .second {
+        width: 25vw;
+        margin-right: -2vh;
+    }
+
+    .design-container {
+        left: 6vw;
+    }
+
+    .box-comment-container {
+        left: 1vw;
+        width: 25vw;
+    }
+
+    .posting-instructions {
+        font-size: clamp(0.5rem, 1.3vw, 1.9rem);
+    }
+
+}
+
+@media (max-width: 992px) { /*992*/
+    /*Medium*/
+
+    #menu-buttons-container {
+        position: absolute;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        flex-direction: row;
+        height: 10vh;
+        gap: 2vw;
+        z-index: 20;
+    }
+
+    .font-size {
+        font-size: 12px;
+    }
+
+    #contact-info-container {
+        height: 100vh;
+    }
+
+    #main-window-container {
+        height: 100vh;
+    }
+
+    .main-page-icon {
+        left: 80vw;
+        width: 10vw;
+        height: 10vh;
+    }
+
+    .image-shape-container {
+        left: -50vw;
+        top: -15vh;
+    }
+
+    #image-shape {
+        width: 100vw;
+        height: 35vh;
+        clip-path: polygon(0% 0%,
+                50% 35%,
+                100% 0%,
+                100% 100%,
+                0% 100%);
+    }
+
+    .comment-window-section {
+        height: 60vh;
+    }
+
+    .design-comment {
+        height: 65vh;
+        left: 35vw;
+    }
+
+    .second {
+        width: 40vw;
+        margin-right: -5vw;
+    }
+
+    .design-comment::before {
+        top: 30vh;
+    }
+
+    .design-comment::after {
+        height: 70vh;
+        top: -1vh;
+    }
+
+    .posting-instructions {
+        font-size: clamp(0.2rem, 3.5vw, 3.5rem);
+        margin-bottom: 5vh;
+    }
+
+    .box-comment-container {
+        width: 40vw;
+        margin-left: 12vw;
+        gap: 3vh;
+    }
+
+    #contact-footer {
+        font-size: clamp(0.5rem, 3.2vw, 3.3rem);
+        margin-top: 25vh;
+        width:100%;
+        padding-left: 25vw;
+        padding-right: 25vw;
+    }
+
+    .header-in-box {
+        transform: scale(2.5);
+        margin-right: 3vh;
+    }
+
+    #name {
+        font-size: clamp(0.5rem, 4vw, 4rem);
+    }
+    #occupation{
+        font-size: clamp(0.5rem, 3vw, 3rem);
+     }
+
+     .header-headline{
+        font-size: clamp(0.5rem, 4vw, 4rem);
+     }
+
+     /*Projects*/
+     .project-5-img,
+     .project-4-img,
+     .project-3-img,
+     .project-2-img,
+     .project-1-img{
+        width: 12vh;
+     }
+
+     .main-page-icon{
+        font-size: clamp(0.2rem, 5.2vw, 5.2rem);
+        height: 12vh;
+        width: 14vw;
+     }
+
+     .grid-projects{
+        font-size: clamp(0.5rem, 2vw, 2rem);
+     }
+
+     .flex-two-rows{
+        font-size: clamp(0.5rem, 3vw, 3rem);
+     }
+
+     
+    .icon-menu{
+        font-size: clamp(0.5rem, 4vw, 4rem);
+        
+    }
+
+    #menu-buttons-container{
+        gap: 5vw;
+    }
+}
+
+    @media (max-width: 915px) {
+
+        .grid-projects{
+            font-size: clamp(0.5rem, 3vw, 3rem);
+         }
+    }
+
+
+     @media (max-width: 768px){ /*768*/
+
+        .second{
+            margin-right: -6vw;
+        }
+
+        .box-comment-container{
+            margin-left: 10vw;
+        }
+
+     .design-comment {
+        height: 65vh;
+        left: 32vw;
+    }
+
+    .icon-menu{
+        font-size: clamp(0.5rem, 5vw, 5rem);
+        
+    }
+
+    #menu-buttons-container{
+        gap: 5vw;
+    }
+
+    .project-1-download,
+    .project-2-download,
+    .project-3-download,
+    .project-4-download,
+    .project-5-download{
+        font-size: clamp(0.5rem, 4vw, 4rem);
+    }
+
+
+
+}
+@media (max-width: 500px){
+
+    .second{
+        margin-right: -10vw;
+    }
+
+    .box-comment-container{
+        margin-left: 18vw;
+    }
+
+
+}
