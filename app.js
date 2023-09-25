@@ -26,7 +26,7 @@ const humans = [
 // defines route "/"
 /*app.get('/', function(request, response){
   response.render('layouts/adminLayout.handlebars')
-}) */
+}) ***/
 
 app.get('/', function(request, response){
 response.render('home', { layout: 'adminLayout' });
