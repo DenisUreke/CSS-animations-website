@@ -1,0 +1,45 @@
+<div class="container-fluid" id="background-container">
+    <div class="row" id="columns-container">
+      <div id="error-message" class="error-message"></div>
+        <form action="/reg" method="POST" id="registerForm" class="log-in-container">
+            <div class="main-window-header-image">
+                <img src="Img/sunset.jpg" alt="Picture of a sunset in city" id="home-sunset-picture">
+            </div>
+
+            <div class="header-headline">
+                register
+                <div class="header-headline-bolded">HERE</div>
+            </div>
+
+            <div class="justify-center-container">
+                <div class="log-in-input-box">
+                    <div class="log-in-instruction">Enter your Email</div>
+                    <input type="email" name="email" id="email" class="input-box" required autocomplete="off" placeholder="example@example.com" title="Enter your email address">
+                </div>
+
+                <div class="log-in-input-box">
+                    <div class="log-in-instruction">Enter your username</div>
+                    <input type="text" name="username" id="username-input" class="input-box" required autocomplete="off" placeholder="Username" title="Enter your username">
+                </div>
+
+                <div class="log-in-input-box">
+                    <div class="log-in-instruction">Enter your password</div>
+                    <input type="password" name="password" id="password" class="input-box" required autocomplete="off" placeholder="Password" title="Enter your password">
+                </div>
+
+                <div class="log-in-input-box">
+                    <div class="log-in-instruction">Confirm your password</div>
+                    <input type="password" name="password2" id="password2" class="input-box" required autocomplete="off" placeholder="Password" title="Enter your password">
+                </div>
+
+                <button class="button-log-in" id="register-button" type="submit">Register</button>
+            </div>
+
+            <div class="log-in-instruction" id="not-registered2">
+                <a href="log-in.html" class="register-link">Return to Log-in</a>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="script.js"></script>

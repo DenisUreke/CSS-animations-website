@@ -222,6 +222,27 @@
         font-size: clamp(0.5rem, 1.3vw, 1.9rem);
     }
 
+    .log-in-container{
+        height: 100%;
+        width: 100%;
+    }
+
+    .input-box{
+        height: 7vh;
+        width: 50vw;
+        font-size: 3vw;
+    }
+    
+    .button-log-in{
+        width: 30vw;
+        height: 10vh;
+        font-size: 3vh;
+    }
+
+    .header-headline{
+        font-size: clamp(0.5rem, 7vw, 2.5rem);
+    }
+
 }
 
 @media (max-width: 992px) { /*992*/
@@ -363,12 +384,15 @@
     }
 }
 
-    @media (max-width: 915px) {
+
+
+    @media (max-width: 915px) { /*915*/
 
         .grid-projects{
             font-size: clamp(0.5rem, 3vw, 3rem);
          }
     }
+
 
 
      @media (max-width: 768px){ /*768*/
@@ -403,10 +427,25 @@
         font-size: clamp(0.5rem, 4vw, 4rem);
     }
 
+    .log-in-container{
+        height: 100%;
+        width: 100%;
+    }
+.input-box{
+    height: 4vh;
+    width: 50vw;
+    font-size: 3vw;
+}
+
+.button-log-in{
+    width: 30vw;
+    height:5vh;
+    font-size: 2vh;
+}
 
 
 }
-@media (max-width: 500px){
+@media (max-width: 500px){ /*500*/
 
     .second{
         margin-right: -10vw;
