@@ -34,10 +34,17 @@ document.querySelector('.addtxt').addEventListener('keydown', function(e) {
     }
 });
 
-function displayPopupMessage(message) {
-    alert(message);
-    // Or update the DOM if you'd prefer a more subtle feedback, for example:
-    // document.getElementById('error-message').innerText = message;
+function displayPopupMessage(message, type = 'error') {
+    const messageBox = document.getElementById('message-box'); // Change 'error-message' to 'message-box'
+    messageBox.innerText = message;
+    console.log('Fields are empty');
+    messageBox.style.display = 'block';  // Make it visible.
+
+    // Remove any previous classes
+    messageBox.classList.remove('error', 'success');
+
+    // Add class based on type
+    messageBox.classList.add(type);
 }
 
 
@@ -74,6 +81,7 @@ document.getElementById('registerForm').addEventListener('submit', function(even
         if(response.data.success) {
             displayPopupMessage(response.data.message);
             setTimeout(() => {
+                displayPopupMessage('User registered successfully!', 'success');
                 window.location.href = "/login";
             }, 2000);
         } else {

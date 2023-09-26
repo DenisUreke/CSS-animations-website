@@ -7,6 +7,8 @@ const sqlite3 = require('sqlite3').verbose();
 // Initialize the app here
 const app = express();
 
+const bcrypt = require('bcrypt');
+
 
 
 // Then use your middlewares
@@ -44,6 +46,10 @@ app.get('/register', (req,res) => {
     res.render('register', {layout: 'loginLayout'});
 });
 
+app.get('/log-in', (req, res) => {
+    res.render('log-in', { layout: 'loginLayout' });
+});
+
 
 // REGISTER--------------------------------------------------------------------------
 
@@ -51,35 +57,29 @@ app.get('/register', (req,res) => {
 app.post('/reg', (req, res) => {
     const { email, username, password, password2 } = req.body;
 
-    // 2. Retrieve the data (already done in the line above)
-    
-    // 3. Server-side validation
+    // Check if any of the fields are empty
     if (!email || !username || !password || !password2) {
         return res.json({ success: false, message: 'All fields are required.' });
     }
 
+    // Check if passwords match
     if (password !== password2) {
         return res.json({ success: false, message: 'Passwords do not match.' });
     }
 
-    // 4. Check for existing users
-    db.get('SELECT * FROM User WHERE email = ? OR username = ?', [email, username], (err, user) => {
+    // Hash the password using bcrypt
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
         if (err) {
-            return res.json({ success: false, message: 'Database error.' });
+            return res.json({ success: false, message: 'Error hashing password.' });
         }
 
-        if (user) {
-            return res.json({ success: false, message: 'Email or username already exists.' });
-        }
-
-        // 5. Insert the user into the database
-        // As you mentioned you aren't hashing the password for this exercise. In a real-world scenario, always hash passwords.
-        db.run('INSERT INTO User (email, username, password) VALUES (?, ?, ?)', [email, username, password], (err) => {
+        // Now, you can save the hashed password in the database
+        db.run('INSERT INTO User (email, username, password) VALUES (?, ?, ?)', [email, username, hashedPassword], (err) => {
             if (err) {
                 return res.json({ success: false, message: 'Error saving user.' });
             }
 
-            // 6. Send a response
+            // User registered successfully
             res.json({ success: true, message: 'User registered successfully!' });
         });
     });
