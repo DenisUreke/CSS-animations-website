@@ -1,6 +1,6 @@
 
 
-document.querySelector('.addtxt').addEventListener('keydown', function(e) {
+/*document.querySelector('.addtxt').addEventListener('keydown', function(e) {
     if (e.keyCode === 13) {  // Check if Enter key is pressed
         e.preventDefault(); // Prevent any default behavior
 
@@ -32,27 +32,33 @@ document.querySelector('.addtxt').addEventListener('keydown', function(e) {
             e.target.value = '';
         }
     }
-});
+});*/
 
 function displayPopupMessage(message, type = 'error') {
-    const messageBox = document.getElementById('message-box'); // Change 'error-message' to 'message-box'
+    const messageBox = document.getElementById('error-message');
     messageBox.innerText = message;
-    console.log('Fields are empty');
-    messageBox.style.display = 'block';  // Make it visible.
-
-    // Remove any previous classes
     messageBox.classList.remove('error', 'success');
-
-    // Add class based on type
     messageBox.classList.add(type);
-}
 
+    // Show the error popup
+    const errorPopup = document.getElementById('error-popup');
+    errorPopup.style.display = 'block';
+
+    // Scroll to the top to make the popup visible
+    window.scrollTo(0, 0);
+
+    // Add an event listener to the close button
+    const closeErrorPopupButton = document.getElementById('close-error-popup');
+    closeErrorPopupButton.addEventListener('click', () => {
+        errorPopup.style.display = 'none';
+    });
+}
 
 /*Function to check if equal */
 
 document.getElementById('registerForm').addEventListener('submit', function(event) {
     event.preventDefault();
-    
+
     const email = document.getElementById('email').value;
     const username = document.getElementById('username-input').value;
     const password = document.getElementById('password').value;
@@ -90,6 +96,40 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     })
     .catch(error => {
         displayPopupMessage('Error registering. Please try again later.');
+    });
+});
+
+/* Login form handling */
+
+document.getElementById('loginForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const emailOrUsername = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    // Check if any of the fields are empty
+    if (!emailOrUsername || !password) {
+        displayPopupMessage('All fields are required!');
+        return;
+    }
+
+    // Use Axios to send a POST request with login data
+    axios.post('/login', {
+        emailOrUsername: emailOrUsername,
+        password: password
+    })
+    .then(response => {
+        if (response.data.success) {
+            displayPopupMessage(response.data.message, 'success');
+            setTimeout(() => {
+                window.location.href = "/dashboard";
+            }, 2000);
+        } else {
+            displayPopupMessage(response.data.message);
+        }
+    })
+    .catch(error => {
+        displayPopupMessage('Error logging in. Please try again later.');
     });
 });
 

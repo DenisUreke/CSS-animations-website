@@ -101,21 +101,21 @@ app.post('/login', (req, res) => {
     
     db.get(query, [emailOrUsername, emailOrUsername], (err, user) => {
         if (err) {
-            return res.json({ success: false, message: 'Error accessing the database.' });
+            return res.status(500).json({ success: false, message: 'Error accessing the database.' });
         }
 
         if (!user) {
-            return res.json({ success: false, message: 'User not found.' });
+            return res.status(404).json({ success: false, message: 'User not found.' });
         }
 
         // Compare the hashed password in the database with the provided password.
         bcrypt.compare(password, user.password, (err, isMatch) => {
             if (err) {
-                return res.json({ success: false, message: 'Error during password check.' });
+                return res.status(500).json({ success: false, message: 'Error during password check.' });
             }
 
             if (!isMatch) {
-                return res.json({ success: false, message: 'Wrong password.' });
+                return res.status(401).json({ success: false, message: 'Wrong password.' });
             }
 
             // Set user data and isAdmin status in session
@@ -126,7 +126,7 @@ app.post('/login', (req, res) => {
                 isAdmin: user.isAdmin == 1 ? true : false  // Convert the integer to a boolean for easier checking
             };
 
-            return res.json({ success: true, message: 'Successfully logged in!' });
+            return res.status(200).json({ success: true, message: 'Successfully logged in!' });
         });
     });
 });
@@ -139,28 +139,28 @@ app.post('/reg', (req, res) => {
 
     // Check if any of the fields are empty
     if (!email || !username || !password || !password2) {
-        return res.json({ success: false, message: 'All fields are required.' });
+        return res.status(400).json({ success: false, message: 'All fields are required.' });
     }
 
     // Check if passwords match
     if (password !== password2) {
-        return res.json({ success: false, message: 'Passwords do not match.' });
+        return res.status(400).json({ success: false, message: 'Passwords do not match.' });
     }
 
     // Hash the password using bcrypt
     bcrypt.hash(password, 10, (err, hashedPassword) => {
         if (err) {
-            return res.json({ success: false, message: 'Error hashing password.' });
+            return res.status(500).json({ success: false, message: 'Error hashing password.' });
         }
 
         // Now, you can save the hashed password in the database
         db.run('INSERT INTO User (email, username, password) VALUES (?, ?, ?)', [email, username, hashedPassword], (err) => {
             if (err) {
-                return res.json({ success: false, message: 'Error saving user.' });
+                return res.status(500).json({ success: false, message: 'Error saving user.' });
             }
 
             // User registered successfully
-            res.json({ success: true, message: 'User registered successfully!' });
+            return res.status(200).json({ success: true, message: 'User registered successfully!' });
         });
     });
 });
