@@ -1,39 +1,49 @@
-            <nav class="col-xl-1 col-lg-12 col-md-12 col-sm-12" id="menu-buttons-container">
+<nav class="col-xl-1 col-lg-12 col-md-12 col-sm-12" id="menu-buttons-container">
 
-                <div class="icon-menu color-pink" id="home-button">
-                    <i class="fas fa-home"></i>
-                    <div id="menu-text">home</div>
-                </div>
+    <a href="/home">
+    <div class="icon-menu" id="home-button">
+        <i class="fas fa-home"></i>
+        <div id="menu-text">home</div>
+    </div>
+    </a>
 
-                <a href="about.html">
-                    <div class="icon-menu" id="education-button">
-                        <i class="fas fa-user"></i>
-                        <div id="menu-text">about</div>
-                    </div>
-                </a>
+    <a href="/about">
+        <div class="icon-menu" id="education-button">
+            <i class="fas fa-user"></i>
+            <div id="menu-text">about</div>
+        </div>
+    </a>
 
-                <a href="projects.html">
-                    <div class="icon-menu" id="work-button">
-                        <i class="fas fa-briefcase"></i>
-                        <div id="menu-text">projects</div>
-                    </div>
-                </a>
+    <a href="/projects">
+        <div class="icon-menu" id="work-button">
+            <i class="fas fa-briefcase"></i>
+            <div id="menu-text">projects</div>
+        </div>
+    </a>
 
-                <a href="experience.html">
-                    <div class="icon-menu" id="comp-skills-button">
-                        <i class="fas fa-star"></i>
-                        <div id="menu-text">experience</div>
-                    </div>
-                </a>
-                <a href="/forum/1">
-                    <div class="icon-menu" id="languages-button">
-                        <i class="fas fa-comment"></i>
-                        <div id="menu-text">comment</div>
-                    </div>
-                </a>
-                <div class="icon-menu" id="other-button">
-                    <i class="fas fa-ellipsis-h"></i>
-                    <div id="menu-text">download</div>
-                </div>
+    <a href="/experience">
+        <div class="icon-menu" id="comp-skills-button">
+            <i class="fas fa-star"></i>
+            <div id="menu-text">experience</div>
+        </div>
+    </a>
+    <a href="/forum">
+        <div class="icon-menu" id="languages-button">
+            <i class="fas fa-comment"></i>
+            <div id="menu-text">comment</div>
+        </div>
+    </a>
+    <a href="/logout">
+        <div class="icon-menu" id="education-button">
+            <i class="fas fa-door-open"></i>
+            <div id="menu-text">log-out</div>
+        </div>
+    </a>
+    {{#if isAdmin}}
+    <div class="icon-menu" id="other-button">
+        <i class="fas fa-cog"></i>
+        <div id="menu-text">admin</div>
+    </div>
+    {{/if}}
 
-            </nav>
+</nav>

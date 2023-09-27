@@ -40,6 +40,33 @@ const humans = [
 ];
 
 
+
+/*---------------------------------------------------------*/
+
+
+/*-------------------------Session-------------------------*/
+
+app.use(session({
+    secret: 'yourSecretKey',   // This secret key should be kept private (avoid committing directly to git)
+    resave: false,             // Forces the session to be saved back to the session store, even if the session was never modified during the request
+    saveUninitialized: false,  // Forces a session that is "uninitialized" to be saved to the store. A session is uninitialized when it is new but not modified.
+    cookie: {
+        maxAge: 1000 * 60 * 60 * 24 // Cookie expires after 24 hours
+    }
+}));
+
+
+/*-------------------------log-out-------------------------*/
+
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if(err) {
+            return res.redirect('/dashboard');  // or wherever you want
+        }
+        res.redirect('/log-in');
+    });
+});
+
 /*--------------------Authenticators-----------------------*/
 
 function isAuthenticated(req, res, next) {
@@ -58,22 +85,12 @@ function isAdmin(req, res, next) {
     }
 }
 
-
 /*---------------------------------------------------------*/
 
-
-/*-------------------------Session-------------------------*/
-
-app.use(session({
-    secret: 'yourSecretKey',   // This secret key should be kept private (avoid committing directly to git)
-    resave: false,             // Forces the session to be saved back to the session store, even if the session was never modified during the request
-    saveUninitialized: false,  // Forces a session that is "uninitialized" to be saved to the store. A session is uninitialized when it is new but not modified.
-    cookie: {
-        maxAge: 1000 * 60 * 60 * 24 // Cookie expires after 24 hours
-    }
-}));
-
-/*---------------------------------------------------------*/
+app.get('/script.js', (req, res) => {
+    res.type('application/javascript');
+    res.sendFile(__dirname + '/script.js');
+});
 
 /*-----------------------Routes----------------------------*/
 app.get('/', (req,res) => {
@@ -88,11 +105,43 @@ app.get('/log-in', (req, res) => {
     res.render('log-in', { layout: 'loginLayout' });
 });
 
+app.get('/home', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('home', { layout: 'adminLayout', isAdmin });
+});
+
+app.get('/about', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('about', { layout: 'adminLayout', isAdmin });
+});
+
+app.get('/projects', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('projects', { layout: 'adminLayout', isAdmin });
+});
+
+app.get('/experience', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('experience', { layout: 'adminLayout', isAdmin });
+});
+app.get('/holder', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('holder', { layout: 'adminLayout', isAdmin });
+});
+app.get('/holder2', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('holder2', { layout: 'adminLayout', isAdmin });
+});
+app.get('/forum', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('forum', { layout: 'adminLayout', isAdmin });
+});
+
 /*---------------------------------------------------------*/
 
 /*-----------------------LOG IN----------------------------*/
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
     const emailOrUsername = req.body.emailOrUsername;
     const password = req.body.password;
 
@@ -134,35 +183,32 @@ app.post('/login', (req, res) => {
 /*---------------------------------------------------------*/
 
 /*---------------------REGISTER----------------------------*/
-app.post('/reg', (req, res) => {
+app.post('/reg', async (req, res) => {
     const { email, username, password, password2 } = req.body;
 
-    // Check if any of the fields are empty
-    if (!email || !username || !password || !password2) {
-        return res.status(400).json({ success: false, message: 'All fields are required.' });
-    }
-
-    // Check if passwords match
-    if (password !== password2) {
-        return res.status(400).json({ success: false, message: 'Passwords do not match.' });
-    }
-
-    // Hash the password using bcrypt
-    bcrypt.hash(password, 10, (err, hashedPassword) => {
-        if (err) {
-            return res.status(500).json({ success: false, message: 'Error hashing password.' });
+    try {
+        // Check if any of the fields are empty
+        if (!email || !username || !password || !password2) {
+            throw new Error('All fields are required.');
         }
 
-        // Now, you can save the hashed password in the database
-        db.run('INSERT INTO User (email, username, password) VALUES (?, ?, ?)', [email, username, hashedPassword], (err) => {
-            if (err) {
-                return res.status(500).json({ success: false, message: 'Error saving user.' });
-            }
+        // Check if passwords match
+        if (password !== password2) {
+            throw new Error('Passwords do not match.');
+        }
 
-            // User registered successfully
-            return res.status(200).json({ success: true, message: 'User registered successfully!' });
-        });
-    });
+        // Hash the password using bcrypt
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        // Save the user in the database (assuming you're using an asynchronous database library)
+        await db.run('INSERT INTO User (email, username, password) VALUES (?, ?, ?)', [email, username, hashedPassword]);
+
+        // User registered successfully
+        return res.status(200).json({ success: true, message: 'User registered successfully!' });
+    } catch (error) {
+        // Handle errors
+        return res.status(500).json({ success: false, message: error.message });
+    }
 });
 
 /*---------------------------------------------------------*/

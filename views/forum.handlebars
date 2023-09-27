@@ -1,124 +1,32 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/atMedia.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <title>Denis Ureke Projects</title>
-</head>
-
-<body>
-
-    <div class="container-fluid" id="background-container">
-
-        <div class="row" id="columns-container">
-
-            <!--Menu Bar-->
-            <nav class="col-xl-1 col-lg-12 col-md-12 col-sm-12" id="menu-buttons-container">
-
-                <a href="home.html">
-                    <div class="icon-menu" id="home-button">
-                        <i class="fas fa-home"></i>
-                        <div id="menu-text">home</div>
-                    </div>
-                </a>
-
-                <a href="about.html">
-                    <div class="icon-menu" id="education-button">
-                        <i class="fas fa-user"></i>
-                        <div id="menu-text">about</div>
-                    </div>
-                </a>
-                <a href="projects.html">
-                    <div class="icon-menu" id="work-button">
-                        <i class="fas fa-briefcase"></i>
-                        <div id="menu-text">projects</div>
-                    </div>
-                </a>
-                <a href="experience.html">
-                    <div class="icon-menu" id="comp-skills-button">
-                        <i class="fas fa-star"></i>
-                        <div id="menu-text">experience</div>
-                    </div>
-                </a>
-
-                <div class="icon-menu color-pink" id="languages-button">
-                    <i class="fas fa-comment"></i>
-                    <div id="menu-text">comment</div>
-                </div>
-
-                <div class="icon-menu" id="other-button">
-                    <i class="fas fa-ellipsis-h"></i>
-                    <div id="menu-text">download</div>
-                </div>
-
-            </nav>
-
-            <!--Contact info-->
-            <section class="col-xl-3 col-lg-3 col-md-12 col-sm-12" id="contact-info-container">
-
-                <img src="Img/Kaizuka.jpg" alt="Profile picture of Denis Ureke" id="img-contact">
-                <div class="image-shape-container"><div id="image-shape"></div></div>
-
-                <div id="name">
-                    Denis Ureke
-                </div>
-                <div id="occupation">
-                    Student
-                </div>
-
-                <section id="social-media-icons">
-                    <i class="fab fa-facebook-f"></i>
-                    <i class="fab fa-twitter"></i>
-                    <i class="fab fa-instagram"></i>
-                    <i class="fab fa-github"></i>
-                    <i class="fab fa-linkedin"></i>
-                    <i class="fab fa-whatsapp"></i>
-                </section>
-
-                <footer id="contact-footer">
-                    <a href="">Download CV</a>
-                    <a href="">Contact Me</a>
-                </footer>
-
-            </section>
-
-            <!--Main text-->
-            <section class="col-xl-6 col-lg-8 col-md-12 col-sm-12" id="main-window-container">
-                <div class="main-window-header-image mirror-image"><img src="Img/trees-telephone.jpg"
-                        alt="Sunset view and tree-tops" id="home-sunset-picture"></div>
-                <div class="main-page-icon"><i class="fas fa-briefcase color-pink"></i></div>
-                <div class="header-headline">react<div class="header-headline-bolded">AND</div>read
-                </div>
-
-                <div class="skills-container">
-                        <!-- Input section -->
-                        <div class="box-comment-container">
-                            <div class="box-comment">
-                                <div class="header-in-box">post<div class="header-in-box2">YOUR</div>message</div>
-                                <input type="text" name="text" placeholder="+ Add a note" class="form-control addtxt">
-                                <div class="posting-instructions">write your comment and press 'Enter'.</div>
-                                    <div class="header-in-box">search<div class="header-in-box2">POSTER</div>here</div>
-                                    <input type="text" name="lookForPoster" placeholder="+ Search for poster" class="form-control lookForPoster">
-                                    <div class="posting-instructions">Search for comments from your favorite poster. Case sensitive. </div>
-                            </div>
-                    </div>
-                            <div class="design-container"><div class="design-comment"></div></div>
-                            
-                        <!-- Note section -->
-                        <div class="comment-window-section">
-                    </div>
-                </div>
-            </section>
-
-        </div>
-
+<section class="col-xl-6 col-lg-8 col-md-12 col-sm-12" id="main-window-container">
+    <div class="main-window-header-image mirror-image"><img src="Img/trees-telephone.jpg"
+            alt="Sunset view and tree-tops" id="home-sunset-picture"></div>
+    <div class="main-page-icon"><i class="fas fa-briefcase color-pink"></i></div>
+    <div class="header-headline">react<div class="header-headline-bolded">AND</div>read
     </div>
-    <script src="script.js"></script>
-</body>
 
-</html>
+        <form action="/login" method="POST" id="loginForm" class="log-in-container">
+
+            <div class="justify-center-container">
+                <div class="log-in-input-box">
+                    <div class="log-in-instruction">Enter your Email or Username</div>
+                    <input type="text" name="emailOrUsername" id="email" class="input-box" required autocomplete="off"
+                        placeholder="example@example.com or username" title="Enter your email address or username">
+                </div>
+
+                <div class="log-in-input-box">
+                    <div class="log-in-instruction">Enter your password</div>
+                    <input type="password" name="password" id="password" class="input-box" required autocomplete="off"
+                        placeholder="Password" title="Enter your password">
+                </div>
+
+                <button class="button-log-in" id="log-in-button" type="submit">Log in</button>
+            </div>
+
+            <div class="log-in-instruction" id="not-registered">
+                Not registered?
+                <a href="/register" class="register-link">Register Here!</a>
+            </div>
+        </form>
+</section>
+<script type="module" src="./script.js"></script>

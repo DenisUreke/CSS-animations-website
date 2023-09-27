@@ -1,6 +1,11 @@
+<div id="popup-overlay" class="popup-overlay">
+    <div id="popup-content" class="popup-content">
+        <span id="popup-message" class="popup-message"></span>
+        <span id="close-popup" class="close-popup-button">&times;</span>
+    </div>
+</div>
 <div class="container-fluid" id="background-container">
     <div class="row" id="columns-container">
-        <div id="register-error-message" class="error-message"></div>
         <form action="/reg" method="POST" id="registerForm" class="log-in-container">
             <div class="main-window-header-image">
                 <img src="Img/sunset.jpg" alt="Picture of a sunset in city" id="home-sunset-picture">
@@ -45,4 +50,4 @@
     </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="script.js"></script>
+<script type="module" src="./script.js"></script>
