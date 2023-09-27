@@ -1014,50 +1014,57 @@ a:hover {
 /*-------------------------------------------------*/
 /*------------------Comment-Page-------------------*/
 
-.skills-container {
+.flex-two-rows-comment {
     position: relative;
+    display: flex;
+    flex-direction: row; /* Change to row to have left and right halves */
+    height: calc(100% - 30vh);
     width: 100%;
-    text-align: center;
-    padding-top: 5vh;
-    padding-left: 8vw;
 }
 
-.box-comment-container {
+.flex-left-comment {
+    height: 100%;
+    width: 50%;
     display: flex;
-    position: relative;
-    width: 40vh;
-    height: auto;
+    flex-direction: column; 
+    justify-content: center;
+    align-items: center;
+    gap: 5vh;
 }
 
-.box-comment {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    width: 85%;
-    height: 33vh;
-    border-radius: 0vh 0vh 0.3vh 0.3vh;
-    padding: 0.2vh;
-    z-index: 3;
-    left: -10vh;
-}
-
-.comment-window-section {
-    position: relative;
-    flex: 1;
+.flex-right-comment {
+    height: 100%;
+    width: 50%;
     display: flex;
     flex-direction: column;
-    align-items: end;
+    align-items: center;
+    gap: 1vh;
     overflow-y: auto;
-    height: 35vh;
-    z-index: 2;
-    padding-right: 5vh;
+}
+
+.input-box-comment {
+    /*box*/
+    position: relative;
+    font-size: 1vw;
+    text-align: center;
+    width: 15vw;;
+    height: 5vh;
+}
+
+.comment-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin-bottom: 1rem; /* Add margin between forms */
 }
 
 .header-in-box {
     display: flex;
     color: #9F496E;
     font-style: italic;
-    font-size: clamp(0.2rem, 1.5vw, 1.5rem);
+    font-size: clamp(0.2rem, 1.8vw, 1.8rem);
     width: 100%;
     height: 4vh;
     text-align: center;
@@ -1071,124 +1078,8 @@ a:hover {
     font-weight: bold;
 }
 
-.posting-instructions {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding-left: 3vh;
-    padding-right: 3vh;
-    font-size: clamp(0.2rem, 1vw, 1rem);
-    margin-top: 1vh;
-    margin-bottom: 1vh;
-}
-
-.lookForPoster {
-    text-align: center;
-    font-size: 13px;
-    width: 10vh;
-    background-color: #d4d7dc;
-    font-weight: 500;
-}
-
-.addtxt {
-    text-align: center;
-    font-size: 13px;
-    width: 10vh;
-    background-color: #e5e8ed;
-    font-weight: 500;
-}
-
-.form-control:focus {
-    color: #000;
-}
-
-.second {
-    width: 40vh;
-    background-color: white;
-    border-radius: 4px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.text1 {
-    font-size: 15px;
-    font-weight: 500;
-    color: #9F496E;
-}
-
-.text2 {
-    font-size: 13px;
-    font-weight: 500;
-    margin-left: 6px;
-    color: #647295;
-}
-
-.text3 {
-    font-size: 13px;
-    font-weight: 500;
-    margin-right: 4px;
-    color: #647295;
-}
-
-.text3o {
-    color: #080808;
-
-}
-
-.text4 {
-    font-size: 13px;
-    font-weight: 500;
-    color: #647295;
-}
-
-.text4i {
-    color: #647295;
-}
-
-.text4o {
-    color: #647295;
-}
-
-/*-----------------------------------------*/
-.design-container {
-    position: relative;
-    width: 10vh;
-}
-
-.design-comment {
-    position: absolute;
-    height: 37.3vh;
-    width: 5vw;
-    top: -1vh;
-    left: 13.5vw;
-    border-radius: 1vh 1vh 1vh 1vh;
-    border: 0.3vh solid #9F496E;
-    z-index: 1;
-}
-
-.design-comment::before {
-    position: absolute;
-    content: "";
-    height: 2vh;
-    width: 1vw;
-    top: 16.5vh;
-    left: -0.55vw;
-    border-radius: 50%;
-    background-color: #9F496E;
-}
-
-.design-comment::after {
-    position: absolute;
-    content: "";
-    height: 39vh;
-    width: 5vw;
-    top: -1vh;
-    left: 2.5vw;
-    background-color: #F2EBE5;
-}
-
 /*-------------------------------------------------*/
+
 /*--------------------Log-in-----------------------*/
 
 .log-in-container {

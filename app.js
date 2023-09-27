@@ -69,19 +69,19 @@ app.get('/logout', (req, res) => {
 
 /*--------------------Authenticators-----------------------*/
 
-function isAuthenticated(req, res, next) {
-    if (req.session.user) {
-        return next();
-    } else {
-        return res.json({ success: false, message: 'Not authenticated. Please log in.' });
-    }
-}
-
 function isAdmin(req, res, next) {
     if (req.session.user && req.session.user.isAdmin) {
         return next();
     } else {
         return res.json({ success: false, message: 'Access denied. Admin privileges required.' });
+    }
+}
+
+function isAuthenticated(req, res, next) {
+    if (req.session.user) {
+        return next();
+    } else {
+        return res.json({ success: false, message: 'Not authenticated. Please log in.' });
     }
 }
 
@@ -212,9 +212,28 @@ app.post('/reg', async (req, res) => {
 });
 
 /*---------------------------------------------------------*/
+/*--------------------Post Comment-------------------------*/
 
+// Add this route to handle comment submission
+app.post('/post-comment', isAuthenticated, async (req, res) => {
+    const { post } = req.body;
+    const posterId = req.session.user.id; // Get the user's ID from the session
 
-/*------------------------------THE REGISTER------------------------------*/
+    try {
+        // Insert the comment into the database
+        await db.run('INSERT INTO Comments (post, poster) VALUES (?, ?)', [post, posterId]);
+
+        // Redirect the user to a success page or any other desired action
+        res.redirect('/forum'); // Replace with the appropriate URL
+    } catch (error) {
+        // Handle errors
+        console.error('Error saving comment:', error);
+        res.status(500).json({ success: false, message: 'Failed to save the comment.' });
+    }
+});
+
+/*--------------------Get Comment-------------------------*/
+
 
 
 app.listen(port, () => {
