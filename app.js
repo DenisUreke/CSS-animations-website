@@ -2,13 +2,13 @@ const express = require('express');
 const { engine } = require('express-handlebars');
 const cors = require('cors');
 const sqlite3 = require('sqlite3').verbose();
+const bcrypt = require('bcrypt');
+const session = require('express-session');
 
 
 // Initialize the app here
 const app = express();
 
-const bcrypt = require('bcrypt');
-const session = require('express-session');
 
 
 
@@ -134,7 +134,25 @@ app.get('/holder2', (req, res) => {
 });
 app.get('/forum', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('forum', { layout: 'adminLayout', isAdmin });
+
+    // Fetch the 5 latest comments
+    const query = `
+        SELECT *
+        FROM CommentViewWithAuthor
+        ORDER BY comment_timestamp DESC
+        LIMIT 5
+    `;
+
+    db.all(query, [], (err, comments) => {
+        if (err) {
+            console.error('Error fetching latest comments:', err);
+            // Handle the error, e.g., by rendering an error page
+            res.status(500).render('error', { layout: 'adminLayout', isAdmin });
+        } else {
+            // Render the 'forum' template with the latest comments
+            res.render('forum', { layout: 'adminLayout', isAdmin, comments });
+        }
+    });
 });
 app.get('/admin', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
@@ -176,7 +194,7 @@ app.post('/login', async (req, res) => {
                 isAdmin: user.isAdmin == 1 ? true : false
             };
 
-            return res.status(200).json({ success: true, message: 'Successfully logged in!' });
+            res.redirect('/home');
         });
     });
 });
@@ -200,8 +218,8 @@ app.post('/reg', async (req, res) => {
 
         await db.run('INSERT INTO User (email, username, password) VALUES (?, ?, ?)', [email, username, hashedPassword]);
 
-        /* User registered successfully---------------------------------------------------------------------------------*/
-        return res.status(200).json({ success: true, message: 'User registered successfully!' });
+        res.render('log-in', {layout: 'loginLayout'});
+        
     } catch (error) {
 
         return res.status(500).json({ success: false, message: error.message });
@@ -233,7 +251,7 @@ app.get('/get-latest-comments', (req, res) => {
     console.log('Inside-server-side');
     const query = `
         SELECT *
-        FROM CommentView
+        FROM CommentViewWithAuthor
         ORDER BY comment_timestamp DESC
         LIMIT 5
     `;

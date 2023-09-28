@@ -2,74 +2,42 @@
     <div class="main-window-header-image mirror-image"><img src="Img/trees-telephone.jpg"
             alt="Sunset view and tree-tops" id="home-sunset-picture"></div>
     <div class="main-page-icon"><i class="fas fa-briefcase color-pink"></i></div>
-    <div class="header-headline">react<div class="header-headline-bolded">AND</div>read
-    </div>
+    <div class="header-headline">react<div class="header-headline-bolded">AND</div>read</div>
 
     <div class="flex-two-rows-comment">
         <div class="flex-left-comment">
-
+            <!-- Add a form for posting comments -->
             <form action="/post-comment" method="POST" id="post" class="comment-container">
                 <div class="header-in-box">post<div class="header-in-box2">YOUR</div>message</div>
                 <input type="text" name="post" id="comment" class="input-box-comment" required autocomplete="off"
                     placeholder="50 character limit:" title="Post a comment">
             </form>
 
+            <!-- Add a form for searching posters -->
             <form action="/search-comment" method="POST" id="search" class="comment-container">
                 <div class="header-in-box">search<div class="header-in-box2">POSTER</div>here</div>
                 <input type="text" name="search poster" id="password" class="input-box-comment" required
                     autocomplete="off" placeholder="find poster:" title="Search for poster">
             </form>
-
-
         </div>
 
         <div class="flex-right-comment">
-            <div id="comment-box-1" class="empty-comment-box">
-                <div class="empty-comment-box-header">
-                    <div class="comment-name"></div>
-                    <div class="comment-date"></div>
-                    <button id="close-button-1" class="comment-delete-button">X</button>
+            <!-- Include Handlebars code for displaying comments -->
+            {{#if comments.length}}
+                {{#each comments}}
+                <div class="comment-box">
+                    <div class="empty-comment-box-header">
+                        <div class="comment-name">{{ this.poster_name }}</div>
+                        <div class="comment-date">{{ this.comment_timestamp }}</div>
+                        <button class="comment-delete-button">X</button>
+                    </div>
+                    <div class="comment-content">{{ this.comment_post }}</div>
                 </div>
-                <div id="comment-1"></div>
-            </div>
-            <div id="comment-box-2" class="empty-comment-box">
-                <div class="empty-comment-box-header">
-                    <div class="comment-name"></div>
-                    <div class="comment-date"></div>
-                    <button id="close-button-2" class="comment-delete-button">X</button>
-                </div>
-                <div id="comment-2"></div>
-            </div>
-            <div id="comment-box-3" class="empty-comment-box">
-                <div class="empty-comment-box-header">
-                    <div class="comment-name"></div>
-                    <div class="comment-date"></div>
-                    <button id="close-button-3" class="comment-delete-button">X</button>
-                </div>
-                <div id="comment-3"></div>
-            </div>
-            <div id="comment-box-4" class="empty-comment-box">
-                <div class="empty-comment-box-header">
-                    <div class="comment-name"></div>
-                    <div class="comment-date"></div>
-                    <button id="close-button-4" class="comment-delete-button">X</button>
-                </div>
-                <div id="comment-4"></div>
-            </div>
-            <div id="comment-box-5" class="empty-comment-box">
-                <div class="empty-comment-box-header">
-                    <div class="comment-name"></div>
-                    <div class="comment-date"></div>
-                    <button id="close-button-5" class="comment-delete-button">X</button>
-                </div>
-                <div id="comment-5"></div>
-            </div>
-
-
+                {{/each}}
+            {{else}}
+                <p>No comments available.</p>
+            {{/if}}
         </div>
-
-
     </div>
-
 </section>
 <script type="module" src="./script.js"></script>
