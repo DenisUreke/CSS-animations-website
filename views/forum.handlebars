@@ -11,19 +11,60 @@
             <form action="/post-comment" method="POST" id="post" class="comment-container">
                 <div class="header-in-box">post<div class="header-in-box2">YOUR</div>message</div>
                 <input type="text" name="post" id="comment" class="input-box-comment" required autocomplete="off"
-                    placeholder="Write your comment and press Enter" title="Post a comment">
+                    placeholder="50 character limit:" title="Post a comment">
             </form>
 
             <form action="/search-comment" method="POST" id="search" class="comment-container">
                 <div class="header-in-box">search<div class="header-in-box2">POSTER</div>here</div>
                 <input type="text" name="search poster" id="password" class="input-box-comment" required
-                    autocomplete="off" placeholder="find poster" title="Search for poster">
+                    autocomplete="off" placeholder="find poster:" title="Search for poster">
             </form>
 
 
         </div>
 
         <div class="flex-right-comment">
+            <div id="comment-box-1" class="empty-comment-box">
+                <div class="empty-comment-box-header">
+                    <div class="comment-name"></div>
+                    <div class="comment-date"></div>
+                    <button id="close-button-1" class="comment-delete-button">X</button>
+                </div>
+                <div id="comment-1"></div>
+            </div>
+            <div id="comment-box-2" class="empty-comment-box">
+                <div class="empty-comment-box-header">
+                    <div class="comment-name"></div>
+                    <div class="comment-date"></div>
+                    <button id="close-button-2" class="comment-delete-button">X</button>
+                </div>
+                <div id="comment-2"></div>
+            </div>
+            <div id="comment-box-3" class="empty-comment-box">
+                <div class="empty-comment-box-header">
+                    <div class="comment-name"></div>
+                    <div class="comment-date"></div>
+                    <button id="close-button-3" class="comment-delete-button">X</button>
+                </div>
+                <div id="comment-3"></div>
+            </div>
+            <div id="comment-box-4" class="empty-comment-box">
+                <div class="empty-comment-box-header">
+                    <div class="comment-name"></div>
+                    <div class="comment-date"></div>
+                    <button id="close-button-4" class="comment-delete-button">X</button>
+                </div>
+                <div id="comment-4"></div>
+            </div>
+            <div id="comment-box-5" class="empty-comment-box">
+                <div class="empty-comment-box-header">
+                    <div class="comment-name"></div>
+                    <div class="comment-date"></div>
+                    <button id="close-button-5" class="comment-delete-button">X</button>
+                </div>
+                <div id="comment-5"></div>
+            </div>
+
 
         </div>
 

@@ -3,31 +3,28 @@ function displayPopupMessage(message) {
     const popupOverlay = document.getElementById('popup-overlay');
     const closePopupButton = document.getElementById('close-popup');
 
-    // Set the message content
     popupMessage.textContent = message;
 
-    // Show the popup
     popupOverlay.style.display = 'block';
 
-    // Close the popup when the close button is clicked
     closePopupButton.addEventListener('click', () => {
         popupOverlay.style.display = 'none';
     });
 }
 /* ----------------------------LOG IN------------------------------------------*/
 
+
 document.getElementById('loginForm').addEventListener('submit', function(event) {
     event.preventDefault();
     const emailOrUsername = document.getElementById('email').value;
     const password = document.getElementById('password').value;
 
-    // Check if any of the fields are empty
     if (!emailOrUsername || !password) {
         displayPopupMessage('All fields are required!');
         return;
     }
 
-    // Use Axios to send a POST request with login data
+    /*Axios*/
     axios({
         method: 'post',
         url: '/login',
@@ -48,7 +45,6 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     });
 });
 
-
 /* ----------------------------REGISTER------------------------------------------*/
 
 document.getElementById('registerForm').addEventListener('submit', function(event) {
@@ -59,19 +55,16 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     const password = document.getElementById('password').value;
     const password2 = document.getElementById('password2').value;
 
-    // Check if any of the fields are empty
     if (!email || !username || !password || !password2) {
         displayPopupMessage('All fields are required!');
         return;
     }
 
-    // Check if passwords match
     if (password !== password2) {
         displayPopupMessage('Passwords do not match!');
         return;
     }
 
-    // Use Axios to send a POST request with form data
     axios.post('/reg', {
         email: email,
         username: username,
@@ -83,7 +76,7 @@ document.getElementById('registerForm').addEventListener('submit', function(even
             /*displayPopupMessage(response.data.message);---------------------------------------------------------------------CHECK THIS------*/
             /*setTimeout(() => {
                 displayPopupMessage('User registered successfully!', 'success');*/
-                window.location.href = "/login";
+                window.location.href = '/log-in';
           /*  }, 2000);*/
         } else {
             displayPopupMessage(response.data.message);
@@ -95,40 +88,79 @@ document.getElementById('registerForm').addEventListener('submit', function(even
 });
 
 /* ---------------------------------------------------------------------------------*/
+/* --------------------------Comment page functions---------------------------------*/
 
-/* Login form handling */
+/*update the divs*/
+function updateCommentsDiv(comments){
 
-/*document.querySelector('.addtxt').addEventListener('keydown', function(e) {
-    if (e.keyCode === 13) {  // Check if Enter key is pressed
-        e.preventDefault(); // Prevent any default behavior
+    for(let i = 0; i < comments.length; i++){
+        const commentBox = document.getElementById(`comment-box-${i + 1}`);
+        const commentName = commentBox.querySelector('.comment-name');
+        const commentDate = commentBox.querySelector('.comment-date');
+        const commentContent = commentBox.querySelector(`#comment-${i + 1}`);
 
-        // Get the value of the input
-        const inputText = e.target.value;
+        const comment = comments[i];
 
-        if (inputText) { // Check if input is not empty
-            // Create the new comment box
-            const newCommentBox = document.createElement('div');
-            newCommentBox.className = 'd-flex justify-content-center py-2';
-
-            // Fill the box with the required structure and text
-            newCommentBox.innerHTML = `
-                <div class="second py-2 px-2">
-                    <span class="text1">${inputText}</span>
-                    <div class="d-flex justify-content-between py-1 pt-2">
-                        <div><span class="text2">Curtis</span></div>
-                    </div>
-                </div>
-            `;
-
-            // Get the left-section container
-            const leftSection = document.querySelector('.comment-window-section');
-
-            // Insert the new comment at the beginning of the left-section
-            leftSection.insertBefore(newCommentBox, leftSection.firstChild);
-
-            // Clear the input
-            e.target.value = '';
-        }
+        commentName.textContent = comment.poster_name;
+        commentDate.textContent = comment.comment_timestamp;
+        commentContent.textContent = comment.comment_post;
     }
-});*/
+}
 
+/*get the comments client-side*/
+function fetchLatestComments() {
+    fetch('/get-latest-comments')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const comments = data.comments;
+                updateCommentsDiv(comments);
+            } else {
+                console.error('Error fetching comments:', data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching comments:', error);
+        });
+}
+
+window.addEventListener('load', fetchLatestComments); /*REMOVE later-------------------------------------------------------------- */
+
+/* ---------------------------------------------------------------------------------*/
+/* -------------------------Function to get first word------------------------------*/
+
+function getFirstWord(query){
+
+    const inputString = query;
+    const words = inputString.split(" ");
+    return words[0];
+}
+
+/* ---------------------------------------------------------------------------------*/
+/* ------------------------------Litsener to submit---------------------------------*/
+
+const submitButton = document.getElementById('submitButton-sql');
+
+submitButton.addEventListener('click', function (event) {
+    console.log('insidethisshit');
+    event.preventDefault();
+
+    const inputTextarea = document.getElementById('admin-sql');
+    const inputValue = inputTextarea.value;
+
+    if(getFirstWord(inputValue) == 'SELECT'){
+
+    }
+    else if(getFirstWord(inputValue) == 'UPDATE' || getFirstWord(inputValue) == 'INSERT' || getFirstWord(inputValue) == 'CREATE' || getFirstWord(inputValue) == 'ALTER'){
+
+    }
+    else if(getFirstWord(inputValue) == 'DROP' || getFirstWord(inputValue) == 'DELETE'){
+
+    }
+    else{
+        const serverMessageWindow = document.getElementsByClassName('server-message-window');
+        serverMessageWindow.innerText = 'error';
+        
+    }
+});
+/* ---------------------------------------------------------------------------------*/

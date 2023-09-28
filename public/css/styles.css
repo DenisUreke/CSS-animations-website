@@ -166,6 +166,20 @@ a:hover {
     padding: 0.2vh;
 }
 
+#admin-window-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: #F2EBE5;
+    border-radius: 1vh 1vh 1vh 1vh;
+    height: 90vh;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding: 0.2vh;
+}
+
 /*-------------------------------------------------*/
 /*-------------------Menu tweaks-------------------*/
 
@@ -1037,15 +1051,17 @@ a:hover {
     width: 50%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     gap: 1vh;
     overflow-y: auto;
+    padding-top: 5vh;
 }
 
 .input-box-comment {
     /*box*/
     position: relative;
-    font-size: 1vw;
+    font-size: 0.7vw;
     text-align: center;
     width: 15vw;;
     height: 5vh;
@@ -1076,6 +1092,38 @@ a:hover {
     color: #3B4351;
     font-style: normal;
     font-weight: bold;
+}
+
+.empty-comment-box{
+    width: 20vw;;
+    height: 6vh;
+    background-color: white;
+    border: 1px solid black;
+    padding-left: 1vw;
+    padding-top: 0.2vh;
+    padding-right: 0.1vw;
+}
+.empty-comment-box-header{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+.comment-delete-button{
+    height: 2vh;
+    width: 1vw;
+    background-color: #9F496E;
+    color: white;
+    display: flex;
+    text-align: justify;
+    align-items: center;
+    font-weight: bold;
+}
+.comment-name{
+    color: #9F496E;
+    font-weight: bold;
+}
+.comment{
+    overflow: hidden;
 }
 
 /*-------------------------------------------------*/
@@ -1162,6 +1210,53 @@ a:hover {
     background-color: #9F496E;
     color: white;
 }
+
+/*---------------------Admin Page----------------------*/
+
+.admin-grid-composition {
+    position: absolute;
+    display: grid;
+    grid-template-columns: repeat(24, 1fr);
+    grid-template-rows: repeat(12, 1fr);
+    height: 100%;
+    width: 100%;
+    padding: 1vw;
+    gap: 1vh;
+}
+
+.admin-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.input-admin{
+    vertical-align: top;
+    text-align: left;
+    height: 10vh;
+    width: 100%;
+}
+
+.admin-output-window{
+    grid-area: 1 / 1 / 6 / 10;
+    background-color: white;
+    border: 1px solid black;
+    overflow: auto;
+}
+
+.server-message-window{
+    grid-area: 6 / 1 / 7 / 10;  
+    background-color: white;
+    border: 1px solid black;
+}
+
+.admin-input-window{
+    grid-area: 7 / 1 / 9 / 10;
+}
+
+#submitButton-sql{
+    width: 100%;
+}
+
 
 /*------------------Error message----------------------*/
 .popup-overlay {

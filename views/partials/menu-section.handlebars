@@ -1,10 +1,10 @@
 <nav class="col-xl-1 col-lg-12 col-md-12 col-sm-12" id="menu-buttons-container">
 
     <a href="/home">
-    <div class="icon-menu" id="home-button">
-        <i class="fas fa-home"></i>
-        <div id="menu-text">home</div>
-    </div>
+        <div class="icon-menu" id="home-button">
+            <i class="fas fa-home"></i>
+            <div id="menu-text">home</div>
+        </div>
     </a>
 
     <a href="/about">
@@ -40,10 +40,12 @@
         </div>
     </a>
     {{#if isAdmin}}
-    <div class="icon-menu" id="other-button">
-        <i class="fas fa-cog"></i>
-        <div id="menu-text">admin</div>
-    </div>
+    <a href="/admin">
+        <div class="icon-menu" id="other-button">
+            <i class="fas fa-cog"></i>
+            <div id="menu-text">admin</div>
+        </div>
+    </a>
     {{/if}}
 
 </nav>

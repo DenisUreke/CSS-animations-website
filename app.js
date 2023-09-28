@@ -61,7 +61,7 @@ app.use(session({
 app.get('/logout', (req, res) => {
     req.session.destroy((err) => {
         if(err) {
-            return res.redirect('/dashboard');  // or wherever you want
+            return res.redirect('/log-in');
         }
         res.redirect('/log-in');
     });
@@ -136,6 +136,10 @@ app.get('/forum', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('forum', { layout: 'adminLayout', isAdmin });
 });
+app.get('/admin', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('admin', { layout: 'guestLayout', isAdmin });
+});
 
 /*---------------------------------------------------------*/
 
@@ -145,7 +149,6 @@ app.post('/login', async (req, res) => {
     const emailOrUsername = req.body.emailOrUsername;
     const password = req.body.password;
 
-    // First, you can look up the user in the database by email or username.
     const query = `SELECT * FROM User WHERE email = ? OR username = ?`;
     
     db.get(query, [emailOrUsername, emailOrUsername], (err, user) => {
@@ -157,7 +160,6 @@ app.post('/login', async (req, res) => {
             return res.status(404).json({ success: false, message: 'User not found.' });
         }
 
-        // Compare the hashed password in the database with the provided password.
         bcrypt.compare(password, user.password, (err, isMatch) => {
             if (err) {
                 return res.status(500).json({ success: false, message: 'Error during password check.' });
@@ -167,12 +169,11 @@ app.post('/login', async (req, res) => {
                 return res.status(401).json({ success: false, message: 'Wrong password.' });
             }
 
-            // Set user data and isAdmin status in session
             req.session.user = {
                 id: user.id,
                 username: user.username,
                 email: user.email,
-                isAdmin: user.isAdmin == 1 ? true : false  // Convert the integer to a boolean for easier checking
+                isAdmin: user.isAdmin == 1 ? true : false
             };
 
             return res.status(200).json({ success: true, message: 'Successfully logged in!' });
@@ -187,12 +188,9 @@ app.post('/reg', async (req, res) => {
     const { email, username, password, password2 } = req.body;
 
     try {
-        // Check if any of the fields are empty
         if (!email || !username || !password || !password2) {
             throw new Error('All fields are required.');
         }
-
-        // Check if passwords match
         if (password !== password2) {
             throw new Error('Passwords do not match.');
         }
@@ -200,13 +198,12 @@ app.post('/reg', async (req, res) => {
         // Hash the password using bcrypt
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Save the user in the database (assuming you're using an asynchronous database library)
         await db.run('INSERT INTO User (email, username, password) VALUES (?, ?, ?)', [email, username, hashedPassword]);
 
-        // User registered successfully
+        /* User registered successfully---------------------------------------------------------------------------------*/
         return res.status(200).json({ success: true, message: 'User registered successfully!' });
     } catch (error) {
-        // Handle errors
+
         return res.status(500).json({ success: false, message: error.message });
     }
 });
@@ -214,25 +211,42 @@ app.post('/reg', async (req, res) => {
 /*---------------------------------------------------------*/
 /*--------------------Post Comment-------------------------*/
 
-// Add this route to handle comment submission
 app.post('/post-comment', isAuthenticated, async (req, res) => {
     const { post } = req.body;
     const posterId = req.session.user.id; // Get the user's ID from the session
 
     try {
-        // Insert the comment into the database
         await db.run('INSERT INTO Comments (post, poster) VALUES (?, ?)', [post, posterId]);
+        res.redirect('/forum');
+    } 
+    catch (error) {
 
-        // Redirect the user to a success page or any other desired action
-        res.redirect('/forum'); // Replace with the appropriate URL
-    } catch (error) {
-        // Handle errors
         console.error('Error saving comment:', error);
         res.status(500).json({ success: false, message: 'Failed to save the comment.' });
     }
 });
 
 /*--------------------Get Comment-------------------------*/
+
+// Add a new route to retrieve the latest comments
+app.get('/get-latest-comments', (req, res) => {
+    console.log('Inside-server-side');
+    const query = `
+        SELECT *
+        FROM CommentView
+        ORDER BY comment_timestamp DESC
+        LIMIT 5
+    `;
+
+    db.all(query, [], (err, comments) => {
+        if (err) {
+            console.error('Error fetching latest comments:', err);
+            res.status(500).json({ success: false, message: 'Error fetching comments.' });
+        } else {
+            res.status(200).json({ success: true, comments: comments });
+        }
+    });
+});
 
 
 
