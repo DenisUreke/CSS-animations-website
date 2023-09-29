@@ -9,9 +9,6 @@ const session = require('express-session');
 // Initialize the app here
 const app = express();
 
-
-
-
 // Then use your middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -32,15 +29,12 @@ app.use(express.static('public'));
 
 // Model (data)
 const humans = [
-    {"id": "0", "name": "Jerome"},
-    {"id": "1", "name": "Mira"},
-    {"id": "2", "name": "Linus"},
-    {"id": "3", "name": "Susanne"},
-    {"id": "4", "name": "Jasmin"},
+    { "id": "0", "name": "Jerome" },
+    { "id": "1", "name": "Mira" },
+    { "id": "2", "name": "Linus" },
+    { "id": "3", "name": "Susanne" },
+    { "id": "4", "name": "Jasmin" },
 ];
-
-
-
 /*---------------------------------------------------------*/
 
 
@@ -54,13 +48,11 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 // Cookie expires after 24 hours
     }
 }));
-
-
 /*-------------------------log-out-------------------------*/
 
 app.get('/logout', (req, res) => {
     req.session.destroy((err) => {
-        if(err) {
+        if (err) {
             return res.redirect('/log-in');
         }
         res.redirect('/log-in');
@@ -93,12 +85,12 @@ app.get('/script.js', (req, res) => {
 });
 
 /*-----------------------Routes----------------------------*/
-app.get('/', (req,res) => {
-    res.render('log-in', {layout: 'loginLayout'});
+app.get('/', (req, res) => {
+    res.render('log-in', { layout: 'loginLayout' });
 });
 
-app.get('/register', (req,res) => {
-    res.render('register', {layout: 'loginLayout'});
+app.get('/register', (req, res) => {
+    res.render('register', { layout: 'loginLayout' });
 });
 
 app.get('/log-in', (req, res) => {
@@ -132,6 +124,7 @@ app.get('/holder2', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('holder2', { layout: 'adminLayout', isAdmin });
 });
+
 app.get('/forum', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
 
@@ -168,7 +161,7 @@ app.post('/login', async (req, res) => {
     const password = req.body.password;
 
     const query = `SELECT * FROM User WHERE email = ? OR username = ?`;
-    
+
     db.get(query, [emailOrUsername, emailOrUsername], (err, user) => {
         if (err) {
             return res.status(500).json({ success: false, message: 'Error accessing the database.' });
@@ -218,8 +211,8 @@ app.post('/reg', async (req, res) => {
 
         await db.run('INSERT INTO User (email, username, password) VALUES (?, ?, ?)', [email, username, hashedPassword]);
 
-        res.render('log-in', {layout: 'loginLayout'});
-        
+        res.render('log-in', { layout: 'loginLayout' });
+
     } catch (error) {
 
         return res.status(500).json({ success: false, message: error.message });
@@ -236,7 +229,7 @@ app.post('/post-comment', isAuthenticated, async (req, res) => {
     try {
         await db.run('INSERT INTO Comments (post, poster) VALUES (?, ?)', [post, posterId]);
         res.redirect('/forum');
-    } 
+    }
     catch (error) {
 
         console.error('Error saving comment:', error);
@@ -246,7 +239,6 @@ app.post('/post-comment', isAuthenticated, async (req, res) => {
 
 /*--------------------Get Comment-------------------------*/
 
-// Add a new route to retrieve the latest comments
 app.get('/get-latest-comments', (req, res) => {
     console.log('Inside-server-side');
     const query = `
@@ -258,7 +250,6 @@ app.get('/get-latest-comments', (req, res) => {
 
     db.all(query, [], (err, comments) => {
         if (err) {
-            console.error('Error fetching latest comments:', err);
             res.status(500).json({ success: false, message: 'Error fetching comments.' });
         } else {
             res.status(200).json({ success: true, comments: comments });
@@ -266,8 +257,48 @@ app.get('/get-latest-comments', (req, res) => {
     });
 });
 
+/*-------------------------------Admin-Form-------------------------------*/
+
+app.post('/your-server-endpoint', (req, res, next) => {
+    const requestString = req.body;
+    const query = requestString.query;
+    const words = requestString.query.split(" ");
+
+    const validCommands = ['SELECT', 'CREATE', 'INSERT', 'UPDATE', 'ALTER', 'DELETE', 'DROP'];
+
+    if (validCommands.includes(words[0])) {
+        next();
+    } else {
+        return res.status(400).json({ error: 'Invalid SQL command.' });
+    }
+});
+
+app.post('/your-server-endpoint2', (req, res, next) => {
+    const requestString = req.body;
+    const query = requestString.query;
+    const words = requestString.query.split(" ");
+
+    if (words[0] == 'SELECT') {
+        db.all(query, [], (err, data) => {
+            if (err) {
+                // Display error message in the "server-message-window"
+                const errorMessage = 'Error fetching SELECT query: ' + err.message;
+                res.status(500).json({ success: false, message: errorMessage });
+            }
+            else {
+                // Display the SQL query result in the "admin-output-window"
+                res.status(200).json({ success: true, comments: data });
+            }
+        });
+    }
+    else {
+        next();
+    }
+});
+
 
 
 app.listen(port, () => {
     console.log(`Server started on http://localhost:${port}`);
 });
+

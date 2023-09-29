@@ -460,6 +460,7 @@ a:hover {
     padding-left: 2vw;
     padding-right: 2vw;
     gap: 1vh;
+    grid-auto-rows: minmax(auto, auto);
 }
 
 .project-1-img {
@@ -1253,8 +1254,18 @@ a:hover {
     grid-area: 7 / 1 / 9 / 10;
 }
 
+.buttons-container{
+flex-direction: row;
+margin-top: 0.2vh;
+}
+
 #submitButton-sql{
-    width: 100%;
+    height: 3vh;
+    width: 70%;
+}
+#rollback-sql{
+    height: 3vh;
+    width: 30%;
 }
 
 
