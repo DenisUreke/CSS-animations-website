@@ -163,13 +163,20 @@ app.post('/login', async (req, res) => {
     const query = `SELECT * FROM User WHERE email = ? OR username = ?`;
 
     db.get(query, [emailOrUsername, emailOrUsername], (err, user) => {
-        if (err) {
-            return res.status(500).json({ success: false, message: 'Error accessing the database.' });
-        }
 
-        if (!user) {
-            return res.status(404).json({ success: false, message: 'User not found.' });
-        }
+        if (err) {
+            const error = 'Code 500: Error accessing the database.';
+            const model = {
+                Error: error,
+                layout: 'loginLayout',
+        }}
+
+        else if (!user) {
+            const error = 'Code 404: User not found.';
+            const model = {
+                Error: error,
+                layout: 'loginLayout',
+        }}
 
         bcrypt.compare(password, user.password, (err, isMatch) => {
             if (err) {
@@ -198,24 +205,39 @@ app.post('/login', async (req, res) => {
 app.post('/reg', async (req, res) => {
     const { email, username, password, password2 } = req.body;
 
-    try {
-        if (!email || !username || !password || !password2) {
-            throw new Error('All fields are required.');
-        }
-        if (password !== password2) {
-            throw new Error('Passwords do not match.');
-        }
+    // Check if the username or email already exists
+    const existingUsername = await db.get('SELECT * FROM User WHERE username = ?', [username])
 
-        // Hash the password using bcrypt
+    if (existingUsername != null && Object.keys(existingUsername).length !== 0) {
+        console.log(existingUsername);
+        const error = 'Username or email already in use';
+        const model = {
+            Error: error,
+            layout: 'loginLayout',
+        }
+        res.render("register.handlebars", model);
+        return;
+
+    } else if (password !== password2) {
+        const error = 'Passwords do not match';
+        const model = {
+            Error: error,
+            layout: 'loginLayout',
+        }
+        res.render("register.handlebars", model);
+        return;
+
+    } else {
         const hashedPassword = await bcrypt.hash(password, 10);
 
         await db.run('INSERT INTO User (email, username, password) VALUES (?, ?, ?)', [email, username, hashedPassword]);
 
-        res.render('log-in', { layout: 'loginLayout' });
-
-    } catch (error) {
-
-        return res.status(500).json({ success: false, message: error.message });
+        const success = 'Registration Successful!';
+        const model = {
+            Success: success,
+            layout: 'loginLayout',
+        }
+        res.render("log-in.handlebars", model);
     }
 });
 
@@ -268,17 +290,16 @@ app.post('/your-server-endpoint', (req, res, next) => {
 
     if (validCommands.includes(words[0])) {
         next();
+
     } else {
         const error = new Error('Invalid SQL command');
         const model = {
             dbError: true,
             Status: error.message,
+            layout: 'guestLayout',
             Message: []
         }
-        res.render("admin.handlebars", {
-            layout: 'guestLayout', 
-            model: model
-        });
+        res.render("admin.handlebars", model)
     }
 });
 

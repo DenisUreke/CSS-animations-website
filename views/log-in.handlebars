@@ -6,7 +6,6 @@
 </div>
 <div class="container-fluid" id="background-container">
     <div class="row" id="columns-container">
-
         <form action="/login" method="POST" id="loginForm" class="log-in-container">
             <div class="main-window-header-image">
                 <img src="Img/sunset.jpg" alt="Picture of a sunset in city" id="home-sunset-picture">
@@ -18,6 +17,10 @@
             </div>
 
             <div class="justify-center-container">
+                
+            <div class="error-message">{{Error}}</div>
+            <div class="success-message">{{Success}}</div>
+            
                 <div class="log-in-input-box">
                     <div class="log-in-instruction">Enter your Email or Username</div>
                     <input type="text" name="emailOrUsername" id="email" class="input-box" required autocomplete="off"
