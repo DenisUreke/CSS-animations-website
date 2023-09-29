@@ -164,6 +164,9 @@ app.post('/login', async (req, res) => {
 
     db.get(query, [emailOrUsername, emailOrUsername], (err, user) => {
 
+        const username2 = user.username;
+        console.log(username2);
+
         if (err) {
             const error = 'Code 500: Error accessing the database.';
             const model = {
@@ -232,7 +235,7 @@ app.post('/reg', async (req, res) => {
 
     console.log("Cleaned username:",cleanedUsername);
 
-    const existingUsername = await db.get('SELECT username FROM User WHERE username = ?', [cleanedUsername]);
+    const existingUsername = db.get('SELECT username FROM User WHERE username = ?', [cleanedUsername]);
     
     console.log("Result:", existingUsername);
 
@@ -320,10 +323,9 @@ app.post('/your-server-endpoint', (req, res, next) => {
         next();
 
     } else {
-        const error = new Error('Invalid SQL command');
+        const error = 'Invalid SQL command';
         const model = {
-            dbError: true,
-            Status: error.message,
+            Status: error,
             layout: 'guestLayout',
             Message: []
         }
@@ -331,34 +333,64 @@ app.post('/your-server-endpoint', (req, res, next) => {
     }
 });
 
-app.post('/your-server-endpoint2', (req, res, next) => {
-    const requestString = req.body;
-    const query = requestString.query;
-    const words = requestString.query.split(" ");
+app.post('/your-server-endpoint', (req, res, next) => {
+    const query = req.body.query;
+
+    if (!query) {
+        const error = 'No SQL query provided';
+        const model = {
+            Status: error,
+            layout: 'guestLayout',
+            Message: []
+        }
+        res.render("admin.handlebars", model);
+        return;
+    }
+
+    const words = query.split(" ");
 
     if (words[0] == 'SELECT') {
-        db.all(query, function (error, queryData) {
+        let queryData;
+        
+        db.all(query, function (error, data) {
+
             if (error) {
+                const errorMessage = error.message;
                 const model = {
-                    dbError: true,
-                    Status: error,
+                    Status: errorMessage,
+                    layout: 'guestLayout',
                     Message: []
                 }
-                res.render("admin.handlebars", model)
-            }
-            else {
-                // Display the SQL query result in the "admin-output-window"
-                res.status(200).json({ success: true, comments: data });
+                res.render("admin.handlebars", model);
+                return;
+            } else {
+
+                queryData = data;
+
+                let formattedData = '';
+    
+                for (const user of queryData) {
+                    formattedData += `ID: ${user.id}, Username: ${user.username}, Email: ${user.email}`;
+                }
+
+                const success = 'Successful entry';
+                const model = {
+                    Status: success,
+                    layout: 'guestLayout',
+                    Message: formattedData
+                }
+                res.render("admin.handlebars", model);
+                return;
             }
         });
     }
-    else {
+    else{
         next();
     }
 });
 
 /* */
-app.get('/projectddds', (req, res) => {
+/*app.get('/projectddds', (req, res) => {
     db.all("SELECT * FROM projects", function (error, theProjects) {
         if (error) {
             const model = {
@@ -379,7 +411,7 @@ app.get('/projectddds', (req, res) => {
             res.render("projects.handlebars", model)
         }
       })
-});
+});*/
 
 
 
