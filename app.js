@@ -269,7 +269,16 @@ app.post('/your-server-endpoint', (req, res, next) => {
     if (validCommands.includes(words[0])) {
         next();
     } else {
-        return res.status(400).json({ error: 'Invalid SQL command.' });
+        const error = new Error('Invalid SQL command');
+        const model = {
+            dbError: true,
+            Status: error.message,
+            Message: []
+        }
+        res.render("admin.handlebars", {
+            layout: 'guestLayout', 
+            model: model
+        });
     }
 });
 
@@ -279,11 +288,14 @@ app.post('/your-server-endpoint2', (req, res, next) => {
     const words = requestString.query.split(" ");
 
     if (words[0] == 'SELECT') {
-        db.all(query, [], (err, data) => {
-            if (err) {
-                // Display error message in the "server-message-window"
-                const errorMessage = 'Error fetching SELECT query: ' + err.message;
-                res.status(500).json({ success: false, message: errorMessage });
+        db.all(query, function (error, queryData) {
+            if (error) {
+                const model = {
+                    dbError: true,
+                    Status: error,
+                    Message: []
+                }
+                res.render("admin.handlebars", model)
             }
             else {
                 // Display the SQL query result in the "admin-output-window"
@@ -294,6 +306,30 @@ app.post('/your-server-endpoint2', (req, res, next) => {
     else {
         next();
     }
+});
+
+/* */
+app.get('/projectddds', (req, res) => {
+    db.all("SELECT * FROM projects", function (error, theProjects) {
+        if (error) {
+            const model = {
+                dbError: true,
+                theError: error,
+                projects: []
+            }
+            // renders the page with the model
+            res.render("projects.handlebars", model)
+        }
+        else {
+            const model = {
+                dbError: false,
+                theError: "",
+                projects: theProjects
+            }
+            // renders the page with the model
+            res.render("projects.handlebars", model)
+        }
+      })
 });
 
 
