@@ -333,20 +333,9 @@ app.post('/middleware-run', (req, res, next) => {
     }
 });
 
+/*----------------------------------------------------------------------------------------------------*/
 app.post('/middleware-run', (req, res, next) => {
     const query = req.body.query;
-
-    if (!query) {
-        const error = 'No SQL query provided';
-        const model = {
-            Status: error,
-            layout: 'guestLayout',
-            Message: []
-        }
-        res.render("admin.handlebars", model);
-        return;
-    }
-
     const words = query.split(" ");
 
     if (words[0] == 'SELECT') {
@@ -389,9 +378,75 @@ app.post('/middleware-run', (req, res, next) => {
     }
 });
 
-/*app.post('/middleware-run'(req, res){
+/*----------------------------------------------------------------------------------------------------*/
 
-})*/
+app.post('/middleware-run', (req, res, next) => {
+    const query = req.body.query;
+    const words = query.split(" ");
+
+    if (words[0] == 'DELETE' || words[0] == 'DROP') {
+        db.run(query, function (error, data){
+
+            if(error){
+                const errorMessage = error.message;
+                const model = {
+                    Status: errorMessage,
+                    layout: 'guestLayout',
+                    Message: []
+                }
+                res.render("admin.handlebars", model);
+                return;
+            }
+            else{
+                const successMessage = 'Query executed successfully.';
+                const model = {
+                    Status: successMessage,
+                    layout: 'guestLayout',
+                    Message: []
+                }
+                res.render("admin.handlebars", model);
+                return;
+            }
+
+        })
+    }
+    else{
+        next();
+    }
+});
+
+app.post('/middleware-run', (req, res) => {
+    const query = req.body.query;
+    const words = query.split(" ");
+
+    const validCommands = ['CREATE', 'INSERT', 'UPDATE', 'ALTER'];
+
+    if (validCommands.includes(words[0])) {
+        db.run(query, function (error, data){
+
+            if(error){
+                const errorMessage = error.message;
+                const model = {
+                    Status: errorMessage,
+                    layout: 'guestLayout',
+                    Message: []
+                }
+                res.render("admin.handlebars", model);
+                return;
+            }
+            else{
+                const successMessage = 'Query executed successfully.';
+                const model = {
+                    Status: successMessage,
+                    layout: 'guestLayout',
+                    Message: []
+                }
+                res.render("admin.handlebars", model);
+                return;
+            }
+        })
+    }
+});
 
 
 app.listen(port, () => {
