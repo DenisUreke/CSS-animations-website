@@ -169,22 +169,40 @@ app.post('/login', async (req, res) => {
             const model = {
                 Error: error,
                 layout: 'loginLayout',
-        }}
+        }
+        res.render("log-in.handlebars", model);
+        return;
+    }
 
         else if (!user) {
             const error = 'Code 404: User not found.';
             const model = {
                 Error: error,
                 layout: 'loginLayout',
-        }}
+        }
+        res.render("log-in.handlebars", model);
+        return;
+    }
 
         bcrypt.compare(password, user.password, (err, isMatch) => {
             if (err) {
-                return res.status(500).json({ success: false, message: 'Error during password check.' });
+                const error = 'Code 500 Can not access password.';
+                const model = {
+                    Error: error,
+                    layout: 'loginLayout',
+                }
+                res.render("log-in.handlebars", model);
+                return;
             }
 
             if (!isMatch) {
-                return res.status(401).json({ success: false, message: 'Wrong password.' });
+                const error = 'Wrong Password.';
+                const model = {
+                    Error: error,
+                    layout: 'loginLayout',
+            }
+            res.render("log-in.handlebars", model);
+            return;
             }
 
             req.session.user = {
@@ -205,8 +223,18 @@ app.post('/login', async (req, res) => {
 app.post('/reg', async (req, res) => {
     const { email, username, password, password2 } = req.body;
 
+    console.log('it enter atleast');
+
     // Check if the username or email already exists
-    const existingUsername = await db.get('SELECT * FROM User WHERE username = ?', [username])
+    console.log("Searching for username:", username);
+
+    const cleanedUsername = username.trim();
+
+    console.log("Cleaned username:",cleanedUsername);
+
+    const existingUsername = await db.get('SELECT username FROM User WHERE username = ?', [cleanedUsername]);
+    
+    console.log("Result:", existingUsername);
 
     if (existingUsername != null && Object.keys(existingUsername).length !== 0) {
         console.log(existingUsername);
