@@ -312,7 +312,7 @@ app.get('/get-latest-comments', (req, res) => {
 
 /*-------------------------------Admin-Form-------------------------------*/
 
-app.post('/your-server-endpoint', (req, res, next) => {
+app.post('/middleware-run', (req, res, next) => {
     const requestString = req.body;
     const query = requestString.query;
     const words = requestString.query.split(" ");
@@ -333,7 +333,7 @@ app.post('/your-server-endpoint', (req, res, next) => {
     }
 });
 
-app.post('/your-server-endpoint', (req, res, next) => {
+app.post('/middleware-run', (req, res, next) => {
     const query = req.body.query;
 
     if (!query) {
@@ -377,7 +377,7 @@ app.post('/your-server-endpoint', (req, res, next) => {
                 const model = {
                     Status: success,
                     layout: 'guestLayout',
-                    Message: formattedData,
+                    Message: formattedData
                 }
                 res.render("admin.handlebars", model);
                 return;
@@ -389,49 +389,11 @@ app.post('/your-server-endpoint', (req, res, next) => {
     }
 });
 
-app.post('/your-server-endpoint', (req, res) =>{
-    const requestString = req.body;
-    const query = requestString.query;
-    const words = requestString.query.split(" ");
+/*app.post('/middleware-run'(req, res){
 
-    if(words[0] == 'DELETE' || words[0] == 'DROP'){
-        
-
-    }
-    else{
-        next();
-    }
-})
-
-
-
-/* */
-/*app.get('/projectddds', (req, res) => {
-    db.all("SELECT * FROM projects", function (error, theProjects) {
-        if (error) {
-            const model = {
-                dbError: true,
-                theError: error,
-                projects: []
-            }
-            // renders the page with the model
-            res.render("projects.handlebars", model)
-        }
-        else {
-            const model = {
-                dbError: false,
-                theError: "",
-                projects: theProjects
-            }
-            // renders the page with the model
-            res.render("projects.handlebars", model)
-        }
-      })
-});*/
-
+})*/
 
 
 app.listen(port, () => {
     console.log(`Server started on http://localhost:${port}`);
 });
-

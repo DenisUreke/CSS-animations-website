@@ -3,7 +3,7 @@
         <div class="admin-output-window">{{Message}}</div>
         <div class="server-message-window">{{Status}}</div>
         <div class="admin-input-window">
-            <form action="/your-server-endpoint" method="POST" class="admin-container">
+            <form action="/middleware-run" method="POST" class="admin-container">
                 <textarea name="query" id="admin-sql" class="input-admin" autocomplete="off"
                     placeholder="Write SQL query here, please start with the execution you want to be done ex: UPDATE or SELECT:" title="Database access" rows="4"></textarea>
                 <div class="buttons-container"><button type="submit" id="submitButton-sql">Submit</button><button type="button" id="rollback-sql">Rollback</button></div>
