@@ -463,8 +463,8 @@ a:hover {
     grid-auto-rows: minmax(auto, auto);
 }
 
-.project-title{
-    color:#9F496E;
+.project-title {
+    color: #9F496E;
     font-weight: bold;
     font-size: clamp(0.5rem, 2vh, 2rem);
     width: 3vw;
@@ -566,6 +566,7 @@ a:hover {
     grid-area: 5 / 12 / 6 / -1;
     height: 8vh;
 }
+
 .project-6-img {
     grid-area: 6 / 1 / 7 / 3;
     height: 9vh;
@@ -584,6 +585,7 @@ a:hover {
     grid-area: 6 / 12 / 7 / -1;
     height: 8vh;
 }
+
 .project-7-img {
     grid-area: 7 / 1 / 8 / 3;
     height: 9vh;
@@ -602,6 +604,7 @@ a:hover {
     grid-area: 7 / 12 / 8 / -1;
     height: 8vh;
 }
+
 .project-8-img {
     grid-area: 8 / 1 / 9 / 3;
     height: 9vh;
@@ -620,6 +623,7 @@ a:hover {
     grid-area: 8 / 12 / 9 / -1;
     height: 8vh;
 }
+
 .projects {
     position: absolute;
     font-size: clamp(0.5rem, 6.7vh, 5rem);
@@ -1097,7 +1101,8 @@ a:hover {
 .flex-two-rows-comment {
     position: relative;
     display: flex;
-    flex-direction: row; /* Change to row to have left and right halves */
+    flex-direction: row;
+    /* Change to row to have left and right halves */
     height: calc(100% - 30vh);
     width: 100%;
 }
@@ -1106,7 +1111,7 @@ a:hover {
     height: 100%;
     width: 50%;
     display: flex;
-    flex-direction: column; 
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 5vh;
@@ -1129,7 +1134,8 @@ a:hover {
     position: relative;
     font-size: 0.7vw;
     text-align: center;
-    width: 15vw;;
+    width: 15vw;
+    ;
     height: 5vh;
 }
 
@@ -1139,7 +1145,8 @@ a:hover {
     flex-direction: column;
     align-items: center;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
-    margin-bottom: 1rem; /* Add margin between forms */
+    margin-bottom: 1rem;
+    /* Add margin between forms */
 }
 
 .header-in-box {
@@ -1160,21 +1167,23 @@ a:hover {
     font-weight: bold;
 }
 
-.comment-box{
+.comment-box {
     background-color: white;
-    width: 20vw;;
+    width: 20vw;
+    ;
     height: 6vh;
     padding-left: 1vw;
     padding-top: 0.2vh;
     padding-right: 0.1vw;
 }
 
-.empty-comment-box-header{
+.empty-comment-box-header {
     width: 100%;
     display: flex;
     justify-content: space-between;
 }
-.comment-delete-button{
+
+.comment-delete-button {
     height: 2vh;
     width: 1vw;
     background-color: #9F496E;
@@ -1184,11 +1193,13 @@ a:hover {
     align-items: center;
     font-weight: bold;
 }
-.comment-name{
+
+.comment-name {
     color: #9F496E;
     font-weight: bold;
 }
-.comment{
+
+.comment {
     overflow: hidden;
 }
 
@@ -1208,7 +1219,7 @@ a:hover {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
 
-.justify-center-container{
+.justify-center-container {
     position: relative;
     display: flex;
     flex-direction: column;
@@ -1227,11 +1238,13 @@ a:hover {
 }
 
 
-.log-in-input-box > * { /* Selects all direct children of .log-in-input-box Thank you Stack overflow!*/ 
-    margin-bottom: 3vh; 
+.log-in-input-box>* {
+    /* Selects all direct children of .log-in-input-box Thank you Stack overflow!*/
+    margin-bottom: 3vh;
 
 }
-#not-registered{
+
+#not-registered {
     position: absolute;
     bottom: 2vh;
     display: flex;
@@ -1239,14 +1252,15 @@ a:hover {
     gap: 0.3vw;
 }
 
-#not-registered2{
+#not-registered2 {
     position: absolute;
     bottom: 2vh;
     display: flex;
     flex-direction: row;
     gap: 0.3vw;
 }
-.register-link{
+
+.register-link {
     font-weight: bold;
 }
 
@@ -1260,16 +1274,16 @@ a:hover {
 }
 
 .button-log-in {
-    font-size: 1vw;              
-    text-align: center;         
+    font-size: 1vw;
+    text-align: center;
     width: 6vw;
-    height: 4vh;                 
-    padding: 5px 10px;           
-    border: 1px solid #ccc;     
-    border-radius: 4px;          
-    cursor: pointer;          
-    transition: background-color 0.3s ease; 
-    background-color: white;   
+    height: 4vh;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: white;
 }
 
 .button-log-in:hover {
@@ -1287,22 +1301,22 @@ a:hover {
     height: 100%;
     width: 100%;
     padding: 1vw;
-    gap: 1vh;
+    gap: 0.5vh;
 }
 
-.admin-container{
+.admin-container {
     display: flex;
     flex-direction: column;
 }
 
-.input-admin{
+.input-admin {
     vertical-align: top;
     text-align: left;
     height: 10vh;
     width: 100%;
 }
 
-.admin-output-window{
+.admin-output-window {
     text-align: left;
     grid-area: 1 / 1 / 6 / 10;
     background-color: white;
@@ -1310,34 +1324,48 @@ a:hover {
     overflow: auto;
 }
 
-.server-message-window{
-    grid-area: 6 / 1 / 7 / 10;  
+.server-message-window {
+    grid-area: 6 / 1 / 7 / 10;
     background-color: white;
     border: 1px solid black;
     color: black;
 }
 
-.admin-input-window{
+.admin-input-window {
     grid-area: 7 / 1 / 9 / 10;
 }
 
-.buttons-container{
-flex-direction: row;
-margin-top: 0.2vh;
+.buttons-container {
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: flex-start;
+    margin-top: 0.2vh;
 }
 
-#submitButton-sql{
+#submitButton-sql {
     height: 3vh;
-    width: 70%;
+    width: 100%;
 }
-#rollback-sql{
-    height: 3vh;
-    width: 30%;
+
+.admin-buttons-window {
+    display:flex;
+    flex-direction: column;
+    background-color: white;
+    grid-area: 1 / 10 / 6 / 12;
+}
+.admin-table-button{
+    height:3vh;
+}
+
+.admin-header{
+height: 3vh;
+background-color: white;
+border: 1px solid black;
 }
 
 
 /*------------------Error and Success message----------------------*/
-.error-message{
+.error-message {
     display: flex;
     align-items: center;
     text-align: center;
@@ -1346,9 +1374,10 @@ margin-top: 0.2vh;
     font-weight: bold;
     margin-bottom: 1vh;
     height: 3vh;
-    
+
 }
-.success-message{
+
+.success-message {
     display: flex;
     align-items: center;
     text-align: center;
@@ -1356,9 +1385,9 @@ margin-top: 0.2vh;
     font-size: 18px;
     font-weight: bold;
     margin-bottom: 1vh;
-    height:3vh;
+    height: 3vh;
 }
-   
+
 
 /*-----------------------------------------------------*/
 /*-----------------------------------------------------*/

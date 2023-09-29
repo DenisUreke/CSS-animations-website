@@ -81,21 +81,12 @@ function isAuthenticated(req, res, next) {
 app.post('/reg', async (req, res) => {
     const { email, username, password, password2 } = req.body;
 
-    console.log('it enter atleast');
-
-    // Check if the username or email already exists
-    console.log("Searching for username:", username);
-
     const cleanedUsername = username.trim();
 
-    console.log("Cleaned username:",cleanedUsername);
-
     const existingUsername = db.get('SELECT username FROM User WHERE username = ?', [cleanedUsername]);
-    
-    console.log("Result:", existingUsername);
 
     if (existingUsername != null && Object.keys(existingUsername).length !== 0) {
-        console.log(existingUsername);
+
         const error = 'Username or email already in use';
         const model = {
             Error: error,
@@ -251,9 +242,6 @@ app.post('/login', async (req, res) => {
 
     db.get(query, [emailOrUsername, emailOrUsername], (err, user) => {
 
-        const username2 = user.username;
-        console.log(username2);
-
         if (err) {
             const error = 'Code 500: Error accessing the database.';
             const model = {
@@ -328,7 +316,6 @@ app.post('/post-comment', isAuthenticated, async (req, res) => {
 /*--------------------Get Comment-------------------------*/
 
 app.get('/get-latest-comments', (req, res) => {
-    console.log('Inside-server-side');
     const query = `
         SELECT *
         FROM CommentViewWithAuthor
