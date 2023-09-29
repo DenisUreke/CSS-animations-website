@@ -377,7 +377,7 @@ app.post('/your-server-endpoint', (req, res, next) => {
                 const model = {
                     Status: success,
                     layout: 'guestLayout',
-                    Message: formattedData
+                    Message: formattedData,
                 }
                 res.render("admin.handlebars", model);
                 return;
@@ -388,6 +388,22 @@ app.post('/your-server-endpoint', (req, res, next) => {
         next();
     }
 });
+
+app.post('/your-server-endpoint', (req, res) =>{
+    const requestString = req.body;
+    const query = requestString.query;
+    const words = requestString.query.split(" ");
+
+    if(words[0] == 'DELETE' || words[0] == 'DROP'){
+        
+
+    }
+    else{
+        next();
+    }
+})
+
+
 
 /* */
 /*app.get('/projectddds', (req, res) => {
