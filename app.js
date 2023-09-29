@@ -80,9 +80,7 @@ function isAuthenticated(req, res, next) {
 /*---------------------REGISTER----------------------------*/
 app.post('/reg', async (req, res) => {
     const { email, username, password, password2 } = req.body;
-
     const cleanedUsername = username.trim();
-
     const existingUsername = db.get('SELECT username FROM User WHERE username = ?', [cleanedUsername]);
 
     if (existingUsername != null && Object.keys(existingUsername).length !== 0) {
