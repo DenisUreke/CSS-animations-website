@@ -77,6 +77,57 @@ function isAuthenticated(req, res, next) {
     }
 }
 
+/*---------------------REGISTER----------------------------*/
+app.post('/reg', async (req, res) => {
+    const { email, username, password, password2 } = req.body;
+
+    console.log('it enter atleast');
+
+    // Check if the username or email already exists
+    console.log("Searching for username:", username);
+
+    const cleanedUsername = username.trim();
+
+    console.log("Cleaned username:",cleanedUsername);
+
+    const existingUsername = db.get('SELECT username FROM User WHERE username = ?', [cleanedUsername]);
+    
+    console.log("Result:", existingUsername);
+
+    if (existingUsername != null && Object.keys(existingUsername).length !== 0) {
+        console.log(existingUsername);
+        const error = 'Username or email already in use';
+        const model = {
+            Error: error,
+            layout: 'loginLayout',
+        }
+        res.render("register.handlebars", model);
+        return;
+
+    } else if (password !== password2) {
+        const error = 'Passwords do not match';
+        const model = {
+            Error: error,
+            layout: 'loginLayout',
+        }
+        res.render("register.handlebars", model);
+        return;
+
+    } else {
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        await db.run('INSERT INTO User (email, username, password) VALUES (?, ?, ?)', [email, username, hashedPassword]);
+
+        const success = 'Registration Successful!';
+        const model = {
+            Success: success,
+            layout: 'loginLayout',
+        }
+        res.render("log-in.handlebars", model);
+    }
+});
+
+/*---------------------------------------------------------*/
 /*---------------------------------------------------------*/
 
 app.get('/script.js', (req, res) => {
@@ -85,6 +136,18 @@ app.get('/script.js', (req, res) => {
 });
 
 /*-----------------------Routes----------------------------*/
+app.get('/downloadCV', (req, res) => {
+
+    const myCV = "This is my CV =).";
+
+    const fileName = 'CV.txt';
+
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`); /*Thank you JavidX from Stack-Overflow!*/
+    res.setHeader('Content-Type', 'text/plain');
+
+    res.send(myCV);
+});
+
 app.get('/', (req, res) => {
     res.render('log-in', { layout: 'loginLayout' });
 });
@@ -107,9 +170,33 @@ app.get('/about', (req, res) => {
     res.render('about', { layout: 'adminLayout', isAdmin });
 });
 
+//**************************************************************************** */
+//**************************************************************************** */
 app.get('/projects', (req, res) => {
+
     const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('projects', { layout: 'adminLayout', isAdmin });
+    db.all("SELECT * FROM ProjectData", function (error, mystuff) {
+        if (error) {
+            const model = {
+                dbError: true,
+                theError: error,
+                projects: [],
+                layout: 'adminLayout'
+            }
+            // renders the page with the model
+            res.render("projects.handlebars", model)
+        }
+        else {
+            const model = {
+                dbError: false,
+                theError: "",
+                projects: mystuff,
+                layout: 'adminLayout'
+            }
+            // renders the page with the model
+            res.render("projects.handlebars", model)
+        }
+      })
 });
 
 app.get('/experience', (req, res) => {
@@ -218,58 +305,6 @@ app.post('/login', async (req, res) => {
             res.redirect('/home');
         });
     });
-});
-
-/*---------------------------------------------------------*/
-
-/*---------------------REGISTER----------------------------*/
-app.post('/reg', async (req, res) => {
-    const { email, username, password, password2 } = req.body;
-
-    console.log('it enter atleast');
-
-    // Check if the username or email already exists
-    console.log("Searching for username:", username);
-
-    const cleanedUsername = username.trim();
-
-    console.log("Cleaned username:",cleanedUsername);
-
-    const existingUsername = db.get('SELECT username FROM User WHERE username = ?', [cleanedUsername]);
-    
-    console.log("Result:", existingUsername);
-
-    if (existingUsername != null && Object.keys(existingUsername).length !== 0) {
-        console.log(existingUsername);
-        const error = 'Username or email already in use';
-        const model = {
-            Error: error,
-            layout: 'loginLayout',
-        }
-        res.render("register.handlebars", model);
-        return;
-
-    } else if (password !== password2) {
-        const error = 'Passwords do not match';
-        const model = {
-            Error: error,
-            layout: 'loginLayout',
-        }
-        res.render("register.handlebars", model);
-        return;
-
-    } else {
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        await db.run('INSERT INTO User (email, username, password) VALUES (?, ?, ?)', [email, username, hashedPassword]);
-
-        const success = 'Registration Successful!';
-        const model = {
-            Success: success,
-            layout: 'loginLayout',
-        }
-        res.render("log-in.handlebars", model);
-    }
 });
 
 /*---------------------------------------------------------*/

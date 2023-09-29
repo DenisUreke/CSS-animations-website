@@ -463,6 +463,13 @@ a:hover {
     grid-auto-rows: minmax(auto, auto);
 }
 
+.project-title{
+    color:#9F496E;
+    font-weight: bold;
+    font-size: clamp(0.5rem, 2vh, 2rem);
+    width: 3vw;
+}
+
 .project-1-img {
     grid-area: 1 / 1 / 2 / 3;
     height: 9vh;
@@ -474,6 +481,7 @@ a:hover {
 .project-1-description {
     grid-area: 1 / 3 / 2 / 11;
     height: 8vh;
+    flex-direction: column;
 }
 
 .project-1-download {
@@ -492,6 +500,7 @@ a:hover {
 .project-2-description {
     grid-area: 2 / 3 / 3 / 11;
     height: 8vh;
+    flex-direction: column;
 }
 
 .project-2-download {
@@ -511,6 +520,7 @@ a:hover {
 
     grid-area: 3 / 3 / 4 / 11;
     height: 8vh;
+    flex-direction: column;
 }
 
 .project-3-download {
@@ -530,6 +540,7 @@ a:hover {
 .project-4-description {
     grid-area: 4 / 3 / 5 / 11;
     height: 8vh;
+    flex-direction: column;
 }
 
 .project-4-download {
@@ -548,13 +559,67 @@ a:hover {
 .project-5-description {
     grid-area: 5 / 3 / 6 / 11;
     height: 8vh;
+    flex-direction: column;
 }
 
 .project-5-download {
     grid-area: 5 / 12 / 6 / -1;
     height: 8vh;
 }
+.project-6-img {
+    grid-area: 6 / 1 / 7 / 3;
+    height: 9vh;
+    width: 4.5vw;
+    overflow: hidden;
+    border-radius: 50%;
+}
 
+.project-6-description {
+    grid-area: 6 / 3 / 7 / 11;
+    height: 8vh;
+    flex-direction: column;
+}
+
+.project-6-download {
+    grid-area: 6 / 12 / 7 / -1;
+    height: 8vh;
+}
+.project-7-img {
+    grid-area: 7 / 1 / 8 / 3;
+    height: 9vh;
+    width: 4.5vw;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.project-7-description {
+    grid-area: 7 / 3 / 8 / 11;
+    height: 8vh;
+    flex-direction: column;
+}
+
+.project-7-download {
+    grid-area: 7 / 12 / 8 / -1;
+    height: 8vh;
+}
+.project-8-img {
+    grid-area: 8 / 1 / 9 / 3;
+    height: 9vh;
+    width: 4.5vw;
+    overflow: hidden;
+    border-radius: 50%;
+}
+
+.project-8-description {
+    grid-area: 8 / 3 / 9 / 11;
+    height: 8vh;
+    flex-direction: column;
+}
+
+.project-8-download {
+    grid-area: 8 / 12 / 9 / -1;
+    height: 8vh;
+}
 .projects {
     position: absolute;
     font-size: clamp(0.5rem, 6.7vh, 5rem);

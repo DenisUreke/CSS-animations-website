@@ -1,6 +1,3 @@
-</section>
-
-<!--Main text-->
 <section class="col-xl-6 col-lg-8 col-md-12 col-sm-12" id="main-window-container">
     <div class="main-window-header-image mirror-image"><img src="Img/purple-city.jpg" alt="Picture of a sunset in city"
             id="home-sunset-picture"></div>
@@ -8,31 +5,13 @@
     <div class="header-headline">my<div class="header-headline-bolded">PROJECTS</div>
     </div>
     <div class="grid-projects">
-        <div class="project-1-img"><img src="img/tetris.jpg" alt="Tetris game"></div>
-        <div class="project-1-description align-text-center">"Crafted my first game, Tetris, using QT and
-            C++. A monumental step in my programming journey. Score isn't implemented but its working with a
-            few "minor" bugs ehm.. features"</div>
-        <div class="project-1-download center-all"> <i class="fas fa-download"></i></div>
-        <div class="project-2-img"><img src="img/cards.jpg" alt="BlackJack game"></div>
-        <div class="project-2-description align-text-center">"Developed a dynamic Blackjack game, where
-            players challenge a computer opponent. My second gaming creation."</div>
-        <div class="project-2-download center-all"> <i class="fas fa-download"></i></div>
-        <div class="project-3-img"><img src="img/math.jpg" alt="BlackJack game"></div>
-        <div class="project-3-description align-text-center">"Crafted a C++ terminal tool during my Discrete
-            Math course. It efficiently executes the Euclidean algorithm and aids in identifying inverses
-            for encryption math."</div>
-        <div class="project-3-download center-all"> <i class="fas fa-download"></i></div>
-        <div class="project-4-img"><img src="img/website.jpg" alt="BlackJack game"></div>
-        <div class="project-4-description align-text-center">"My inaugural web project showcases original
-            CSS art crafted by me. It's a work in progress - feel free to click the link and witness its
-            evolution!"</div>
-        <div class="project-4-download center-all"> <i class="fas fa-globe"></i></div>
-        <div class="project-5-img"><img src="img/sorting.png" alt="BlackJack game"></div>
-        <div class="project-5-description align-text-center">"My early visual creation: an array of sorting
-            algorithms on display, letting you visually experience the sorting process in action."</div>
-        <div class="project-5-download center-all"> <i class="fas fa-download"></i></div>
-        
+        {{#each projects}}
+        <div class="project-{{id}}-img"><img src="{{imageLink}}" alt="{{alt}}"></div>
+        <div class="project-{{id}}-description align-text-center">
+            <div class="project-title">{{name}}</div>
+            {{description}}
+        </div>
+        <div class="project-{{id}}-download center-all"> <a href="{{link}}"><i class="fas fa-download"></i></a></div>
+        {{/each}}
     </div>
-
 </section>
-<script type="module" src="./script.js"></script>
