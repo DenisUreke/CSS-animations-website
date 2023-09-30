@@ -395,7 +395,6 @@ a:hover {
     align-items: flex-end;
     text-align: center;
     justify-content: center;
-    width: 100%;
     height: 6vh;
     text-align: left;
     font-size: clamp(0.5rem, 2vw, 2.5rem);
@@ -659,7 +658,7 @@ a:hover {
 .project-3-download,
 .project-4-download,
 .project-5-download {
-    font-size: clamp(0.5rem, 1.7vw, 1.7rem);
+    font-size: clamp(0.5rem, 1.4vw, 1.4rem);
     transition: color 0.2s ease-in-out;
 }
 
@@ -676,10 +675,15 @@ a:hover {
     left: 3.9vw;
     top: -3.5vh;
 }
+
+.more-info{
+    font-weight:bold;
+    font-size: clamp(0.5rem, 1vw, 1rem);
+}
 /*-------------------------------------------------*/
 /*------------Project details page-----------------*/
 
-.project-detail-container{
+#project-detail-container{
 position: relative;
 height: 80vh;
 background-color: #F2EBE5;
@@ -689,6 +693,23 @@ flex-direction: column;
 align-items: center;
 padding: 0.1vh;
 font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+.project-content-desription{
+    padding: 5vh;
+    width: 100%;
+    height: 40vh;
+    text-align: justify;
+    font-size: clamp(0.5rem, 1.5vh, 1.5rem);
+    
+}
+.return-footer{
+    padding: 5vh;
+    width: 80%;
+    height: 10vh;
+    display: flex;
+    justify-content: space-between;
+    font-size: clamp(0.5rem, 3vh, 3rem);
 }
 
 /*-------------------------------------------------*/

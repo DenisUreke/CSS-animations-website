@@ -261,6 +261,26 @@ app.get('/project-1', (req, res) => {
     res.render('project-1', { layout: 'loginLayout', isAdmin });
 });
 
+app.get('/project-2', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('project-2', { layout: 'loginLayout', isAdmin });
+});
+
+app.get('/project-3', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('project-3', { layout: 'loginLayout', isAdmin });
+});
+
+app.get('/project-4', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('project-4', { layout: 'loginLayout', isAdmin });
+});
+
+app.get('/project-5', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('project-5', { layout: 'loginLayout', isAdmin });
+});
+
 app.get('/experience', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('experience', { layout: 'adminLayout', isAdmin });
