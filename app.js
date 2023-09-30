@@ -256,6 +256,11 @@ app.get('/projects', isAuthenticated, (req, res) => {
       })
 });
 
+app.get('/project-1', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('project-1', { layout: 'loginLayout', isAdmin });
+});
+
 app.get('/experience', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('experience', { layout: 'adminLayout', isAdmin });
