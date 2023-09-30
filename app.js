@@ -149,20 +149,20 @@ app.post('/login', async (req, res) => {
             const model = {
                 Error: error,
                 layout: 'loginLayout',
+            }
+            res.render("log-in.handlebars", model);
+            return;
         }
-        res.render("log-in.handlebars", model);
-        return;
-    }
 
         else if (!user) {
             const error = 'Code 404: User not found.';
             const model = {
                 Error: error,
                 layout: 'loginLayout',
+            }
+            res.render("log-in.handlebars", model);
+            return;
         }
-        res.render("log-in.handlebars", model);
-        return;
-    }
 
         bcrypt.compare(password, user.password, (err, isMatch) => {
             if (err) {
@@ -180,9 +180,9 @@ app.post('/login', async (req, res) => {
                 const model = {
                     Error: error,
                     layout: 'loginLayout',
-            }
-            res.render("log-in.handlebars", model);
-            return;
+                }
+                res.render("log-in.handlebars", model);
+                return;
             }
 
             req.session.user = {
@@ -256,7 +256,7 @@ app.post('/send-message', (req, res) => {
     const { email, message } = req.body;
     const { username } = req.session.user;
 
-    
+
 
     db.run(
         'INSERT INTO messages (name, email, message) VALUES (?, ?, ?)',
@@ -312,11 +312,8 @@ app.get('/projects', isAuthenticated, (req, res) => {
             // renders the page with the model
             res.render("projects.handlebars", model)
         }
-      })
+    })
 });
-
-
-
 
 app.get('/project-description-:id', (req, res) => {
     const projectId = req.params.id;
@@ -348,12 +345,6 @@ app.get('/project-description-:id', (req, res) => {
     });
 });
 
-
-
-
-
-
-
 app.get('/experience', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('experience', { layout: 'adminLayout', isAdmin });
@@ -367,7 +358,7 @@ app.get('/holder2', (req, res) => {
     res.render('holder2', { layout: 'adminLayout', isAdmin });
 });
 
-app.get('/forum',isAuthenticated, (req, res) => {
+app.get('/forum', isAuthenticated, (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
 
     // Fetch the 5 latest comments
@@ -464,7 +455,7 @@ app.post('/middleware-run', (req, res, next) => {
 
     if (words[0] == 'SELECT') {
         let queryData;
-        
+
         db.all(query, function (error, data) {
 
             if (error) {
@@ -482,13 +473,13 @@ app.post('/middleware-run', (req, res, next) => {
                 queryData = data;
 
                 let formattedData = '';
-                
+
                 for (const user of queryData) {
                     const idPadding = ' '.repeat(5 - user.id.toString().length); // Adjust the padding width as needed
                     const usernamePadding = ' '.repeat(25 - user.username.length); // Adjust the padding width as needed
                     const emailPadding = ' '.repeat(30 - user.email.length); // Adjust the padding width as needed
                     const isAdminPadding = ' '.repeat(7 - String(user.isAdmin).length); // Adjust the padding width as needed
-                
+
                     formattedData += `ID: ${user.id}${idPadding}Username: ${user.username}${usernamePadding}Email: ${user.email}${emailPadding}Admin: ${user.isAdmin}${isAdminPadding}\n`;
                 }
 
@@ -504,7 +495,7 @@ app.post('/middleware-run', (req, res, next) => {
             }
         });
     }
-    else{
+    else {
         return next();
     }
 });
@@ -517,9 +508,9 @@ app.post('/middleware-run', (req, res, next) => {
     const words = query.split(" ");
 
     if (words[0] == 'DELETE' || words[0] == 'DROP') {
-        db.run(query, function (error, data){
+        db.run(query, function (error, data) {
 
-            if(error){
+            if (error) {
                 const errorMessage = error.message;
                 const model = {
                     Status: errorMessage,
@@ -530,7 +521,7 @@ app.post('/middleware-run', (req, res, next) => {
                 res.render("admin.handlebars", model);
                 return;
             }
-            else{
+            else {
                 const successMessage = 'Query executed successfully.';
                 const model = {
                     Status: successMessage,
@@ -544,7 +535,7 @@ app.post('/middleware-run', (req, res, next) => {
 
         })
     }
-    else{
+    else {
         return next();
     }
 });
@@ -557,9 +548,9 @@ app.post('/middleware-run', (req, res) => {
     const validCommands = ['CREATE', 'INSERT', 'UPDATE', 'ALTER'];
 
     if (validCommands.includes(words[0])) {
-        db.run(query, function (error, data){
+        db.run(query, function (error, data) {
 
-            if(error){
+            if (error) {
                 const errorMessage = error.message;
                 const model = {
                     Status: errorMessage,
@@ -570,7 +561,7 @@ app.post('/middleware-run', (req, res) => {
                 res.render("admin.handlebars", model);
                 return;
             }
-            else{
+            else {
                 const successMessage = 'Query executed successfully.';
                 const model = {
                     Status: successMessage,
@@ -585,7 +576,53 @@ app.post('/middleware-run', (req, res) => {
     }
 });
 
+app.get('/pagination', async (req, res) => {
 
-app.listen(port, () => {
-    console.log(`Server started on http://localhost:${port}`);
+    const page = parseInt(req.query.page);
+    const limit = parseInt(req.query.limit);
+    const offset = (page - 1) * limit;
+
+    let totalCount = 0;
+
+    // Step 1: Get the total count
+    const countSql = 'SELECT COUNT(*) as total FROM User';
+    db.get(countSql, [], (err, row) => {
+        if (err) {
+            console.error('Failed to retrieve count:', err);
+            res.status(500).send('Internal server error');
+            return;
+        }
+
+        console.log(row);
+
+        totalCount = row.total;
+        const totalPages = Math.ceil(totalCount / limit);
+
+        // Step 2: Continue with the original query
+        const sql = 'SELECT * FROM User LIMIT ? OFFSET ?';
+        db.all(sql, [limit, offset], (err, rows) => {
+            if (err) {
+                console.error('Failed to retrieve users:', err);
+                res.status(500).send('Internal server error');
+                return;
+            }
+
+            const result = {
+                totalCount: totalCount,
+                users: rows,
+                page: +page,
+                limit: +limit,
+                totalPages: totalPages,
+                row: row 
+            };
+
+            res.json(result); // Send the count and the paginated list of users as a JSON response
+        });
+    });
 });
+
+
+
+    app.listen(port, () => {
+        console.log(`Server started on http://localhost:${port}`);
+    });

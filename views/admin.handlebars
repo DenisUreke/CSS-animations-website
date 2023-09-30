@@ -5,13 +5,60 @@
         <div class="admin-input-window">
             <form action="/middleware-run" method="POST" class="admin-container">
                 <textarea name="query" id="admin-sql" class="input-admin" autocomplete="off"
-                    placeholder="Write SQL query here, please start with the execution you want to be done ex: UPDATE or SELECT:" title="Database access" rows="4"></textarea>
+                    placeholder="Write SQL query here, please start with the execution you want to be done ex: UPDATE or SELECT:"
+                    title="Database access" rows="4"></textarea>
                 <div class="buttons-container"><button type="submit" id="submitButton-sql">Submit</button>
                 </div>
             </form>
         </div>
-        <div class="admin-buttons-window"><div class="admin-header">Quick access</div><button type="submit" class ="admin-table-button">Button</button><button type="submit" class ="admin-table-button">Button</button>
-        <button type="submit" class ="admin-table-button">Button</button><button type="submit" class ="admin-table-button">Button</button>
-        <button type="submit" class ="admin-table-button">Button</button></div>
+        <form action="/pagination" method="GET" class="pagination-container">
+            <div class="admin-header">Quick access</div>
+            <label for="myCheckbox">Choose table:</label>
+            <label class="radio-container">
+                <input type="radio" name="group" value="User"> User
+            </label>
+            <label class="radio-container">
+                <input type="radio" name="group" value="Messages"> Messages
+            </label>
+            <label class="radio-container">
+                <input type="radio" name="group" value="Comments"> Comments
+            </label>
+            <label class="radio-contFainer">
+                <input type="radio" name="group" value="Projects"> Projects
+            </label>
+            <label class="radio-container">
+                <input type="radio" name="group" value="Download"> Download
+            </label>
+            <div class="admin-header">Elements per page</div>
+            <select name="limit" id="limit">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="1">6</option>
+                <option value="2">7</option>
+                <option value="3">8</option>
+                <option value="4">9</option>
+                <option value="5">10</option>
+            </select>
+            <div class="admin-header">Max amount of pages</div>
+            <select name="page" id="page">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="1">6</option>
+                <option value="2">7</option>
+                <option value="3">8</option>
+                <option value="4">9</option>
+                <option value="5">10</option>
+            </select>
+            <button type="submit" id="submitButton-search">Search</button>
+        </form>
+        <div class="previous-next-container"><button type="submit" id="previous"><i
+                    class="fas fa-arrow-left"></i></button>{{current}}/{{total}}<button type="submit" id="next"><i
+                    class="fas fa-arrow-right"></i></button></div>
     </div>
 </section>

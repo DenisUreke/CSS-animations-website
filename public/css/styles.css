@@ -1383,12 +1383,22 @@ a:hover {
     width: 100%;
 }
 
-.admin-buttons-window {
+.pagination-container {
     display: flex;
     flex-direction: column;
     background-color: white;
-    grid-area: 1 / 10 / 6 / 12;
+    grid-area: 1 / 10 / 5 / 12;
 }
+.previous-next-container {
+    display: flex;
+    align-items: baseline;
+    flex-direction: row;
+    background-color: white;
+    grid-area: 5 / 10 / 6 / 12;
+    justify-content: space-between;
+    font-size: clamp(0.2rem, 1vw, 1rem);
+}
+
 
 .admin-table-button {
     height: 3vh;
@@ -1400,6 +1410,13 @@ a:hover {
     border: 1px solid black;
 }
 
+.numberSelect{
+    width: 100%;
+}
+
+.submitButton-search{
+    height: 2vh;
+}
 
 /*------------------Error and Success message----------------------*/
 .error-window {
