@@ -48,6 +48,7 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 // Cookie expires after 24 hours
     }
 }));
+/*---------------------------------------------------------*/
 /*-------------------------log-out-------------------------*/
 
 app.get('/logout', (req, res) => {
@@ -59,7 +60,22 @@ app.get('/logout', (req, res) => {
     });
 });
 
+/*---------------------------------------------------------*/
 /*--------------------Authenticators-----------------------*/
+
+function isAuthenticated(req, res, next) {
+    if (req.session.user) {
+        return next();
+    } else {
+        const error = 'You need to be logged in to access that function';
+        const model = {
+            Error: error,
+            layout: 'loginLayout',
+        }
+        res.render("log-in.handlebars", model);
+        return;
+    }
+}
 
 function isAdmin(req, res, next) {
     if (req.session.user && req.session.user.isAdmin) {
@@ -68,15 +84,7 @@ function isAdmin(req, res, next) {
         return res.json({ success: false, message: 'Access denied. Admin privileges required.' });
     }
 }
-
-function isAuthenticated(req, res, next) {
-    if (req.session.user) {
-        return next();
-    } else {
-        return res.json({ success: false, message: 'Not authenticated. Please log in.' });
-    }
-}
-
+/*---------------------------------------------------------*/
 /*---------------------REGISTER----------------------------*/
 app.post('/reg', async (req, res) => {
     const { email, username, password, password2 } = req.body;
@@ -115,121 +123,7 @@ app.post('/reg', async (req, res) => {
         res.render("log-in.handlebars", model);
     }
 });
-
 /*---------------------------------------------------------*/
-/*---------------------------------------------------------*/
-
-app.get('/script.js', (req, res) => {
-    res.type('application/javascript');
-    res.sendFile(__dirname + '/script.js');
-});
-
-/*-----------------------Routes----------------------------*/
-app.get('/downloadCV', (req, res) => {
-
-    const myCV = "This is my CV =).";
-
-    const fileName = 'CV.txt';
-
-    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`); /*Thank you JavidX from Stack-Overflow!*/
-    res.setHeader('Content-Type', 'text/plain');
-
-    res.send(myCV);
-});
-
-app.get('/', (req, res) => {
-    res.render('log-in', { layout: 'loginLayout' });
-});
-
-app.get('/register', (req, res) => {
-    res.render('register', { layout: 'loginLayout' });
-});
-
-app.get('/log-in', (req, res) => {
-    res.render('log-in', { layout: 'loginLayout' });
-});
-
-app.get('/home', (req, res) => {
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('home', { layout: 'adminLayout', isAdmin });
-});
-
-app.get('/about', (req, res) => {
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('about', { layout: 'adminLayout', isAdmin });
-});
-
-//**************************************************************************** */
-//**************************************************************************** */
-app.get('/projects', (req, res) => {
-
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-    db.all("SELECT * FROM ProjectData", function (error, mystuff) {
-        if (error) {
-            const model = {
-                dbError: true,
-                theError: error,
-                projects: [],
-                layout: 'adminLayout'
-            }
-            // renders the page with the model
-            res.render("projects.handlebars", model)
-        }
-        else {
-            const model = {
-                dbError: false,
-                theError: "",
-                projects: mystuff,
-                layout: 'adminLayout'
-            }
-            // renders the page with the model
-            res.render("projects.handlebars", model)
-        }
-      })
-});
-
-app.get('/experience', (req, res) => {
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('experience', { layout: 'adminLayout', isAdmin });
-});
-app.get('/holder', (req, res) => {
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('holder', { layout: 'adminLayout', isAdmin });
-});
-app.get('/holder2', (req, res) => {
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('holder2', { layout: 'adminLayout', isAdmin });
-});
-
-app.get('/forum', (req, res) => {
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-
-    // Fetch the 5 latest comments
-    const query = `
-        SELECT *
-        FROM CommentViewWithAuthor
-        ORDER BY comment_timestamp DESC
-        LIMIT 5
-    `;
-
-    db.all(query, [], (err, comments) => {
-        if (err) {
-            console.error('Error fetching latest comments:', err);
-            // Handle the error, e.g., by rendering an error page
-            res.status(500).render('error', { layout: 'adminLayout', isAdmin });
-        } else {
-            // Render the 'forum' template with the latest comments
-            res.render('forum', { layout: 'adminLayout', isAdmin, comments });
-        }
-    });
-});
-app.get('/admin', (req, res) => {
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('admin', { layout: 'guestLayout', isAdmin });
-});
-
-/*---------------------------------------------------------*/
-
 /*-----------------------LOG IN----------------------------*/
 
 app.post('/login', async (req, res) => {
@@ -294,6 +188,115 @@ app.post('/login', async (req, res) => {
 });
 
 /*---------------------------------------------------------*/
+/*---------------------------------------------------------*/
+
+app.get('/script.js', (req, res) => {
+    res.type('application/javascript');
+    res.sendFile(__dirname + '/script.js');
+});
+
+/*-----------------------Routes----------------------------*/
+app.get('/downloadCV', isAuthenticated, (req, res) => {
+
+    const myCV = "This is my CV =).";
+
+    const fileName = 'CV.txt';
+
+    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`); /*Thank you JavidX from Stack-Overflow!*/
+    res.setHeader('Content-Type', 'text/plain');
+
+    res.send(myCV);
+});
+
+app.get('/', (req, res) => {
+    res.render('log-in', { layout: 'loginLayout' });
+});
+
+app.get('/register', (req, res) => {
+    res.render('register', { layout: 'loginLayout' });
+});
+
+app.get('/log-in', (req, res) => {
+    res.render('log-in', { layout: 'loginLayout' });
+});
+
+app.get('/home', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('home', { layout: 'adminLayout', isAdmin });
+});
+
+app.get('/about', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('about', { layout: 'adminLayout', isAdmin });
+});
+
+//**************************************************************************** */
+//**************************************************************************** */
+app.get('/projects', isAuthenticated, (req, res) => {
+
+    db.all("SELECT * FROM ProjectData", function (error, mystuff) {
+        if (error) {
+            const model = {
+                theError: error,
+                projects: [],
+                layout: 'adminLayout',
+            }
+            // renders the page with the model
+            res.render("projects.handlebars", model)
+        }
+        else {
+            const model = {
+                theError: "",
+                projects: mystuff,
+                layout: 'adminLayout',
+            }
+            // renders the page with the model
+            res.render("projects.handlebars", model)
+        }
+      })
+});
+
+app.get('/experience', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('experience', { layout: 'adminLayout', isAdmin });
+});
+app.get('/holder', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('holder', { layout: 'adminLayout', isAdmin });
+});
+app.get('/holder2', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('holder2', { layout: 'adminLayout', isAdmin });
+});
+
+app.get('/forum',isAuthenticated, (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+
+    // Fetch the 5 latest comments
+    const query = `
+        SELECT *
+        FROM CommentViewWithAuthor
+        ORDER BY comment_timestamp DESC
+        LIMIT 5
+    `;
+
+    db.all(query, [], (err, comments) => {
+        if (err) {
+            console.error('Error fetching latest comments:', err);
+            // Handle the error, e.g., by rendering an error page
+            res.status(500).render('error', { layout: 'adminLayout', isAdmin });
+        } else {
+            // Render the 'forum' template with the latest comments
+            res.render('forum', { layout: 'adminLayout', isAdmin, comments });
+        }
+    });
+});
+app.get('/admin', isAdmin, (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('admin', { layout: 'guestLayout', isAdmin });
+});
+
+/*---------------------------------------------------------*/
 /*--------------------Post Comment-------------------------*/
 
 app.post('/post-comment', isAuthenticated, async (req, res) => {
@@ -340,7 +343,7 @@ app.post('/middleware-run', (req, res, next) => {
     const validCommands = ['SELECT', 'CREATE', 'INSERT', 'UPDATE', 'ALTER', 'DELETE', 'DROP'];
 
     if (validCommands.includes(words[0])) {
-        next();
+        return next();
 
     } else {
         const error = 'Invalid SQL command';
@@ -394,7 +397,7 @@ app.post('/middleware-run', (req, res, next) => {
         });
     }
     else{
-        next();
+        return next();
     }
 });
 
@@ -431,7 +434,7 @@ app.post('/middleware-run', (req, res, next) => {
         })
     }
     else{
-        next();
+        return next();
     }
 });
 
