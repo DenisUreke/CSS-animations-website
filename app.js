@@ -67,12 +67,14 @@ function isAuthenticated(req, res, next) {
     if (req.session.user) {
         return next();
     } else {
-        const error = 'You need to be logged in to access that function';
+        const error = 'You need to be logged in to be on this page';
+        const errorcode = '401';
         const model = {
             Error: error,
+            ErrorCode: errorcode,
             layout: 'loginLayout',
         }
-        res.render("log-in.handlebars", model);
+        res.render("errorPage.handlebars", model);
         return;
     }
 }
@@ -81,7 +83,15 @@ function isAdmin(req, res, next) {
     if (req.session.user && req.session.user.isAdmin) {
         return next();
     } else {
-        return res.json({ success: false, message: 'Access denied. Admin privileges required.' });
+        const error = 'Unauthorized access admins, only';
+        const errorcode = '401';
+        const model = {
+            Error: error,
+            ErrorCode: errorcode,
+            layout: 'loginLayout',
+        }
+        res.render("errorPage.handlebars", model);
+        return;
     }
 }
 /*---------------------------------------------------------*/
@@ -230,9 +240,30 @@ app.get('/about', (req, res) => {
     res.render('about', { layout: 'adminLayout', isAdmin });
 });
 
+app.get('/contactME', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('contact-information', { layout: 'adminLayout', isAdmin });
+});
+//**************************************************************************** */
+//**************************************************************************** */
+//**************************************************************************** */
+//**************************************************************************** */
+
+//*******************************Send Message******************************** */
+
+app.post('//send-message', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('contact-information', { layout: 'adminLayout', isAdmin });
+});
+
+//**************************************************************************** */
+//**************************************************************************** */
+//**************************************************************************** */
+//**************************************************************************** */
 //**************************************************************************** */
 //**************************************************************************** */
 app.get('/projects', isAuthenticated, (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
 
     db.all("SELECT * FROM ProjectData", function (error, mystuff) {
         if (error) {
@@ -240,6 +271,7 @@ app.get('/projects', isAuthenticated, (req, res) => {
                 theError: error,
                 projects: [],
                 layout: 'adminLayout',
+                isAdmin
             }
             // renders the page with the model
             res.render("projects.handlebars", model)
@@ -249,6 +281,7 @@ app.get('/projects', isAuthenticated, (req, res) => {
                 theError: "",
                 projects: mystuff,
                 layout: 'adminLayout',
+                isAdmin
             }
             // renders the page with the model
             res.render("projects.handlebars", model)
@@ -256,30 +289,44 @@ app.get('/projects', isAuthenticated, (req, res) => {
       })
 });
 
-app.get('/project-1', (req, res) => {
+
+
+
+app.get('/project-description-:id', (req, res) => {
+    const projectId = req.params.id;
     const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('project-1', { layout: 'loginLayout', isAdmin });
+
+    db.get("SELECT * FROM Projects WHERE id = ?", [projectId], function (error, project) {
+        if (error) {
+            const model = {
+                theError: error,
+                layout: 'loginLayout',
+                isAdmin,
+            };
+            res.render("error.handlebars", model);
+        } else if (!project) {
+            const model = {
+                theError: "Project not found",
+                layout: 'loginLayout',
+                isAdmin,
+            };
+            res.render("error.handlebars", model);
+        } else {
+            const model = {
+                project,
+                layout: 'loginLayout',
+                isAdmin,
+            };
+            res.render('project-description.handlebars', { project, layout: 'loginLayout', isAdmin });
+        }
+    });
 });
 
-app.get('/project-2', (req, res) => {
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('project-2', { layout: 'loginLayout', isAdmin });
-});
 
-app.get('/project-3', (req, res) => {
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('project-3', { layout: 'loginLayout', isAdmin });
-});
 
-app.get('/project-4', (req, res) => {
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('project-4', { layout: 'loginLayout', isAdmin });
-});
 
-app.get('/project-5', (req, res) => {
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('project-5', { layout: 'loginLayout', isAdmin });
-});
+
+
 
 app.get('/experience', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
@@ -361,6 +408,7 @@ app.get('/get-latest-comments', (req, res) => {
 /*-------------------------------Admin-Form-------------------------------*/
 
 app.post('/middleware-run', (req, res, next) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
     const requestString = req.body;
     const query = requestString.query;
     const words = requestString.query.split(" ");
@@ -375,7 +423,8 @@ app.post('/middleware-run', (req, res, next) => {
         const model = {
             Status: error,
             layout: 'guestLayout',
-            Message: []
+            Message: [],
+            isAdmin
         }
         res.render("admin.handlebars", model)
     }
@@ -383,6 +432,7 @@ app.post('/middleware-run', (req, res, next) => {
 
 /*----------------------------------------------------------------------------------------------------*/
 app.post('/middleware-run', (req, res, next) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
     const query = req.body.query;
     const words = query.split(" ");
 
@@ -396,7 +446,8 @@ app.post('/middleware-run', (req, res, next) => {
                 const model = {
                     Status: errorMessage,
                     layout: 'guestLayout',
-                    Message: []
+                    Message: [],
+                    isAdmin
                 }
                 res.render("admin.handlebars", model);
                 return;
@@ -405,16 +456,22 @@ app.post('/middleware-run', (req, res, next) => {
                 queryData = data;
 
                 let formattedData = '';
-    
+                
                 for (const user of queryData) {
-                    formattedData += `ID: ${user.id}, Username: ${user.username}, Email: ${user.email}`;
+                    const idPadding = ' '.repeat(5 - user.id.toString().length); // Adjust the padding width as needed
+                    const usernamePadding = ' '.repeat(25 - user.username.length); // Adjust the padding width as needed
+                    const emailPadding = ' '.repeat(30 - user.email.length); // Adjust the padding width as needed
+                    const isAdminPadding = ' '.repeat(7 - String(user.isAdmin).length); // Adjust the padding width as needed
+                
+                    formattedData += `ID: ${user.id}${idPadding}Username: ${user.username}${usernamePadding}Email: ${user.email}${emailPadding}Admin: ${user.isAdmin}${isAdminPadding}\n`;
                 }
 
                 const success = 'Successful entry';
                 const model = {
                     Status: success,
                     layout: 'guestLayout',
-                    Message: formattedData
+                    Message: formattedData,
+                    isAdmin
                 }
                 res.render("admin.handlebars", model);
                 return;
@@ -429,6 +486,7 @@ app.post('/middleware-run', (req, res, next) => {
 /*----------------------------------------------------------------------------------------------------*/
 
 app.post('/middleware-run', (req, res, next) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
     const query = req.body.query;
     const words = query.split(" ");
 
@@ -440,7 +498,8 @@ app.post('/middleware-run', (req, res, next) => {
                 const model = {
                     Status: errorMessage,
                     layout: 'guestLayout',
-                    Message: []
+                    Message: [],
+                    isAdmin
                 }
                 res.render("admin.handlebars", model);
                 return;
@@ -450,7 +509,8 @@ app.post('/middleware-run', (req, res, next) => {
                 const model = {
                     Status: successMessage,
                     layout: 'guestLayout',
-                    Message: []
+                    Message: [],
+                    isAdmin
                 }
                 res.render("admin.handlebars", model);
                 return;
@@ -464,6 +524,7 @@ app.post('/middleware-run', (req, res, next) => {
 });
 
 app.post('/middleware-run', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
     const query = req.body.query;
     const words = query.split(" ");
 
@@ -477,7 +538,8 @@ app.post('/middleware-run', (req, res) => {
                 const model = {
                     Status: errorMessage,
                     layout: 'guestLayout',
-                    Message: []
+                    Message: [],
+                    isAdmin
                 }
                 res.render("admin.handlebars", model);
                 return;
@@ -487,7 +549,8 @@ app.post('/middleware-run', (req, res) => {
                 const model = {
                     Status: successMessage,
                     layout: 'guestLayout',
-                    Message: []
+                    Message: [],
+                    isAdmin
                 }
                 res.render("admin.handlebars", model);
                 return;

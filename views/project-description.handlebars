@@ -1,0 +1,21 @@
+<div class="container" id="background-container">
+    <div class="columns" id="columns-container">
+        <div class="column col-3 col-xl-10 col-lg 12" id="project-detail-container">
+            <div class="main-window-header-image">
+                <img src="{{ project.imageLink }}" alt="image of project" id="home-sunset-picture">
+            </div>
+
+            <div class="header-headline">
+                {{ project.p2_firstWord }}
+                <div class="header-headline-bolded">{{ project.p2_secondWord }}</div>{{ project.p2_thirdWord }}
+            </div>
+
+            <div class="project-content-desription">{{ project.p2_description }}</div>
+
+            <footer class="return-footer">
+                <a href="{{ project.p2_downloadLink }}" title="download"><i class="fas fa-download"></i></a>
+                <a href="/projects" title="return"><i class="fas fa-arrow-left"></i></a>
+            </footer>
+        </div>
+    </div>
+</div>

@@ -676,34 +676,36 @@ a:hover {
     top: -3.5vh;
 }
 
-.more-info{
-    font-weight:bold;
+.more-info {
+    font-weight: bold;
     font-size: clamp(0.5rem, 1vw, 1rem);
 }
+
 /*-------------------------------------------------*/
 /*------------Project details page-----------------*/
 
-#project-detail-container{
-position: relative;
-height: 80vh;
-background-color: #F2EBE5;
-border-radius: 1vh 1vh 1vh 1vh;
-display: flex;
-flex-direction: column;
-align-items: center;
-padding: 0.1vh;
-font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+#project-detail-container {
+    position: relative;
+    height: 80vh;
+    background-color: #F2EBE5;
+    border-radius: 1vh 1vh 1vh 1vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.1vh;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
 }
 
-.project-content-desription{
+.project-content-desription {
     padding: 5vh;
     width: 100%;
     height: 40vh;
     text-align: justify;
     font-size: clamp(0.5rem, 1.5vh, 1.5rem);
-    
+
 }
-.return-footer{
+
+.return-footer {
     padding: 5vh;
     width: 80%;
     height: 10vh;
@@ -1382,23 +1384,36 @@ font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans
 }
 
 .admin-buttons-window {
-    display:flex;
+    display: flex;
     flex-direction: column;
     background-color: white;
     grid-area: 1 / 10 / 6 / 12;
 }
-.admin-table-button{
-    height:3vh;
+
+.admin-table-button {
+    height: 3vh;
 }
 
-.admin-header{
-height: 3vh;
-background-color: white;
-border: 1px solid black;
+.admin-header {
+    height: 3vh;
+    background-color: white;
+    border: 1px solid black;
 }
 
 
 /*------------------Error and Success message----------------------*/
+.error-window {
+    position: relative;
+    height: 50vh;
+    background-color: #F2EBE5;
+    border-radius: 1vh 1vh 1vh 1vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.1vh;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
 .error-message {
     display: flex;
     align-items: center;
@@ -1422,6 +1437,102 @@ border: 1px solid black;
     height: 3vh;
 }
 
+.display-code {
+    margin-top: 1vh;
+    font-size: clamp(0.2rem, 2.5vw, 2.5rem);
+
+}
+
+.server-message {
+    text-align: center;
+    height: 12vh;
+    width: 100%;
+    margin-top: 2vh;
+    font-size: clamp(0.2rem, 1vw, 1rem);
+}
+
+.return-to-login {
+    font-weight: bold;
+}
 
 /*-----------------------------------------------------*/
 /*-----------------------------------------------------*/
+
+/*-----------------------------------------------------*/
+/*--------------------Contact - Page-------------------*/
+
+.flex-contact-left {
+    flex:2;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content:center;
+}
+
+.flex-contact-right {
+    display:flex;
+    flex:1;
+    height: 100%;
+    flex-direction: column;
+    justify-content:center;
+}
+
+#contact-email{
+    width: 12vw;
+    margin-bottom: 0.2vh;
+    border: 1px solid #ccc;
+}
+#contact-submit{
+    font-size: 1vw;
+    text-align: center;
+    width: 6vw;
+    height: 4vh;
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: white;
+}
+#contact-message{
+    height: 18vh;
+    align-items: center;
+    text-align: center;
+    justify-content:center;
+    vertical-align: middle;
+    margin-bottom: 0.2vh;
+    border: 1px solid #ccc;
+}
+
+#contact-submit:hover{
+    background-color: #9F496E;
+    color:white;
+}
+
+#contact-email, #contact-message {
+    font-size: clamp(0.2rem, 1.5vw, 1.5rem);
+    text-align: center;
+    resize: none;
+}
+
+.icons-contact{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: row;
+    font-size: clamp(0.2rem, 2vw, 2rem);
+    margin-bottom: 2vh;
+}
+
+.contact-text{
+    font-size: clamp(0.2rem, 1.5vw, 1.5rem);
+}
+.center-icons-contact{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content:center;
+    vertical-align: middle;
+    width:3vh;
+}
