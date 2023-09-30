@@ -96,42 +96,56 @@ function isAdmin(req, res, next) {
 }
 /*---------------------------------------------------------*/
 /*---------------------REGISTER----------------------------*/
-app.post('/reg', async (req, res) => {
+
+app.post('/reg', (req, res) => {
     const { email, username, password, password2 } = req.body;
     const cleanedUsername = username.trim();
-    const existingUsername = db.get('SELECT username FROM User WHERE username = ?', [cleanedUsername]);
-
-    if (existingUsername != null && Object.keys(existingUsername).length !== 0) {
-
-        const error = 'Username or email already in use';
-        const model = {
-            Error: error,
-            layout: 'loginLayout',
+    
+    db.get('SELECT username FROM User WHERE username = ?', [cleanedUsername], async (err, row) => {
+        if (err) {
+            console.error('Database error:', err);
+            res.status(500).send("Database error");
+            return;
         }
-        res.render("register.handlebars", model);
-        return;
 
-    } else if (password !== password2) {
-        const error = 'Passwords do not match';
-        const model = {
-            Error: error,
-            layout: 'loginLayout',
+        console.log(cleanedUsername);
+        
+        if (row) {
+            console.log(row.username);
+            const error = 'Username or email already in use';
+            const model = {
+                Error: error,
+                layout: 'loginLayout',
+            }
+            res.render("register.handlebars", model);
+            return;
+        } 
+        else if (password !== password2) {
+            const error = 'Passwords do not match';
+            const model = {
+                Error: error,
+                layout: 'loginLayout',
+            }
+            res.render("register.handlebars", model);
+            return;
+        } 
+        else {
+            try {
+                const hashedPassword = await bcrypt.hash(password, 10);
+                await db.run('INSERT INTO User (email, username, password) VALUES (?, ?, ?)', [email, username, hashedPassword]);
+
+                const success = 'Registration Successful!';
+                const model = {
+                    Success: success,
+                    layout: 'loginLayout',
+                }
+                res.render("log-in.handlebars", model);
+            } catch (error) {
+                console.error('Error inserting user:', error);
+                res.status(500).send("Database error");
+            }
         }
-        res.render("register.handlebars", model);
-        return;
-
-    } else {
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        await db.run('INSERT INTO User (email, username, password) VALUES (?, ?, ?)', [email, username, hashedPassword]);
-
-        const success = 'Registration Successful!';
-        const model = {
-            Success: success,
-            layout: 'loginLayout',
-        }
-        res.render("log-in.handlebars", model);
-    }
+    });
 });
 /*---------------------------------------------------------*/
 /*-----------------------LOG IN----------------------------*/
