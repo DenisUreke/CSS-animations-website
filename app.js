@@ -251,16 +251,42 @@ app.get('/contactME', (req, res) => {
 
 //*******************************Send Message******************************** */
 
-app.post('//send-message', (req, res) => {
+app.post('/send-message', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('contact-information', { layout: 'adminLayout', isAdmin });
+    const { email, message } = req.body;
+    const { username } = req.session.user;
+
+    
+
+    db.run(
+        'INSERT INTO messages (name, email, message) VALUES (?, ?, ?)',
+        [username, email, message],
+        (err) => {
+            if (err) {
+                const error = 'Internal Server Error';
+                const errorCode = '500';
+                const model = {
+                    ErrorCode: errorCode,
+                    Error: error,
+                    layout: 'loginLayout',
+                    isAdmin,
+                };
+                res.render('errorPage.handlebars', model);
+                return;
+            } else {
+                const successMessage = 'You have successfully sent a message';
+                const model = {
+                    message: successMessage,
+                    layout: 'adminLayout',
+                    isAdmin,
+                };
+                res.render('contact-information.handlebars', model);
+                return;
+            }
+        }
+    );
 });
 
-//**************************************************************************** */
-//**************************************************************************** */
-//**************************************************************************** */
-//**************************************************************************** */
-//**************************************************************************** */
 //**************************************************************************** */
 app.get('/projects', isAuthenticated, (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
