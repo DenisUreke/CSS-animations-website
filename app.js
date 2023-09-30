@@ -360,8 +360,8 @@ app.get('/holder2', (req, res) => {
 
 app.get('/forum', isAuthenticated, (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
+    const loggedInUser = req.session.user && req.session.user.username;
 
-    // Fetch the 5 latest comments
     const query = `
         SELECT *
         FROM CommentViewWithAuthor
@@ -372,14 +372,18 @@ app.get('/forum', isAuthenticated, (req, res) => {
     db.all(query, [], (err, comments) => {
         if (err) {
             console.error('Error fetching latest comments:', err);
-            // Handle the error, e.g., by rendering an error page
             res.status(500).render('error', { layout: 'adminLayout', isAdmin });
         } else {
-            // Render the 'forum' template with the latest comments
+            // Here, add a property to each comment to determine if the delete button should be shown
+            comments.forEach(comment => {
+                comment.canDelete = comment.poster_name === loggedInUser;
+            });
+
             res.render('forum', { layout: 'adminLayout', isAdmin, comments });
         }
     });
 });
+
 app.get('/admin', isAdmin, (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('admin', { layout: 'guestLayout', isAdmin });

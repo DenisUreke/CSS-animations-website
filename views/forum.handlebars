@@ -21,23 +21,26 @@
             </form>
         </div>
 
-        <div class="flex-right-comment">
-            <!-- Include Handlebars code for displaying comments -->
-            {{#if comments.length}}
-                {{#each comments}}
-                <div class="comment-box">
-                    <div class="empty-comment-box-header">
-                        <div class="comment-name">{{ this.poster_name }}</div>
-                        <div class="comment-date">{{ this.comment_timestamp }}</div>
-                        <button class="comment-delete-button">X</button>
-                    </div>
-                    <div class="comment-content">{{ this.comment_post }}</div>
-                </div>
-                {{/each}}
-            {{else}}
-                <p>No comments available.</p>
-            {{/if}}
+<div class="flex-right-comment">
+    {{#if comments.length}}
+        {{#each comments}}
+        <div class="comment-box">
+            <div class="empty-comment-box-header">
+                <div class="comment-name">{{ this.poster_name }}</div>
+                <div class="comment-date">{{ this.comment_timestamp }}</div>
+                
+                {{#if this.canDelete}}
+                    <button class="comment-delete-button">X</button>
+                {{/if}}
+
+            </div>
+            <div class="comment-content">{{ this.comment_post }}</div>
         </div>
+        {{/each}}
+    {{else}}
+        <p>No comments available.</p>
+    {{/if}}
+</div>
     </div>
 </section>
 <script type="module" src="./script.js"></script>
