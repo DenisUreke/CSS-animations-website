@@ -1387,14 +1387,14 @@ a:hover {
     display: flex;
     flex-direction: column;
     background-color: white;
-    grid-area: 1 / 10 / 5 / 12;
+    grid-area: 1 / 10 / 5 / 15;
 }
 .previous-next-container {
     display: flex;
     align-items: baseline;
     flex-direction: row;
     background-color: white;
-    grid-area: 5 / 10 / 6 / 12;
+    grid-area: 5 / 10 / 6 / 15;
     justify-content: space-between;
     font-size: clamp(0.2rem, 1vw, 1rem);
 }
@@ -1416,6 +1416,13 @@ a:hover {
 
 .submitButton-search{
     height: 2vh;
+}
+
+#current{
+width: 5vw;
+}
+#total{
+width: 5vw;
 }
 
 /*------------------Error and Success message----------------------*/

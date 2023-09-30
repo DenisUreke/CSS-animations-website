@@ -36,11 +36,11 @@
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
-                <option value="1">6</option>
-                <option value="2">7</option>
-                <option value="3">8</option>
-                <option value="4">9</option>
-                <option value="5">10</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
             </select>
             <div class="admin-header">Max amount of pages</div>
             <select name="page" id="page">
@@ -49,16 +49,25 @@
                 <option value="3">3</option>
                 <option value="4">4</option>
                 <option value="5">5</option>
-                <option value="1">6</option>
-                <option value="2">7</option>
-                <option value="3">8</option>
-                <option value="4">9</option>
-                <option value="5">10</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
             </select>
             <button type="submit" id="submitButton-search">Search</button>
         </form>
-        <div class="previous-next-container"><button type="submit" id="previous"><i
-                    class="fas fa-arrow-left"></i></button>{{current}}/{{total}}<button type="submit" id="next"><i
-                    class="fas fa-arrow-right"></i></button></div>
+
+        <div class="previous-next-container">
+            <form action="/pagination" method="GET">
+
+                %<button type="submit" id="previous" name="previous"><i class="fas fa-arrow-left"></i></button>
+
+                <input type="text" name="current" id="current" value="{{current}}" readonly>/<input type="text"name="total" id="total" value="{{total}}" readonly>
+
+                <button type="submit" name="next" id="next"><i class="fas fa-arrow-right"></i></button>
+            </form>
+        </div>
+
     </div>
 </section>
