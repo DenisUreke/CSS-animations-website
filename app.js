@@ -661,16 +661,14 @@ app.get('/pagination', async (req, res) => {
                 current: +page,
                 total: +totalPages,
                 table: selectedTable,
-                limit: +limit,
+                limit: limit,
                 layout: 'guestLayout',
-                Message: JSON.stringify(rows, null, 4), // format the JSON nicely
+                Message: JSON.stringify(rows, null, 4),
             };
 
             res.render("admin-main-window.handlebars", model);
             return;
 
-
-            //res.json(result); // Send the count and the paginated list of users as a JSON response
         });
     });
 });

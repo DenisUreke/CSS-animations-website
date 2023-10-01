@@ -180,7 +180,7 @@ a:hover {
     padding: 0.2vh;
 }
 
-#admin-pagination-container{
+#admin-pagination-container {
     /* Center-Child */
     display: flex;
     flex-direction: column;
@@ -188,7 +188,7 @@ a:hover {
     text-align: center;
     background-color: #F2EBE5;
     border-radius: 1vh 1vh 1vh 1vh;
-    height: 50vh;
+    height: 40vh;
     overflow-y: hidden;
     overflow-x: hidden;
     padding: 0.2vh;
@@ -1343,14 +1343,17 @@ a:hover {
 
 /*---------------------Admin Page----------------------*/
 
-.admin-grid-composition {/**/
+.admin-grid-composition {
+    /**/
     display: flex;
     flex-direction: column;
     background-color: white;
-    width:100%;
+    width: 100%;
     height: auto;
 }
-.admin-output-window { /**/
+
+.admin-output-window {
+    /**/
     text-align: left;
     background-color: white;
     border: 1px solid black;
@@ -1359,14 +1362,11 @@ a:hover {
     resize: none;
 }
 
-.server-message-window { /**/
+.server-message-window {
+    /**/
     background-color: white;
     border: 1px solid black;
     color: black;
-}
-
-.admin-input-window { /**/
-
 }
 
 .admin-container {
@@ -1392,16 +1392,17 @@ a:hover {
 #submitButton-sql {
     height: 4vh;
     font-size: clamp(0.5rem, 1.3vw, 1.3rem);
-    width:100%;
+    width: 100%;
 }
 
 .pagination-container {
     display: flex;
     flex-direction: column;
     background-color: white;
-    width:100%;
+    width: 100%;
     height: auto;
 }
+
 .previous-next-container {
     display: flex;
     align-items: baseline;
@@ -1419,57 +1420,62 @@ a:hover {
 .admin-header {
     height: 3vh;
     border: 1px solid black;
-    background-color:#9F496E;
-    color:white;
+    background-color: #9F496E;
+    color: white;
     font-weight: bold;
     font-size: clamp(0.5rem, 1.3vw, 1.3rem);
 }
 
-.top-border{
-border-radius: 1vh 1vh 0vh 0vh;
+.top-border {
+    border-radius: 1vh 1vh 0vh 0vh;
 }
 
-.radio-container{
+.radio-container {
     font-size: clamp(0.5rem, 1.3vw, 1.3rem);
     font-weight: bold;
 }
 
 .radio-container input[type="radio"] {
-        width: 1vw;
-        height: 2vh;
+    width: 1vw;
+    height: 2vh;
 }
 
-#limit, #page{
+#limit,
+#page {
     height: 3vh;
     font-size: clamp(0.5rem, 1.3vw, 1.3rem);
     text-align: center;
 }
 
-.numberSelect{
+.numberSelect {
     width: 100%;
 }
 
-#submitButton-search{
+#submitButton-search {
     height: 4vh;
     font-size: clamp(0.5rem, 1.3vw, 1.3rem);
 }
 
-#current, #total{
-width: 6vw;
-height: 4vh;
-text-align: center;
-font-size: clamp(0.5rem, 1.3vw, 1.3rem);
-font-weight: bold;
-border: none;
-}
-#table{
-
-}
-#limit-2{
-
+#current,
+#total {
+    width: 6vw;
+    height: 4vh;
+    text-align: center;
+    font-size: clamp(0.5rem, 1.3vw, 1.3rem);
+    font-weight: bold;
+    border: none;
 }
 
-#previous, #next{
+#table {
+    display: none;
+}
+
+#limit-2 {
+    display: none;
+}
+
+#previous,
+#next {
     height: 4vh;
     width: 2vw;
 }
@@ -1536,28 +1542,29 @@ border: none;
 /*--------------------Contact - Page-------------------*/
 
 .flex-contact-left {
-    flex:2;
+    flex: 2;
     height: 100%;
     display: flex;
     align-items: center;
     text-align: center;
-    justify-content:center;
+    justify-content: center;
 }
 
 .flex-contact-right {
-    display:flex;
-    flex:1;
+    display: flex;
+    flex: 1;
     height: 100%;
     flex-direction: column;
-    justify-content:center;
+    justify-content: center;
 }
 
-#contact-email{
+#contact-email {
     width: 12vw;
     margin-bottom: 0.2vh;
     border: 1px solid #ccc;
 }
-#contact-submit{
+
+#contact-submit {
     font-size: 1vw;
     text-align: center;
     width: 6vw;
@@ -1569,28 +1576,30 @@ border: none;
     transition: background-color 0.3s ease;
     background-color: white;
 }
-#contact-message{
+
+#contact-message {
     height: 18vh;
     align-items: center;
     text-align: center;
-    justify-content:center;
+    justify-content: center;
     vertical-align: middle;
     margin-bottom: 0.2vh;
     border: 1px solid #ccc;
 }
 
-#contact-submit:hover{
+#contact-submit:hover {
     background-color: #9F496E;
-    color:white;
+    color: white;
 }
 
-#contact-email, #contact-message {
+#contact-email,
+#contact-message {
     font-size: clamp(0.2rem, 1.5vw, 1.5rem);
     text-align: center;
     resize: none;
 }
 
-.icons-contact{
+.icons-contact {
     display: flex;
     align-items: center;
     text-align: center;
@@ -1599,14 +1608,15 @@ border: none;
     margin-bottom: 2vh;
 }
 
-.contact-text{
+.contact-text {
     font-size: clamp(0.2rem, 1.5vw, 1.5rem);
 }
-.center-icons-contact{
+
+.center-icons-contact {
     display: flex;
     align-items: center;
     text-align: center;
-    justify-content:center;
+    justify-content: center;
     vertical-align: middle;
-    width:3vh;
+    width: 3vh;
 }
