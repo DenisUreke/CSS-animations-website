@@ -174,7 +174,21 @@ a:hover {
     text-align: center;
     background-color: #F2EBE5;
     border-radius: 1vh 1vh 1vh 1vh;
-    height: 90vh;
+    height: 70vh;
+    overflow-y: hidden;
+    overflow-x: hidden;
+    padding: 0.2vh;
+}
+
+#admin-pagination-container{
+    /* Center-Child */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background-color: #F2EBE5;
+    border-radius: 1vh 1vh 1vh 1vh;
+    height: 40vh;
     overflow-y: hidden;
     overflow-x: hidden;
     padding: 0.2vh;
@@ -1329,15 +1343,30 @@ a:hover {
 
 /*---------------------Admin Page----------------------*/
 
-.admin-grid-composition {
-    position: absolute;
-    display: grid;
-    grid-template-columns: repeat(24, 1fr);
-    grid-template-rows: repeat(12, 1fr);
-    height: 100%;
-    width: 100%;
-    padding: 1vw;
-    gap: 0.5vh;
+.admin-grid-composition {/**/
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    width:100%;
+    height: auto;
+}
+.admin-output-window { /**/
+    text-align: left;
+    background-color: white;
+    border: 1px solid black;
+    overflow: auto;
+    height: 40vh;
+    resize: none;
+}
+
+.server-message-window { /**/
+    background-color: white;
+    border: 1px solid black;
+    color: black;
+}
+
+.admin-input-window { /**/
+
 }
 
 .admin-container {
@@ -1348,27 +1377,8 @@ a:hover {
 .input-admin {
     vertical-align: top;
     text-align: left;
-    height: 10vh;
+    height: 18vh;
     width: 100%;
-}
-
-.admin-output-window {
-    text-align: left;
-    grid-area: 1 / 1 / 6 / 10;
-    background-color: white;
-    border: 1px solid black;
-    overflow: auto;
-}
-
-.server-message-window {
-    grid-area: 6 / 1 / 7 / 10;
-    background-color: white;
-    border: 1px solid black;
-    color: black;
-}
-
-.admin-input-window {
-    grid-area: 7 / 1 / 9 / 10;
 }
 
 .buttons-container {
@@ -1379,24 +1389,25 @@ a:hover {
 }
 
 #submitButton-sql {
-    height: 3vh;
-    width: 100%;
+    height: 4vh;
+    font-size: clamp(0.5rem, 1.3vw, 1.3rem);
+    width:100%
 }
 
 .pagination-container {
     display: flex;
     flex-direction: column;
     background-color: white;
-    grid-area: 1 / 10 / 5 / 15;
+    width:100%;
+    height: auto;
 }
 .previous-next-container {
     display: flex;
     align-items: baseline;
     flex-direction: row;
     background-color: white;
-    grid-area: 5 / 10 / 6 / 15;
     justify-content: space-between;
-    font-size: clamp(0.2rem, 1vw, 1rem);
+    font-size: clamp(0.5rem, 1vw, 1rem);
 }
 
 
@@ -1406,24 +1417,59 @@ a:hover {
 
 .admin-header {
     height: 3vh;
-    background-color: white;
     border: 1px solid black;
+    background-color:#9F496E;
+    color:white;
+    font-weight: bold;
+    font-size: clamp(0.5rem, 1.3vw, 1.3rem);
+}
+
+.top-border{
+border-radius: 1vh 1vh 0vh 0vh;
+}
+
+.radio-container{
+    font-size: clamp(0.5rem, 1.3vw, 1.3rem);
+    font-weight: bold;
+}
+
+.radio-container input[type="radio"] {
+        width: 1vw;
+        height: 2vh;
+}
+
+#limit, #page{
+    height: 3vh;
+    font-size: clamp(0.5rem, 1.3vw, 1.3rem);
+    text-align: center;
 }
 
 .numberSelect{
     width: 100%;
 }
 
-.submitButton-search{
-    height: 2vh;
+#submitButton-search{
+    height: 4vh;
+    font-size: clamp(0.5rem, 1.3vw, 1.3rem);
 }
 
-#current{
-width: 5vw;
+#current, #total{
+width: 6vw;
+height: 4vh;
+text-align: center;
+font-size: clamp(0.5rem, 1.3vw, 1.3rem);
+font-weight: bold;
+border: none;
 }
-#total{
-width: 5vw;
+#table{
+    display: none;
 }
+
+#previous, #next{
+    height: 4vh;
+    width: 2vw;
+}
+
 
 /*------------------Error and Success message----------------------*/
 .error-window {

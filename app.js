@@ -104,14 +104,16 @@ app.post('/reg', (req, res) => {
     db.get('SELECT username FROM User WHERE username = ?', [cleanedUsername], async (err, row) => {
         if (err) {
             console.error('Database error:', err);
-            res.status(500).send("Database error");
+            const error = 'An unexpected error occurred. Please try again.';
+            const model = {
+                Error: error,
+                layout: 'loginLayout',
+            }
+            res.render("register.handlebars", model);
             return;
         }
-
-        console.log(cleanedUsername);
         
         if (row) {
-            console.log(row.username);
             const error = 'Username or email already in use';
             const model = {
                 Error: error,
@@ -140,6 +142,7 @@ app.post('/reg', (req, res) => {
                     layout: 'loginLayout',
                 }
                 res.render("log-in.handlebars", model);
+
             } catch (error) {
                 console.error('Error inserting user:', error);
                 res.status(500).send("Database error");
@@ -398,9 +401,10 @@ app.get('/forum', isAuthenticated, (req, res) => {
     });
 });
 
+
 app.get('/admin', isAdmin, (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('admin', { layout: 'guestLayout', isAdmin });
+    res.render('admin-main-window', { layout: 'guestLayout', isAdmin });
 });
 
 /*---------------------------------------------------------*/
@@ -610,8 +614,6 @@ app.get('/pagination', async (req, res) => {
             res.status(500).send('Internal server error');
             return;
         }
-
-        console.log(row);
 
         totalCount = row.total;
         const totalPages = Math.ceil(totalCount / limit);

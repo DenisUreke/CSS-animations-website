@@ -1,0 +1,16 @@
+<section class="col-xl-4 col-lg-8 col-md-12 col-sm-12" id="admin-window-container">
+    <div class="admin-grid-composition">
+        <div class="admin-header top-border">Output-Window</div>
+        <textarea class="admin-output-window " style="white-space">{{Message}}</textarea>
+        <div class="server-message-window">{{Status}}</div>
+        <div class="admin-input-window">
+            <form action="/middleware-run" method="POST" class="admin-container">
+                <div class="admin-header">Input-Window</div>
+                <textarea name="query" id="admin-sql" class="input-admin" autocomplete="off"
+                    placeholder="Write SQL query here, please start with the execution you want to be done ex: UPDATE or SELECT:"
+                    title="Database access" rows="4"></textarea>
+                <div class="buttons-container"><button type="submit" id="submitButton-sql">Submit</button>
+                </div>
+            </form>
+        </div>
+</section>
