@@ -134,7 +134,7 @@ a:hover {
     border-radius: 1vh 1vh 1vh 1vh;
     overflow-y: hidden;
     overflow-x: hidden;
-    height: 40vh;
+    height: 50vh;
     gap: 0.4vh;
 }
 
@@ -189,7 +189,7 @@ a:hover {
     text-align: center;
     background-color: #F2EBE5;
     border-radius: 1vh 1vh 1vh 1vh;
-    height: 40vh;
+    height: 45vh;
     overflow-y: hidden;
     overflow-x: hidden;
     padding: 0.2vh;
@@ -412,7 +412,7 @@ a:hover {
     justify-content: center;
     height: 6vh;
     text-align: left;
-    font-size: clamp(0.5rem, 2vw, 2.5rem);
+    font-size: clamp(0.2rem, 2vw, 2rem);
     font-style: italic;
     color: #9F496E;
 
@@ -1222,7 +1222,6 @@ a:hover {
 .comment-box {
     background-color: white;
     width: 20vw;
-    ;
     height: 6vh;
     padding-left: 1vw;
     padding-top: 0.2vh;
@@ -1233,17 +1232,6 @@ a:hover {
     width: 100%;
     display: flex;
     justify-content: space-between;
-}
-
-.comment-delete-button {
-    height: 2vh;
-    width: 1vw;
-    background-color: #9F496E;
-    color: white;
-    display: flex;
-    text-align: justify;
-    align-items: center;
-    font-weight: bold;
 }
 
 .comment-name {
@@ -1449,6 +1437,7 @@ a:hover {
     height: 3vh;
     font-size: clamp(0.5rem, 1.3vw, 1.3rem);
     text-align: center;
+    font-weight: bold;
 }
 
 .numberSelect {

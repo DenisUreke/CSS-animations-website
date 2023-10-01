@@ -375,10 +375,6 @@ app.get('/holder', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('holder', { layout: 'adminLayout', isAdmin });
 });
-app.get('/holder2', (req, res) => {
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('holder2', { layout: 'adminLayout', isAdmin });
-});
 
 
 //**************************************************************************** */
