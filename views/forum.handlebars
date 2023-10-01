@@ -12,13 +12,6 @@
                 <input type="text" name="post" id="comment" class="input-box-comment" required autocomplete="off"
                     placeholder="50 character limit:" title="Post a comment">
             </form>
-
-            <!-- Add a form for searching posters -->
-            <form action="/search-comment" method="POST" id="search" class="comment-container">
-                <div class="header-in-box">search<div class="header-in-box2">POSTER</div>here</div>
-                <input type="text" name="search poster" id="password" class="input-box-comment" required
-                    autocomplete="off" placeholder="find poster:" title="Search for poster">
-            </form>
         </div>
 
 <div class="flex-right-comment">
@@ -28,11 +21,6 @@
             <div class="empty-comment-box-header">
                 <div class="comment-name">{{ this.poster_name }}</div>
                 <div class="comment-date">{{ this.comment_timestamp }}</div>
-                
-                {{#if this.canDelete}}
-                    <button class="comment-delete-button">X</button>
-                {{/if}}
-
             </div>
             <div class="comment-content">{{ this.comment_post }}</div>
         </div>
