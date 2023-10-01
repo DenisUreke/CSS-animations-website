@@ -305,6 +305,8 @@ app.post('/send-message', (req, res) => {
 });
 
 //**************************************************************************** */
+//*********************************Projects*********************************** */
+
 app.get('/projects', isAuthenticated, (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
 
@@ -362,6 +364,9 @@ app.get('/project-description-:id', (req, res) => {
     });
 });
 
+//**************************************************************************** */
+//**************************************************************************** */
+
 app.get('/experience', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('experience', { layout: 'adminLayout', isAdmin });
@@ -374,6 +379,10 @@ app.get('/holder2', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('holder2', { layout: 'adminLayout', isAdmin });
 });
+
+
+//**************************************************************************** */
+//***********************************Forum************************************ */
 
 app.get('/forum', isAuthenticated, (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
@@ -402,14 +411,6 @@ app.get('/forum', isAuthenticated, (req, res) => {
 });
 
 
-app.get('/admin', isAdmin, (req, res) => {
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('admin-main-window', { layout: 'guestLayout', isAdmin });
-});
-
-/*---------------------------------------------------------*/
-/*--------------------Post Comment-------------------------*/
-
 app.post('/post-comment', isAuthenticated, async (req, res) => {
     const { post } = req.body;
     const posterId = req.session.user.id; // Get the user's ID from the session
@@ -425,26 +426,13 @@ app.post('/post-comment', isAuthenticated, async (req, res) => {
     }
 });
 
-/*--------------------Get Comment-------------------------*/
+//**************************************************************************** */
+//************************************Admin*********************************** */
 
-app.get('/get-latest-comments', (req, res) => {
-    const query = `
-        SELECT *
-        FROM CommentViewWithAuthor
-        ORDER BY comment_timestamp DESC
-        LIMIT 5
-    `;
-
-    db.all(query, [], (err, comments) => {
-        if (err) {
-            res.status(500).json({ success: false, message: 'Error fetching comments.' });
-        } else {
-            res.status(200).json({ success: true, comments: comments });
-        }
-    });
+app.get('/admin', isAdmin, (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('admin-main-window', { layout: 'guestLayout', isAdmin });
 });
-
-/*-------------------------------Admin-Form-------------------------------*/
 
 app.post('/middleware-run', (req, res, next) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
@@ -465,18 +453,16 @@ app.post('/middleware-run', (req, res, next) => {
             Message: [],
             isAdmin
         }
-        res.render("admin.handlebars", model)
+        res.render("admin-main-window.handlebars", model)
     }
 });
 
-/*----------------------------------------------------------------------------------------------------*/
 app.post('/middleware-run', (req, res, next) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     const query = req.body.query;
     const words = query.split(" ");
 
     if (words[0] == 'SELECT') {
-        let queryData;
 
         db.all(query, function (error, data) {
 
@@ -488,31 +474,19 @@ app.post('/middleware-run', (req, res, next) => {
                     Message: [],
                     isAdmin
                 }
-                res.render("admin.handlebars", model);
+                res.render("admin-main-window.handlebars", model);
                 return;
             } else {
 
-                queryData = data;
-
-                let formattedData = '';
-
-                for (const user of queryData) {
-                    const idPadding = ' '.repeat(5 - user.id.toString().length); // Adjust the padding width as needed
-                    const usernamePadding = ' '.repeat(25 - user.username.length); // Adjust the padding width as needed
-                    const emailPadding = ' '.repeat(30 - user.email.length); // Adjust the padding width as needed
-                    const isAdminPadding = ' '.repeat(7 - String(user.isAdmin).length); // Adjust the padding width as needed
-
-                    formattedData += `ID: ${user.id}${idPadding}Username: ${user.username}${usernamePadding}Email: ${user.email}${emailPadding}Admin: ${user.isAdmin}${isAdminPadding}\n`;
-                }
 
                 const success = 'Successful entry';
                 const model = {
                     Status: success,
                     layout: 'guestLayout',
-                    Message: formattedData,
+                    Message: JSON.stringify(data, null, 4),
                     isAdmin
                 }
-                res.render("admin.handlebars", model);
+                res.render("admin-main-window.handlebars", model);
                 return;
             }
         });
@@ -540,7 +514,7 @@ app.post('/middleware-run', (req, res, next) => {
                     Message: [],
                     isAdmin
                 }
-                res.render("admin.handlebars", model);
+                res.render("admin-main-window.handlebars", model);
                 return;
             }
             else {
@@ -551,7 +525,7 @@ app.post('/middleware-run', (req, res, next) => {
                     Message: [],
                     isAdmin
                 }
-                res.render("admin.handlebars", model);
+                res.render("admin-main-window.handlebars", model);
                 return;
             }
 
@@ -580,7 +554,7 @@ app.post('/middleware-run', (req, res) => {
                     Message: [],
                     isAdmin
                 }
-                res.render("admin.handlebars", model);
+                res.render("admin-main-window.handlebars", model);
                 return;
             }
             else {
@@ -591,7 +565,7 @@ app.post('/middleware-run', (req, res) => {
                     Message: [],
                     isAdmin
                 }
-                res.render("admin.handlebars", model);
+                res.render("admin-main-window.handlebars", model);
                 return;
             }
         })
@@ -672,8 +646,6 @@ app.get('/pagination', async (req, res) => {
         });
     });
 });
-
-
 
     app.listen(port, () => {
         console.log(`Server started on http://localhost:${port}`);
