@@ -1549,6 +1549,7 @@ a:hover {
     height: 100%;
     flex-direction: column;
     justify-content: center;
+    overflow: hidden;
 }
 
 #contact-email {
