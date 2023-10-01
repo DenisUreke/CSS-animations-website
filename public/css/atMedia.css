@@ -14,7 +14,8 @@
 
     #contact-footer {
         font-size: clamp(0.5rem, 1.3vw, 1.3rem);
-        margin-top: 30vh;
+        margin-top: 28vh;
+        width: 20vw;
     }
 
 
@@ -48,6 +49,7 @@
 }
 
 @media (max-width: 1500px) {
+
     #project-detail-container{
         width: 100vw;
         height: 100vh;
@@ -64,14 +66,29 @@
 
 @media (max-width: 1280px) {
 
-    #contact-email{
-        width: 30vw;
-        height: 6vh;
+    #contact-message {
+        height: 25vh;
     }
-    #contact-message{
-        width: 50vw;
-        height: 28vh;
+    
+    #contact-email,
+    #contact-message {
+        width: 35vw;
+        font-size: clamp(0.2rem, 1.5vw, 1.5rem);
     }
+
+    .contact-text {
+        font-size: clamp(0.2rem, 2.2vw, 2.2rem);
+    }
+    
+    .icons-contact{
+        font-size: clamp(0.2rem, 2.2vw, 2.2rem);
+    }
+
+    #contact-submit{
+        width: 12vw;
+        height: 5vh;
+    }
+    
 
     #comment{
         width: 35vw;
@@ -125,11 +142,11 @@
 }
 #previous,
 #next {
-    height: 6vh;
+    height: 7vh;
     width: 6vw;
 }
 #admin-pagination-container{
-    height: 60vh;
+    height: 70vh;
 }
 .main-page-icon{
     left: 80vw;
@@ -226,10 +243,6 @@
     #contact-submit{
         width: 15vw;
         height: 6vh;
-    }
-
-    .icons-contact {
-        font-size: clamp(0.2rem, 4vw, 4rem);
     }
 
     #menu-buttons-container {

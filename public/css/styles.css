@@ -189,7 +189,7 @@ a:hover {
     text-align: center;
     background-color: #F2EBE5;
     border-radius: 1vh 1vh 1vh 1vh;
-    height: 45vh;
+    height: 60vh;
     overflow-y: hidden;
     overflow-x: hidden;
     padding: 0.2vh;
@@ -753,7 +753,7 @@ a:hover {
 
 .pagination {
     position: absolute;
-    top: 21.5vh;
+    top: 19vh;
     left: 2vw;
     font-size: clamp(0.5rem, 2.5vw, 2.5rem);
     color: #9F496E;
@@ -1347,7 +1347,7 @@ a:hover {
     background-color: white;
     border: 1px solid black;
     overflow: auto;
-    height: 35vh;
+    height: 32vh;
     resize: none;
 }
 
@@ -1382,7 +1382,7 @@ a:hover {
 }
 
 #submitButton-sql {
-    height: 4vh;
+    height: 5vh;
     font-size: clamp(0.5rem, 1.3vw, 1.3rem);
     width: 100%;
 }
@@ -1410,7 +1410,7 @@ a:hover {
 }
 
 .admin-header {
-    height: 3vh;
+    height: 4vh;
     border: 1px solid black;
     background-color: #9F496E;
     color: white;
@@ -1434,7 +1434,7 @@ a:hover {
 
 #limit,
 #page {
-    height: 3vh;
+    height: 4vh;
     font-size: clamp(0.5rem, 1.3vw, 1.3rem);
     text-align: center;
     font-weight: bold;
@@ -1535,8 +1535,10 @@ a:hover {
 /*--------------------Contact - Page-------------------*/
 
 .flex-contact-left {
-    flex: 2;
+    position: relative;
+    flex: 1;
     height: 100%;
+    width: 50%;
     display: flex;
     align-items: center;
     text-align: center;
@@ -1547,6 +1549,7 @@ a:hover {
     display: flex;
     flex: 1;
     height: 100%;
+    width: 50%;
     flex-direction: column;
     justify-content: center;
     overflow: hidden;
@@ -1572,13 +1575,13 @@ a:hover {
 }
 
 #contact-message {
-    height: 18vh;
     align-items: center;
     text-align: center;
     justify-content: center;
     vertical-align: middle;
     margin-bottom: 0.2vh;
     border: 1px solid #ccc;
+    height: 25vh;
 }
 
 #contact-submit:hover {
@@ -1588,6 +1591,7 @@ a:hover {
 
 #contact-email,
 #contact-message {
+    width: 20vw;
     font-size: clamp(0.2rem, 1.5vw, 1.5rem);
     text-align: center;
     resize: none;
@@ -1603,8 +1607,13 @@ a:hover {
 }
 
 .contact-text {
-    font-size: clamp(0.2rem, 1.5vw, 1.5rem);
+    font-size: clamp(0.2rem, 1.2vw, 1.2rem);
 }
+
+.icons-contact{
+    font-size: clamp(0.2rem, 1.2vw, 1.2rem);
+}
+
 
 .center-icons-contact {
     display: flex;
