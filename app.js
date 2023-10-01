@@ -599,17 +599,40 @@ app.post('/middleware-run', (req, res) => {
 });
 
 app.get('/pagination', async (req, res) => {
-
+    
     const actionType = req.query.actionType;
+    const total = parseInt(req.query.total); /*Only interesting when previous and next are used*/
+    let page;
+    let limit;
+    let selectedTable;
+
+    console.log(actionType);
+    console.log(total);
 
     if(actionType === 'search'){
-
-
-
+        page = parseInt(req.query.page);
+        limit = parseInt(req.query.limit);
+        selectedTable = req.query.table;
     }
-    const page = parseInt(req.query.page);
-    const limit = parseInt(req.query.limit);
-    const selectedTable = req.query.table;
+
+    else if(actionType === 'next'){
+        page = parseInt(req.query.current);
+        if(page < total){
+            page = (page + 1);
+        }
+        limit = parseInt(req.query['limit-2']);
+        selectedTable = req.query.table;
+    }
+
+    else if(actionType === 'previous'){
+        page = parseInt(req.query.current);
+        if(page > 1){
+            page = (page - 1);
+        }
+        limit = parseInt(req.query['limit-2']);
+        selectedTable = req.query.table;
+    }
+
     const offset = (page - 1) * limit;
 
     let totalCount = 0;
@@ -637,8 +660,9 @@ app.get('/pagination', async (req, res) => {
             const model = {
                 current: +page,
                 total: +totalPages,
-                layout: 'guestLayout',
                 table: selectedTable,
+                limit: +limit,
+                layout: 'guestLayout',
                 Message: JSON.stringify(rows, null, 4), // format the JSON nicely
             };
 

@@ -188,7 +188,7 @@ a:hover {
     text-align: center;
     background-color: #F2EBE5;
     border-radius: 1vh 1vh 1vh 1vh;
-    height: 40vh;
+    height: 50vh;
     overflow-y: hidden;
     overflow-x: hidden;
     padding: 0.2vh;
@@ -1463,7 +1463,10 @@ font-weight: bold;
 border: none;
 }
 #table{
-    display: none;
+
+}
+#limit-2{
+
 }
 
 #previous, #next{
