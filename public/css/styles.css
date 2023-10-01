@@ -1379,6 +1379,7 @@ a:hover {
     text-align: left;
     height: 18vh;
     width: 100%;
+    resize: none;
 }
 
 .buttons-container {
@@ -1391,7 +1392,7 @@ a:hover {
 #submitButton-sql {
     height: 4vh;
     font-size: clamp(0.5rem, 1.3vw, 1.3rem);
-    width:100%
+    width:100%;
 }
 
 .pagination-container {

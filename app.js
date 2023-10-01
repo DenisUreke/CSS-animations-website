@@ -602,12 +602,13 @@ app.get('/pagination', async (req, res) => {
 
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
+    const selectedTable = req.query.table;
     const offset = (page - 1) * limit;
 
     let totalCount = 0;
 
-    // Step 1: Get the total count
-    const countSql = 'SELECT COUNT(*) as total FROM User';
+    /*Getting count*/
+    const countSql = `SELECT COUNT(*) as total FROM ${selectedTable}`;
     db.get(countSql, [], (err, row) => {
         if (err) {
             console.error('Failed to retrieve count:', err);
@@ -618,8 +619,7 @@ app.get('/pagination', async (req, res) => {
         totalCount = row.total;
         const totalPages = Math.ceil(totalCount / limit);
 
-        // Step 2: Continue with the original query
-        const sql = 'SELECT * FROM User LIMIT ? OFFSET ?';
+        const sql = `SELECT * FROM ${selectedTable} LIMIT ? OFFSET ?`;
         db.all(sql, [limit, offset], (err, rows) => {
             if (err) {
                 console.error('Failed to retrieve users:', err);
@@ -627,16 +627,23 @@ app.get('/pagination', async (req, res) => {
                 return;
             }
 
-            const result = {
+            const model = {
                 totalCount: totalCount,
                 users: rows,
                 page: +page,
-                limit: +limit,
-                totalPages: totalPages,
-                row: row 
+                current: +limit,
+                total: limit,
+                layout: 'guestLayout',
+                table: selectedTable,
+                Message: JSON.stringify(rows, null, 4), // format the JSON nicely
+                row: row
             };
 
-            res.json(result); // Send the count and the paginated list of users as a JSON response
+            res.render("admin-main-window.handlebars", model);
+            return;
+
+
+            //res.json(result); // Send the count and the paginated list of users as a JSON response
         });
     });
 });
