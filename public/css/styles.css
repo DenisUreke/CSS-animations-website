@@ -37,6 +37,10 @@ a:hover {
     color: #9F496E !important;
 }
 
+a:focus {
+    outline: none; /* Remove the outline */
+  }
+
 /*General containers - Images*/
 
 .image-adjusted-to-fit-div {
@@ -753,7 +757,7 @@ a:hover {
 
 .pagination {
     position: absolute;
-    top: 19vh;
+    top: 18.5vh;
     left: 2vw;
     font-size: clamp(0.5rem, 2.5vw, 2.5rem);
     color: #9F496E;
