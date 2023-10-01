@@ -600,6 +600,13 @@ app.post('/middleware-run', (req, res) => {
 
 app.get('/pagination', async (req, res) => {
 
+    const actionType = req.query.actionType;
+
+    if(actionType === 'search'){
+
+
+
+    }
     const page = parseInt(req.query.page);
     const limit = parseInt(req.query.limit);
     const selectedTable = req.query.table;
@@ -628,15 +635,11 @@ app.get('/pagination', async (req, res) => {
             }
 
             const model = {
-                totalCount: totalCount,
-                users: rows,
-                page: +page,
-                current: +limit,
-                total: limit,
+                current: +page,
+                total: +totalPages,
                 layout: 'guestLayout',
                 table: selectedTable,
                 Message: JSON.stringify(rows, null, 4), // format the JSON nicely
-                row: row
             };
 
             res.render("admin-main-window.handlebars", model);
