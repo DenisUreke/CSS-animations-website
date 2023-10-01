@@ -1358,15 +1358,18 @@ a:hover {
     background-color: white;
     border: 1px solid black;
     overflow: auto;
-    height: 40vh;
+    height: 35vh;
     resize: none;
 }
 
 .server-message-window {
     /**/
+    height: 5vh;
     background-color: white;
     border: 1px solid black;
     color: black;
+    text-align: center;
+    font-weight: bold;
 }
 
 .admin-container {
@@ -1376,7 +1379,7 @@ a:hover {
 
 .input-admin {
     vertical-align: top;
-    text-align: left;
+    text-align: center;
     height: 18vh;
     width: 100%;
     resize: none;

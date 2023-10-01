@@ -606,9 +606,6 @@ app.get('/pagination', async (req, res) => {
     let limit;
     let selectedTable;
 
-    console.log(actionType);
-    console.log(total);
-
     if(actionType === 'search'){
         page = parseInt(req.query.page);
         limit = parseInt(req.query.limit);
@@ -633,8 +630,6 @@ app.get('/pagination', async (req, res) => {
         selectedTable = req.query.table;
     }
 
-    const offset = (page - 1) * limit;
-
     let totalCount = 0;
 
     /*Getting count*/
@@ -648,6 +643,11 @@ app.get('/pagination', async (req, res) => {
 
         totalCount = row.total;
         const totalPages = Math.ceil(totalCount / limit);
+        
+        if(page > totalPages){
+            page = totalPages
+        };
+        const offset = (page - 1) * limit;
 
         const sql = `SELECT * FROM ${selectedTable} LIMIT ? OFFSET ?`;
         db.all(sql, [limit, offset], (err, rows) => {
