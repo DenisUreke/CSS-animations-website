@@ -1,9 +1,9 @@
 const express = require('express');
 const { engine } = require('express-handlebars');
 const cors = require('cors');
-const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 const session = require('express-session');
+const { initDb } = require('./db');
 
 
 // Initialize the app here
@@ -17,7 +17,7 @@ app.use(cors());
 const port = 8080;
 
 // Database setup
-const db = new sqlite3.Database('database.db');
+const db = initDb();
 
 // Handlebars setup
 app.engine('handlebars', engine());

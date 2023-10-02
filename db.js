@@ -1,5 +1,12 @@
 /****************************************************************************************************/
 /**************************************Tables and Data***********************************************/
+const sqlite3 = require('sqlite3').verbose();
+
+function initDb() {
+    const db = new sqlite3.Database('database.db');
+    
+    db.run("PRAGMA foreign_keys = ON;");
+
 /*----User----*/
 
 db.run(`CREATE TABLE IF NOT EXISTS User (
@@ -315,3 +322,10 @@ db.run(`CREATE VIEW IF NOT EXISTS ProjectData AS
         });
     }
 });
+
+return db;
+}
+
+module.exports = {
+    initDb
+};
