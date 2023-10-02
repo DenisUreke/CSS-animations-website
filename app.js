@@ -100,7 +100,7 @@ function isAdmin(req, res, next) {
 app.post('/reg', (req, res) => {
     const { email, username, password, password2 } = req.body;
     const cleanedUsername = username.trim();
-    
+
     db.get('SELECT username FROM User WHERE username = ?', [cleanedUsername], async (err, row) => {
         if (err) {
             console.error('Database error:', err);
@@ -112,7 +112,7 @@ app.post('/reg', (req, res) => {
             res.render("register.handlebars", model);
             return;
         }
-        
+
         if (row) {
             const error = 'Username or email already in use';
             const model = {
@@ -121,7 +121,7 @@ app.post('/reg', (req, res) => {
             }
             res.render("register.handlebars", model);
             return;
-        } 
+        }
         else if (password !== password2) {
             const error = 'Passwords do not match';
             const model = {
@@ -130,7 +130,7 @@ app.post('/reg', (req, res) => {
             }
             res.render("register.handlebars", model);
             return;
-        } 
+        }
         else {
             try {
                 const hashedPassword = await bcrypt.hash(password, 10);
@@ -261,19 +261,14 @@ app.get('/contactME', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('contact-information', { layout: 'adminLayout', isAdmin });
 });
-//**************************************************************************** */
-//**************************************************************************** */
-//**************************************************************************** */
-//**************************************************************************** */
 
-//*******************************Send Message******************************** */
+//**************************************************************************** */
+//*******************************Contact me*********************************** */
 
 app.post('/send-message', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     const { email, message } = req.body;
     const { username } = req.session.user;
-
-
 
     db.run(
         'INSERT INTO messages (name, email, message) VALUES (?, ?, ?)',
@@ -492,7 +487,6 @@ app.post('/middleware-run', (req, res, next) => {
     }
 });
 
-/*----------------------------------------------------------------------------------------------------*/
 
 app.post('/middleware-run', (req, res, next) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
@@ -569,32 +563,32 @@ app.post('/middleware-run', (req, res) => {
 });
 
 app.get('/pagination', async (req, res) => {
-    
+
     const actionType = req.query.actionType;
     const total = parseInt(req.query.total); /*Only interesting when previous and next are used*/
     let page;
     let limit;
     let selectedTable;
 
-    if(actionType === 'search'){
+    if (actionType === 'search') {
         page = parseInt(req.query.page);
         limit = parseInt(req.query.limit);
         selectedTable = req.query.table;
     }
 
-    else if(actionType === 'next'){
+    else if (actionType === 'next') {
         page = parseInt(req.query.current);
-        if(page < total){
-            page = (page + 1);
+        if (page < total) {
+            page++;
         }
         limit = parseInt(req.query['limit-2']);
         selectedTable = req.query.table;
     }
 
-    else if(actionType === 'previous'){
+    else if (actionType === 'previous') {
         page = parseInt(req.query.current);
-        if(page > 1){
-            page = (page - 1);
+        if (page > 1) {
+            page--;
         }
         limit = parseInt(req.query['limit-2']);
         selectedTable = req.query.table;
@@ -602,19 +596,23 @@ app.get('/pagination', async (req, res) => {
 
     let totalCount = 0;
 
-    /*Getting count*/
     const countSql = `SELECT COUNT(*) as total FROM ${selectedTable}`;
     db.get(countSql, [], (err, row) => {
         if (err) {
-            console.error('Failed to retrieve count:', err);
-            res.status(500).send('Internal server error');
+            const errorMessage = err.message;
+            const model = {
+                Status: errorMessage,
+                layout: 'guestLayout',
+                Message: [],
+            }
+            res.render("admin-main-window.handlebars", model);
             return;
         }
 
         totalCount = row.total;
         const totalPages = Math.ceil(totalCount / limit);
-        
-        if(page > totalPages){
+
+        if (page > totalPages) {
             page = totalPages
         };
         const offset = (page - 1) * limit;
@@ -622,11 +620,15 @@ app.get('/pagination', async (req, res) => {
         const sql = `SELECT * FROM ${selectedTable} LIMIT ? OFFSET ?`;
         db.all(sql, [limit, offset], (err, rows) => {
             if (err) {
-                console.error('Failed to retrieve users:', err);
-                res.status(500).send('Internal server error');
+                const errorMessage = err.message;
+                const model = {
+                    Status: errorMessage,
+                    layout: 'guestLayout',
+                    Message: [],
+                }
+                res.render("admin-main-window.handlebars", model);
                 return;
             }
-
             const model = {
                 current: +page,
                 total: +totalPages,
@@ -643,6 +645,6 @@ app.get('/pagination', async (req, res) => {
     });
 });
 
-    app.listen(port, () => {
-        console.log(`Server started on http://localhost:${port}`);
-    });
+app.listen(port, () => {
+    console.log(`Server started on http://localhost:${port}`);
+});

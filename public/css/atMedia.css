@@ -7,8 +7,9 @@
     #contact-info-container {
         width: 20%;
     }
-    
+
 }
+
 @media (max-width: 1920px) {
     /* XL - Laptop*/
 
@@ -45,23 +46,24 @@
     #main-window-container {
         height: 90vh;
     }
-    
+
 }
 
 @media (max-width: 1500px) {
 
-    #project-detail-container{
+    #project-detail-container {
         width: 100vw;
         height: 100vh;
-     }
+    }
 
     #contact-footer {
         font-size: clamp(0.5rem, 1.3vw, 1.3rem);
         margin-top: 20vh;
     }
-    .grid-projects{
+
+    .grid-projects {
         font-size: clamp(0.5rem, 1.2vw, 1.2rem);
-     }
+    }
 }
 
 @media (max-width: 1280px) {
@@ -69,7 +71,7 @@
     #contact-message {
         height: 25vh;
     }
-    
+
     #contact-email,
     #contact-message {
         width: 35vw;
@@ -79,21 +81,21 @@
     .contact-text {
         font-size: clamp(0.2rem, 2.2vw, 2.2rem);
     }
-    
-    .icons-contact{
+
+    .icons-contact {
         font-size: clamp(0.2rem, 2.2vw, 2.2rem);
     }
 
-    #contact-submit{
+    #contact-submit {
         width: 12vw;
         height: 5vh;
     }
-    
 
-    #comment{
+
+    #comment {
         width: 35vw;
         height: 10vh;
-        }
+    }
 
     .comment-box {
         width: 40vw;
@@ -107,7 +109,7 @@
         margin-top: 13vh;
         font-size: clamp(0.5rem, 1.3vw, 1.3rem);
     }
-    
+
     #menu-buttons-container {
         top: 0;
         position: absolute;
@@ -119,128 +121,137 @@
         width: 100vw;
         z-index: 20;
     }
+
     .radio-container {
         font-size: clamp(0.5rem, 2.3vw, 2.3rem);
         font-weight: bold;
     }
 
     #limit,
-#page {
-    height: 6vh;
-    font-size: clamp(0.5rem, 2.3vw, 2.3rem);
-    text-align: center;
-    font-weight: bold;
-}
-#current,
-#total {
-    width: 20vw;
-    height: 6vh;
-    text-align: center;
-    font-size: clamp(0.5rem, 2.3vw, 2.3rem);
-    font-weight: bold;
-    border: none;
-}
-#previous,
-#next {
-    height: 7vh;
-    width: 6vw;
-}
-#admin-pagination-container{
-    height: 70vh;
-}
-.main-page-icon{
-    left: 80vw;
-    width: 12vw;
-    height: 12vh;
-}
-.icon-menu{
-    font-size: clamp(0.5rem, 3vw, 3rem);
-    
+    #page {
+        height: 6vh;
+        font-size: clamp(0.5rem, 2.3vw, 2.3rem);
+        text-align: center;
+        font-weight: bold;
+    }
+
+    #current,
+    #total {
+        width: 20vw;
+        height: 6vh;
+        text-align: center;
+        font-size: clamp(0.5rem, 2.3vw, 2.3rem);
+        font-weight: bold;
+        border: none;
+    }
+
+    #previous,
+    #next {
+        height: 7vh;
+        width: 6vw;
+    }
+
+    #admin-pagination-container {
+        height: 70vh;
+    }
+
+    .main-page-icon {
+        left: 80vw;
+        width: 12vw;
+        height: 12vh;
+    }
+
+    .icon-menu {
+        font-size: clamp(0.5rem, 3vw, 3rem);
+
+    }
+
+    #menu-buttons-container {
+        gap: 7vw;
+    }
+
+
+    #contact-footer {
+        font-size: clamp(0.5rem, 1.3vw, 1.3rem);
+        margin-top: 13vh;
+    }
+
+    #contact-info-container {
+        height: 80vh;
+        margin: 0;
+    }
+
+    #main-window-container {
+        height: 80vh;
+        margin: 0;
+    }
+
+    #columns-container {
+        align-items: flex-start;
+        margin: 0;
+    }
+
+    .font-size {
+        font-size: clamp(0.2rem, 1vw, 1rem);
+    }
+
+    .image-shape-container {
+        left: -50vw;
+        top: -33vh;
+    }
+
+    /*forum page*/
+    .box-comment-container {
+        width: 25vh;
+        height: auto;
+        margin-left: 1vh;
+    }
+
+    .second {
+        width: 25vw;
+        margin-right: -2vh;
+    }
+
+    .design-container {
+        left: 6vw;
+    }
+
+    .box-comment-container {
+        left: 1vw;
+        width: 25vw;
+    }
+
+    .posting-instructions {
+        font-size: clamp(0.5rem, 1.3vw, 1.9rem);
+    }
+
+    .log-in-container {
+        height: 100%;
+        width: 100%;
+    }
+
+    .input-box {
+        height: 7vh;
+        width: 50vw;
+        font-size: 3vw;
+    }
+
+    .button-log-in {
+        width: 30vw;
+        height: 10vh;
+        font-size: 3vh;
+    }
+
+    .header-headline {
+        font-size: clamp(0.5rem, 3vw, 3rem);
+    }
 }
 
-#menu-buttons-container{
-    gap: 7vw;
-}
-
-
-#contact-footer {
-    font-size: clamp(0.5rem, 1.3vw, 1.3rem);
-    margin-top: 13vh;
-}
-
-#contact-info-container {
-    height: 80vh;
-    margin: 0;
-}
-
-#main-window-container {
-    height: 80vh;
-    margin: 0;
-}
-
-#columns-container {
-    align-items: flex-start;
-    margin: 0;
-}
-
-.font-size {
-    font-size: clamp(0.2rem, 1vw, 1rem);
-}
-.image-shape-container {
-    left: -50vw;
-    top: -33vh;
-}
-
-/*forum page*/
-.box-comment-container {
-    width: 25vh;
-    height: auto;
-    margin-left: 1vh;
-}
-
-.second {
-    width: 25vw;
-    margin-right: -2vh;
-}
-
-.design-container {
-    left: 6vw;
-}
-
-.box-comment-container {
-    left: 1vw;
-    width: 25vw;
-}
-
-.posting-instructions {
-    font-size: clamp(0.5rem, 1.3vw, 1.9rem);
-}
-
-.log-in-container{
-    height: 100%;
-    width: 100%;
-}
-
-.input-box{
-    height: 7vh;
-    width: 50vw;
-    font-size: 3vw;
-}
-
-.button-log-in{
-    width: 30vw;
-    height: 10vh;
-    font-size: 3vh;
-}
-
-.header-headline{
-    font-size: clamp(0.5rem, 3vw, 3rem);
-}
-}
-@media (max-width: 992px) { /*992*/
+@media (max-width: 992px) {
+    /*992*/
     /*Medium*/
 
-    #contact-submit{
+    #contact-submit {
         width: 15vw;
         height: 6vh;
     }
@@ -286,7 +297,7 @@
     #contact-footer {
         font-size: clamp(0.5rem, 3.2vw, 3.3rem);
         margin-top: 25vh;
-        width:100%;
+        width: 100%;
         padding-left: 25vw;
         padding-right: 25vw;
     }
@@ -299,61 +310,64 @@
     #name {
         font-size: clamp(0.5rem, 4vw, 4rem);
     }
-    #occupation{
+
+    #occupation {
         font-size: clamp(0.5rem, 3vw, 3rem);
-     }
-
-     .header-headline{
-        font-size: clamp(0.5rem, 4vw, 4rem);
-     }
-
-     /*Projects*/
-     .project-5-img,
-     .project-4-img,
-     .project-3-img,
-     .project-2-img,
-     .project-1-img{
-        width: 12vh;
-     }
-
-     .grid-projects{
-        font-size: clamp(0.5rem, 2vw, 2rem);
-     }
-
-     .flex-two-rows{
-        font-size: clamp(0.5rem, 3vw, 3rem);
-     }
-
-     
-    .icon-menu{
-        font-size: clamp(0.5rem, 4vw, 4rem);
-        
     }
 
-    #menu-buttons-container{
+    .header-headline {
+        font-size: clamp(0.5rem, 4vw, 4rem);
+    }
+
+    /*Projects*/
+    .project-5-img,
+    .project-4-img,
+    .project-3-img,
+    .project-2-img,
+    .project-1-img {
+        width: 12vh;
+    }
+
+    .grid-projects {
+        font-size: clamp(0.5rem, 2vw, 2rem);
+    }
+
+    .flex-two-rows {
+        font-size: clamp(0.5rem, 3vw, 3rem);
+    }
+
+
+    .icon-menu {
+        font-size: clamp(0.5rem, 4vw, 4rem);
+
+    }
+
+    #menu-buttons-container {
         gap: 5vw;
     }
 }
 
 
 
-    @media (max-width: 915px) { /*915*/
+@media (max-width: 915px) {
+    /*915*/
 
-        .grid-projects{
-            font-size: clamp(0.5rem, 3vw, 3rem);
-         }
+    .grid-projects {
+        font-size: clamp(0.5rem, 3vw, 3rem);
     }
+}
 
 
 
-     @media (max-width: 768px){ /*768*/
+@media (max-width: 768px) {
+    /*768*/
 
-    .icon-menu{
+    .icon-menu {
         font-size: clamp(0.5rem, 5vw, 5rem);
-        
+
     }
 
-    #menu-buttons-container{
+    #menu-buttons-container {
         gap: 5vw;
     }
 
@@ -361,20 +375,20 @@
     .project-2-download,
     .project-3-download,
     .project-4-download,
-    .project-5-download{
+    .project-5-download {
         font-size: clamp(0.5rem, 4vw, 4rem);
     }
 
-    .log-in-container{
+    .log-in-container {
         height: 100%;
         width: 100%;
     }
 
-.button-log-in{
-    width: 30vw;
-    height:5vh;
-    font-size: 2vh;
-}
+    .button-log-in {
+        width: 30vw;
+        height: 5vh;
+        font-size: 2vh;
+    }
 
 
 }

@@ -1,4 +1,4 @@
-            <section class="column col-6 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" id="main-window-container">
+<section class="column col-6 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-xs-12" id="main-window-container">
     <div class="main-window-header-image mirror-image"><img src="Img/trees-telephone.jpg"
             alt="Sunset view and tree-tops" id="home-sunset-picture"></div>
     <div class="main-page-icon"><i class="fas fa-comment color-pink"></i></div>
@@ -14,21 +14,20 @@
             </form>
         </div>
 
-<div class="flex-right-comment">
-    {{#if comments.length}}
-        {{#each comments}}
-        <div class="comment-box">
-            <div class="empty-comment-box-header">
-                <div class="comment-name">{{ this.poster_name }}</div>
-                <div class="comment-date">{{ this.comment_timestamp }}</div>
+        <div class="flex-right-comment">
+            {{#if comments.length}}
+            {{#each comments}}
+            <div class="comment-box">
+                <div class="empty-comment-box-header">
+                    <div class="comment-name">{{ this.poster_name }}</div>
+                    <div class="comment-date">{{ this.comment_timestamp }}</div>
+                </div>
+                <div class="comment-content">{{ this.comment_post }}</div>
             </div>
-            <div class="comment-content">{{ this.comment_post }}</div>
+            {{/each}}
+            {{else}}
+            <p>No comments available.</p>
+            {{/if}}
         </div>
-        {{/each}}
-    {{else}}
-        <p>No comments available.</p>
-    {{/if}}
-</div>
     </div>
 </section>
-<script type="module" src="./script.js"></script>
