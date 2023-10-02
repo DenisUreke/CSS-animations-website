@@ -1,51 +1,109 @@
-//**************************************************************************** */
-//*************************************Views********************************** */
+/****************************************************************************************************/
+/**************************************Tables and Data***********************************************/
+/*----User----*/
 
-db.run(`CREATE VIEW IF NOT EXISTS CommentViewWithAuthor AS
-    SELECT
-        c.id AS comment_id,
-        c.post AS comment_post,
-        u.username AS poster_name,
-        c.created_at AS comment_timestamp,
-        c.author_id AS author_id
-    FROM
-        Comments c
-    JOIN
-        User u ON c.poster = u.id;`, (error) => {
+db.run(`CREATE TABLE IF NOT EXISTS User (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE,
+    email TEXT UNIQUE,
+    password TEXT,
+    isAdmin INTEGER DEFAULT 0,
+    registrationDate TEXT DEFAULT CURRENT_TIMESTAMP
+)`, (error) => {
     if (error) {
         console.log("ERROR: ", error);
     } else {
-        console.log("---> View CommentViewWithAuthor created!");
+        console.log("---> Table User created!");
+
+        const users = [
+            ['admin', 'admin@admin.com', '$2b$10$hXpK/CA.6ZAafP4c6lLJVOI8probXnVcK4UxJK86LOzpokE2qZsyu', 1],
+            ['Andy', 'andy@mail.com', 'password123', 0],
+            ['Brian', 'brian@mail.com', 'password124', 0],
+            ['Chloe', 'chloe@mail.com', 'password125', 0],
+            ['David', 'david@mail.com', 'password126', 0],
+            ['Ella', 'ella@mail.com', 'password127', 0],
+            ['Frank', 'frank@mail.com', 'password128', 0],
+            ['Grace', 'grace@mail.com', 'password129', 0],
+            ['Helen', 'helen@mail.com', 'password130', 0],
+            ['Ian', 'ian@mail.com', 'password131', 0],
+            ['Julia', 'julia@mail.com', 'password132', 0],
+            ['Kevin', 'kevin@mail.com', 'password133', 0],
+            ['Lana', 'lana@mail.com', 'password134', 0],
+            ['Mike', 'mike@mail.com', 'password135', 0],
+            ['Nina', 'nina@mail.com', 'password136', 0],
+            ['Oscar', 'oscar@mail.com', 'password137', 0],
+            ['Penny', 'penny@mail.com', 'password138', 0],
+            ['Quinn', 'quinn@mail.com', 'password139', 0],
+            ['Rose', 'rose@mail.com', 'password140', 0],
+            ['Steve', 'steve@mail.com', 'password141', 0],
+            ['Tina', 'tina@mail.com', 'password142', 0],
+            ['Ulysses', 'ulysses@mail.com', 'password143', 0],
+            ['Vera', 'vera@mail.com', 'password144', 0],
+            ['Walter', 'walter@mail.com', 'password145', 0],
+            ['Xena', 'xena@mail.com', 'password146', 0],
+            ['Yara', 'yara@mail.com', 'password147', 0],
+            ['Zane', 'zane@mail.com', 'password148', 0],
+            ['Alice', 'alice@mail.com', 'password149', 0],
+            ['Bob', 'bob@mail.com', 'password150', 0],
+            ['Carter', 'carter@mail.com', 'password151', 0],
+            ['Daisy', 'daisy@mail.com', 'password152', 0],
+            ['Erik', 'erik@mail.com', 'password153', 0],
+            ['Flora', 'flora@mail.com', 'password154', 0],
+            ['George', 'george@mail.com', 'password155', 0],
+            ['Hannah', 'hannah@mail.com', 'password156', 0],
+            ['Isaac', 'isaac@mail.com', 'password157', 0],
+            ['Jenna', 'jenna@mail.com', 'password158', 0],
+            ['Kurt', 'kurt@mail.com', 'password159', 0],
+            ['Lily', 'lily@mail.com', 'password160', 0],
+            ['Mason', 'mason@mail.com', 'password161', 0],
+            ['Nora', 'nora@mail.com', 'password162', 0]
+        ];
+
+        users.forEach(([username, email, password, isAdmin]) => {
+            db.run(`INSERT INTO User (username, email, password, isAdmin) VALUES (?, ?, ?, ?)`, [username, email, password, isAdmin], function(err) {
+                if (err) {
+                    return console.error(err.message);
+                }
+                console.log(`Inserted user with id: ${this.lastID}`);
+            });
+        });
     }
 });
 
-db.run(`CREATE VIEW IF NOT EXISTS ProjectData AS
-    SELECT
-        id,
-        name,
-        description,
-        imageLink,
-        alt,
-        link
-    FROM
-        Projects;`, (error) => {
+/*----Download----*/
+
+db.run(`CREATE TABLE IF NOT EXISTS Download (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    description TEXT NOT NULL,
+    item BLOB,
+    uploaded TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+)`, (error) => {
     if (error) {
         console.log("ERROR: ", error);
     } else {
-        console.log("---> View ProjectData created!");
+        console.log("---> Table Download created!");
 
-        db.close((err) => {
-            if (err) {
-                console.error('Error closing the database:', err.message);
+        const insertDownloadsSQL = `
+            INSERT INTO Download (name, description)
+            VALUES 
+                ('CV', 'This is my CV. Hire me! =)'),
+                ('Tetris', 'Crafted my first game, Tetris, using QT and C++. A monumental step in my programming journey. Score isn''t implemented but it''s working with a few "minor" bugs ehm.. features'),
+                ('Black-Jack', 'Developed a dynamic Blackjack game, where players challenge a computer opponent. My second gaming creation.'),
+                ('Math-tool', 'Crafted a C++ terminal tool during my Discrete Math course. It efficiently executes the Euclidean algorithm and aids in identifying inverses for encryption math.'),
+                ('CSS Animation', 'My inaugural web project showcases original CSS art crafted by me. It''s a work in progress - feel free to click the link and witness its evolution!'),
+                ('Visual-Sorting', 'My early visual creation: an array of sorting algorithms on display, letting you visually experience the sorting process in action.');
+        `;
+        db.run(insertDownloadsSQL, (error) => {
+            if (error) {
+                console.log("ERROR inserting downloads: ", error);
             } else {
-                console.log('Database connection closed.');
+                console.log("---> Downloads inserted!");
             }
         });
     }
 });
 
-/****************************************************************************************************/
-/**************************************Tables and Data***********************************************/
 
 /*----Comment----*/
 
@@ -81,40 +139,6 @@ db.run(`CREATE TABLE IF NOT EXISTS Comments (
                 console.log("ERROR inserting comments: ", error);
             } else {
                 console.log("---> Comments inserted!");
-            }
-        });
-    }
-});
-
-/*----Download----*/
-
-db.run(`CREATE TABLE IF NOT EXISTS Download (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    description TEXT NOT NULL,
-    item BLOB,
-    uploaded TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)`, (error) => {
-    if (error) {
-        console.log("ERROR: ", error);
-    } else {
-        console.log("---> Table Download created!");
-
-        const insertDownloadsSQL = `
-            INSERT INTO Download (name, description)
-            VALUES 
-                ('CV', 'This is my CV. Hire me! =)'),
-                ('Tetris', 'Crafted my first game, Tetris, using QT and C++. A monumental step in my programming journey. Score isn''t implemented but it''s working with a few "minor" bugs ehm.. features'),
-                ('Black-Jack', 'Developed a dynamic Blackjack game, where players challenge a computer opponent. My second gaming creation.'),
-                ('Math-tool', 'Crafted a C++ terminal tool during my Discrete Math course. It efficiently executes the Euclidean algorithm and aids in identifying inverses for encryption math.'),
-                ('CSS Animation', 'My inaugural web project showcases original CSS art crafted by me. It''s a work in progress - feel free to click the link and witness its evolution!'),
-                ('Visual-Sorting', 'My early visual creation: an array of sorting algorithms on display, letting you visually experience the sorting process in action.');
-        `;
-        db.run(insertDownloadsSQL, (error) => {
-            if (error) {
-                console.log("ERROR inserting downloads: ", error);
-            } else {
-                console.log("---> Downloads inserted!");
             }
         });
     }
@@ -246,72 +270,48 @@ db.run(`CREATE TABLE IF NOT EXISTS Projects (
     }
 });
 
-/*----User----*/
+//**************************************************************************** */
+//*************************************Views********************************** */
 
-db.run(`CREATE TABLE IF NOT EXISTS User (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE,
-    email TEXT UNIQUE,
-    password TEXT,
-    isAdmin INTEGER DEFAULT 0,
-    registrationDate TEXT DEFAULT CURRENT_TIMESTAMP
-)`, (error) => {
+db.run(`CREATE VIEW IF NOT EXISTS CommentViewWithAuthor AS
+    SELECT
+        c.id AS comment_id,
+        c.post AS comment_post,
+        u.username AS poster_name,
+        c.created_at AS comment_timestamp,
+        c.author_id AS author_id
+    FROM
+        Comments c
+    JOIN
+        User u ON c.poster = u.id;`, (error) => {
     if (error) {
         console.log("ERROR: ", error);
     } else {
-        console.log("---> Table User created!");
+        console.log("---> View CommentViewWithAuthor created!");
+    }
+});
 
-        const users = [
-            ['admin', 'admin@admin.com', '$2b$10$hXpK/CA.6ZAafP4c6lLJVOI8probXnVcK4UxJK86LOzpokE2qZsyu', 1],
-            ['Andy', 'andy@mail.com', 'password123', 0],
-            ['Brian', 'brian@mail.com', 'password124', 0],
-            ['Chloe', 'chloe@mail.com', 'password125', 0],
-            ['David', 'david@mail.com', 'password126', 0],
-            ['Ella', 'ella@mail.com', 'password127', 0],
-            ['Frank', 'frank@mail.com', 'password128', 0],
-            ['Grace', 'grace@mail.com', 'password129', 0],
-            ['Helen', 'helen@mail.com', 'password130', 0],
-            ['Ian', 'ian@mail.com', 'password131', 0],
-            ['Julia', 'julia@mail.com', 'password132', 0],
-            ['Kevin', 'kevin@mail.com', 'password133', 0],
-            ['Lana', 'lana@mail.com', 'password134', 0],
-            ['Mike', 'mike@mail.com', 'password135', 0],
-            ['Nina', 'nina@mail.com', 'password136', 0],
-            ['Oscar', 'oscar@mail.com', 'password137', 0],
-            ['Penny', 'penny@mail.com', 'password138', 0],
-            ['Quinn', 'quinn@mail.com', 'password139', 0],
-            ['Rose', 'rose@mail.com', 'password140', 0],
-            ['Steve', 'steve@mail.com', 'password141', 0],
-            ['Tina', 'tina@mail.com', 'password142', 0],
-            ['Ulysses', 'ulysses@mail.com', 'password143', 0],
-            ['Vera', 'vera@mail.com', 'password144', 0],
-            ['Walter', 'walter@mail.com', 'password145', 0],
-            ['Xena', 'xena@mail.com', 'password146', 0],
-            ['Yara', 'yara@mail.com', 'password147', 0],
-            ['Zane', 'zane@mail.com', 'password148', 0],
-            ['Alice', 'alice@mail.com', 'password149', 0],
-            ['Bob', 'bob@mail.com', 'password150', 0],
-            ['Carter', 'carter@mail.com', 'password151', 0],
-            ['Daisy', 'daisy@mail.com', 'password152', 0],
-            ['Erik', 'erik@mail.com', 'password153', 0],
-            ['Flora', 'flora@mail.com', 'password154', 0],
-            ['George', 'george@mail.com', 'password155', 0],
-            ['Hannah', 'hannah@mail.com', 'password156', 0],
-            ['Isaac', 'isaac@mail.com', 'password157', 0],
-            ['Jenna', 'jenna@mail.com', 'password158', 0],
-            ['Kurt', 'kurt@mail.com', 'password159', 0],
-            ['Lily', 'lily@mail.com', 'password160', 0],
-            ['Mason', 'mason@mail.com', 'password161', 0],
-            ['Nora', 'nora@mail.com', 'password162', 0]
-        ];
+db.run(`CREATE VIEW IF NOT EXISTS ProjectData AS
+    SELECT
+        id,
+        name,
+        description,
+        imageLink,
+        alt,
+        link
+    FROM
+        Projects;`, (error) => {
+    if (error) {
+        console.log("ERROR: ", error);
+    } else {
+        console.log("---> View ProjectData created!");
 
-        users.forEach(([username, email, password, isAdmin]) => {
-            db.run(`INSERT INTO User (username, email, password, isAdmin) VALUES (?, ?, ?, ?)`, [username, email, password, isAdmin], function(err) {
-                if (err) {
-                    return console.error(err.message);
-                }
-                console.log(`Inserted user with id: ${this.lastID}`);
-            });
+        db.close((err) => {
+            if (err) {
+                console.error('Error closing the database:', err.message);
+            } else {
+                console.log('Database connection closed.');
+            }
         });
     }
 });
