@@ -252,6 +252,7 @@ app.get('/holder', (req, res) => {
 
 app.get('/downloadCV', isAuthenticated, (req, res) => {
     const sql = 'SELECT description FROM Download WHERE name = CV';
+    const isAdmin = req.session.user && req.session.user.isAdmin;
 
     db.get(sql, [req.user.id], (err, row) => {
         if (err) {
@@ -581,6 +582,7 @@ app.post('/middleware-run', (req, res) => {
 //*******************************Pagination*********************************** */
 
 app.get('/pagination', async (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
 
     const actionType = req.query.actionType;
     const total = parseInt(req.query.total); /*Only interesting when previous and next are used*/
@@ -654,6 +656,7 @@ app.get('/pagination', async (req, res) => {
                 limit: limit,
                 layout: 'guestLayout',
                 Message: JSON.stringify(rows, null, 4),
+                isAdmin
             };
 
             res.render("admin-main-window.handlebars", model);

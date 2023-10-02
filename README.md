@@ -1,2 +1,2 @@
 # TGWK12-Denis-Ureke-Project
- The actual project for the course
+ The actual project for the course.
