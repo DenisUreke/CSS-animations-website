@@ -27,75 +27,20 @@ app.set('views', './views');
 // Static file setup
 app.use(express.static('public'));
 
-// Model (data)
-const humans = [
-    { "id": "0", "name": "Jerome" },
-    { "id": "1", "name": "Mira" },
-    { "id": "2", "name": "Linus" },
-    { "id": "3", "name": "Susanne" },
-    { "id": "4", "name": "Jasmin" },
-];
-/*---------------------------------------------------------*/
-
-
-/*-------------------------Session-------------------------*/
+//**************************************************************************** */
+//*********************************Session************************************ */
 
 app.use(session({
     secret: 'yourSecretKey',   // This secret key should be kept private (avoid committing directly to git)
     resave: false,             // Forces the session to be saved back to the session store, even if the session was never modified during the request
     saveUninitialized: false,  // Forces a session that is "uninitialized" to be saved to the store. A session is uninitialized when it is new but not modified.
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 // Cookie expires after 24 hours
+        maxAge: 1000 * 60 * 60 * 24
     }
 }));
-/*---------------------------------------------------------*/
-/*-------------------------log-out-------------------------*/
 
-app.get('/logout', (req, res) => {
-    req.session.destroy((err) => {
-        if (err) {
-            return res.redirect('/log-in');
-        }
-        res.redirect('/log-in');
-    });
-});
-
-/*---------------------------------------------------------*/
-/*--------------------Authenticators-----------------------*/
-
-function isAuthenticated(req, res, next) {
-    if (req.session.user) {
-        return next();
-    } else {
-        const error = 'You need to be logged in to be on this page';
-        const errorcode = '401';
-        const model = {
-            Error: error,
-            ErrorCode: errorcode,
-            layout: 'loginLayout',
-        }
-        res.render("errorPage.handlebars", model);
-        return;
-    }
-}
-
-function isAdmin(req, res, next) {
-    if (req.session.user && req.session.user.isAdmin) {
-        return next();
-    } else {
-        const error = 'Unauthorized access admins, only';
-        const errorcode = '401';
-        const model = {
-            Error: error,
-            ErrorCode: errorcode,
-            layout: 'loginLayout',
-        }
-        res.render("errorPage.handlebars", model);
-        return;
-    }
-}
-/*---------------------------------------------------------*/
-/*---------------------REGISTER----------------------------*/
+//**************************************************************************** */
+//******************************Register Page********************************* */
 
 app.post('/reg', (req, res) => {
     const { email, username, password, password2 } = req.body;
@@ -150,8 +95,9 @@ app.post('/reg', (req, res) => {
         }
     });
 });
-/*---------------------------------------------------------*/
-/*-----------------------LOG IN----------------------------*/
+
+//**************************************************************************** */
+//******************************Log-in Page*********************************** */
 
 app.post('/login', async (req, res) => {
     const emailOrUsername = req.body.emailOrUsername;
@@ -214,26 +160,55 @@ app.post('/login', async (req, res) => {
     });
 });
 
-/*---------------------------------------------------------*/
-/*---------------------------------------------------------*/
+//**************************************************************************** */
+//************************************Log Out********************************* */
 
-app.get('/script.js', (req, res) => {
-    res.type('application/javascript');
-    res.sendFile(__dirname + '/script.js');
+app.get('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.redirect('/log-in');
+        }
+        res.redirect('/log-in');
+    });
 });
 
-/*-----------------------Routes----------------------------*/
-app.get('/downloadCV', isAuthenticated, (req, res) => {
+//**************************************************************************** */
+//******************************Authenticators******************************** */
 
-    const myCV = "This is my CV =).";
+function isAuthenticated(req, res, next) {
+    if (req.session.user) {
+        return next();
+    } else {
+        const error = 'You need to be logged in to be on this page';
+        const errorcode = '401';
+        const model = {
+            Error: error,
+            ErrorCode: errorcode,
+            layout: 'loginLayout',
+        }
+        res.render("errorPage.handlebars", model);
+        return;
+    }
+}
 
-    const fileName = 'CV.txt';
+function isAdmin(req, res, next) {
+    if (req.session.user && req.session.user.isAdmin) {
+        return next();
+    } else {
+        const error = 'Unauthorized access admins, only';
+        const errorcode = '401';
+        const model = {
+            Error: error,
+            ErrorCode: errorcode,
+            layout: 'loginLayout',
+        }
+        res.render("errorPage.handlebars", model);
+        return;
+    }
+}
 
-    res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`); /*Thank you JavidX from Stack-Overflow!*/
-    res.setHeader('Content-Type', 'text/plain');
-
-    res.send(myCV);
-});
+//**************************************************************************** */
+//****************************Simple Routes*********************************** */
 
 app.get('/', (req, res) => {
     res.render('log-in', { layout: 'loginLayout' });
@@ -260,6 +235,62 @@ app.get('/about', (req, res) => {
 app.get('/contactME', (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('contact-information', { layout: 'adminLayout', isAdmin });
+});
+
+app.get('/experience', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('experience', { layout: 'adminLayout', isAdmin });
+});
+
+app.get('/holder', (req, res) => {
+    const isAdmin = req.session.user && req.session.user.isAdmin;
+    res.render('holder', { layout: 'adminLayout', isAdmin });
+});
+
+//**************************************************************************** */
+//*******************************Download CV********************************** */
+
+app.get('/downloadCV', isAuthenticated, (req, res) => {
+    const sql = 'SELECT description FROM Download WHERE name = CV';
+
+    db.get(sql, [req.user.id], (err, row) => {
+        if (err) {
+            if (err) {
+                const error = 'Error retrieving CV data';
+                const errorCode = '500';
+                const model = {
+                    ErrorCode: errorCode,
+                    Error: error,
+                    layout: 'loginLayout',
+                    isAdmin,
+                };
+                res.render('errorPage.handlebars', model);
+                return;
+            }
+        }
+        if (!row) {
+            if (err) {
+                const error = 'CV data not found';
+                const errorCode = '404';
+                const model = {
+                    ErrorCode: errorCode,
+                    Error: error,
+                    layout: 'loginLayout',
+                    isAdmin,
+                };
+                res.render('errorPage.handlebars', model);
+                return;
+            }
+        }
+
+        const myCV = row.text_data;
+        const fileName = 'CV.txt';
+
+        res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`); /*Thank you JavidX from Stack Overflow!*/
+        res.setHeader('Content-Type', 'text/plain');
+
+        res.send(myCV);
+    });
 });
 
 //**************************************************************************** */
@@ -313,7 +344,6 @@ app.get('/projects', isAuthenticated, (req, res) => {
                 layout: 'adminLayout',
                 isAdmin
             }
-            // renders the page with the model
             res.render("projects.handlebars", model)
         }
         else {
@@ -323,7 +353,6 @@ app.get('/projects', isAuthenticated, (req, res) => {
                 layout: 'adminLayout',
                 isAdmin
             }
-            // renders the page with the model
             res.render("projects.handlebars", model)
         }
     })
@@ -360,19 +389,6 @@ app.get('/project-description-:id', (req, res) => {
 });
 
 //**************************************************************************** */
-//**************************************************************************** */
-
-app.get('/experience', (req, res) => {
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('experience', { layout: 'adminLayout', isAdmin });
-});
-app.get('/holder', (req, res) => {
-    const isAdmin = req.session.user && req.session.user.isAdmin;
-    res.render('holder', { layout: 'adminLayout', isAdmin });
-});
-
-
-//**************************************************************************** */
 //***********************************Forum************************************ */
 
 app.get('/forum', isAuthenticated, (req, res) => {
@@ -391,7 +407,6 @@ app.get('/forum', isAuthenticated, (req, res) => {
             console.error('Error fetching latest comments:', err);
             res.status(500).render('error', { layout: 'adminLayout', isAdmin });
         } else {
-            // Here, add a property to each comment to determine if the delete button should be shown
             comments.forEach(comment => {
                 comment.canDelete = comment.poster_name === loggedInUser;
             });
@@ -404,7 +419,7 @@ app.get('/forum', isAuthenticated, (req, res) => {
 
 app.post('/post-comment', isAuthenticated, async (req, res) => {
     const { post } = req.body;
-    const posterId = req.session.user.id; // Get the user's ID from the session
+    const posterId = req.session.user.id;
 
     try {
         await db.run('INSERT INTO Comments (post, poster) VALUES (?, ?)', [post, posterId]);
@@ -562,6 +577,9 @@ app.post('/middleware-run', (req, res) => {
     }
 });
 
+//**************************************************************************** */
+//*******************************Pagination*********************************** */
+
 app.get('/pagination', async (req, res) => {
 
     const actionType = req.query.actionType;
@@ -644,6 +662,10 @@ app.get('/pagination', async (req, res) => {
         });
     });
 });
+
+//**************************************************************************** */
+//**************************************************************************** */
+
 
 app.listen(port, () => {
     console.log(`Server started on http://localhost:${port}`);
