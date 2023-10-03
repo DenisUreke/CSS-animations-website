@@ -1,12 +1,10 @@
 const express = require('express');
 const { engine } = require('express-handlebars');
+const exphbs = require('express-handlebars'); // Import Express Handlebars
 const cors = require('cors');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const { initDb } = require('./db');
-
-// Add this import to bring in Handlebars
-const exphbs = require('express-handlebars');
 
 // Initialize the app here
 const app = express();
@@ -22,8 +20,8 @@ const port = 8080;
 const db = initDb();
 
 // Handlebars setup
-// Register a Handlebars helper to compare two values for equality
-exphbs.create({
+const hbs = exphbs.create({
+  // Register the 'isEqual' helper here
   helpers: {
     isEqual: function (value1, value2) {
       return value1 === value2;
@@ -31,7 +29,7 @@ exphbs.create({
   },
 });
 
-app.engine('handlebars', engine());
+app.engine('handlebars', hbs.engine);
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 
@@ -403,7 +401,9 @@ app.get('/project-description-:id', (req, res) => {
 
 app.get('/forum', isAuthenticated, (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
-    const loggedInUser = req.session.user && req.session.user.username;
+    const sessionName = req.session.user.username;
+
+    console.log(thename);
 
     const query = `
     SELECT *
@@ -413,7 +413,6 @@ app.get('/forum', isAuthenticated, (req, res) => {
     `;
 
     db.all(query, (err, comments) => {
-
         if (err) {
             const errorMessage = err.message;
             const model = {
@@ -426,13 +425,13 @@ app.get('/forum', isAuthenticated, (req, res) => {
             return;
         } else {
 
-
             const success = 'Successful entry';
             const model = {
                 Status: success,
                 layout: 'adminLayout',
                 comments,
-                isAdmin
+                isAdmin,
+                logName: sessionName
             }
             res.render("forum.handlebars", model);
             return;

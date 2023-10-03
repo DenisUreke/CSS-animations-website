@@ -21,7 +21,7 @@
                 <div class="empty-comment-box-header">
                     <div class="comment-name">{{ username }}</div>
                     <div class="comment-date">{{ created_at }}</div>
-                    {{#if (isEqual username session.user.username)}}
+                    {{#if (isEqual username logName)}}
                     <a href=""><button type="delete-post" id="delete-post" name="delete-post">X</button></a>
                     {{/if}}
                 </div>
