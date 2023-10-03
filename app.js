@@ -17,7 +17,7 @@ app.use(cors());
 const port = 8080;
 
 // Database setup
-const db = initDb();
+const db = initDb(); // Comment this away after steup
 
 // Handlebars setup
 const hbs = exphbs.create({
@@ -402,8 +402,6 @@ app.get('/project-description-:id', (req, res) => {
 app.get('/forum', isAuthenticated, (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     const sessionName = req.session.user.username;
-
-    console.log(thename);
 
     const query = `
     SELECT *
