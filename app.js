@@ -5,6 +5,8 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const { initDb } = require('./db');
 
+// Add this import to bring in Handlebars
+const exphbs = require('express-handlebars');
 
 // Initialize the app here
 const app = express();
@@ -20,6 +22,15 @@ const port = 8080;
 const db = initDb();
 
 // Handlebars setup
+// Register a Handlebars helper to compare two values for equality
+exphbs.create({
+  helpers: {
+    isEqual: function (value1, value2) {
+      return value1 === value2;
+    },
+  },
+});
+
 app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', './views');
@@ -222,27 +233,27 @@ app.get('/log-in', (req, res) => {
     res.render('log-in', { layout: 'loginLayout' });
 });
 
-app.get('/home', (req, res) => {
+app.get('/home', isAuthenticated, (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('home', { layout: 'adminLayout', isAdmin });
 });
 
-app.get('/about', (req, res) => {
+app.get('/about', isAuthenticated, (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('about', { layout: 'adminLayout', isAdmin });
 });
 
-app.get('/contactME', (req, res) => {
+app.get('/contactME', isAuthenticated, (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('contact-information', { layout: 'adminLayout', isAdmin });
 });
 
-app.get('/experience', (req, res) => {
+app.get('/experience', isAuthenticated, (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('experience', { layout: 'adminLayout', isAdmin });
 });
 
-app.get('/holder', (req, res) => {
+app.get('/holder', isAuthenticated, (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
     res.render('holder', { layout: 'adminLayout', isAdmin });
 });
@@ -251,10 +262,10 @@ app.get('/holder', (req, res) => {
 //*******************************Download CV********************************** */
 
 app.get('/downloadCV', isAuthenticated, (req, res) => {
-    const sql = 'SELECT description FROM Download WHERE name = CV';
-    const isAdmin = req.session.user && req.session.user.isAdmin;
 
-    db.get(sql, [req.user.id], (err, row) => {
+    const sql = 'SELECT description FROM Download WHERE name = "CV"';
+
+    db.get(sql, (err, row) => {
         if (err) {
             if (err) {
                 const error = 'Error retrieving CV data';
@@ -263,7 +274,6 @@ app.get('/downloadCV', isAuthenticated, (req, res) => {
                     ErrorCode: errorCode,
                     Error: error,
                     layout: 'loginLayout',
-                    isAdmin,
                 };
                 res.render('errorPage.handlebars', model);
                 return;
@@ -277,14 +287,13 @@ app.get('/downloadCV', isAuthenticated, (req, res) => {
                     ErrorCode: errorCode,
                     Error: error,
                     layout: 'loginLayout',
-                    isAdmin,
                 };
                 res.render('errorPage.handlebars', model);
                 return;
             }
         }
 
-        const myCV = row.text_data;
+        const myCV = row.description;
         const fileName = 'CV.txt';
 
         res.setHeader('Content-Disposition', `attachment; filename="${fileName}"`); /*Thank you JavidX from Stack Overflow!*/
@@ -337,7 +346,7 @@ app.post('/send-message', (req, res) => {
 app.get('/projects', isAuthenticated, (req, res) => {
     const isAdmin = req.session.user && req.session.user.isAdmin;
 
-    db.all("SELECT * FROM ProjectData", function (error, mystuff) {
+    db.all("SELECT * FROM Projects", function (error, mystuff) {
         if (error) {
             const model = {
                 theError: error,
@@ -397,23 +406,38 @@ app.get('/forum', isAuthenticated, (req, res) => {
     const loggedInUser = req.session.user && req.session.user.username;
 
     const query = `
-        SELECT *
-        FROM CommentViewWithAuthor
-        ORDER BY comment_timestamp DESC
-        LIMIT 5
+    SELECT *
+    FROM Comments
+    ORDER BY created_at DESC
+    LIMIT 5;
     `;
 
-    db.all(query, [], (err, comments) => {
-        if (err) {
-            console.error('Error fetching latest comments:', err);
-            res.status(500).render('error', { layout: 'adminLayout', isAdmin });
-        } else {
-            comments.forEach(comment => {
-                comment.canDelete = comment.poster_name === loggedInUser;
-            });
+    db.all(query, (err, comments) => {
 
-            res.render('forum', { layout: 'adminLayout', isAdmin, comments });
+        if (err) {
+            const errorMessage = err.message;
+            const model = {
+                Status: errorMessage,
+                layout: 'loginLayout',
+                message: [],
+                isAdmin
+            }
+            res.render("errorPage.handlebars", model);
+            return;
+        } else {
+
+
+            const success = 'Successful entry';
+            const model = {
+                Status: success,
+                layout: 'adminLayout',
+                comments,
+                isAdmin
+            }
+            res.render("forum.handlebars", model);
+            return;
         }
+
     });
 });
 
@@ -421,9 +445,10 @@ app.get('/forum', isAuthenticated, (req, res) => {
 app.post('/post-comment', isAuthenticated, async (req, res) => {
     const { post } = req.body;
     const posterId = req.session.user.id;
+    const name = req.session.user.username;
 
     try {
-        await db.run('INSERT INTO Comments (post, poster) VALUES (?, ?)', [post, posterId]);
+        await db.run('INSERT INTO Comments (post, poster, username) VALUES (?, ?, ?)', [post, posterId, name]);
         res.redirect('/forum');
     }
     catch (error) {
@@ -665,7 +690,6 @@ app.get('/pagination', async (req, res) => {
         });
     });
 });
-
 //**************************************************************************** */
 //**************************************************************************** */
 

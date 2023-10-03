@@ -1158,7 +1158,6 @@ a:focus {
     position: relative;
     display: flex;
     flex-direction: row;
-    /* Change to row to have left and right halves */
     height: calc(100% - 30vh);
     width: 100%;
 }
@@ -1247,6 +1246,14 @@ a:focus {
     overflow: hidden;
 }
 
+#delete-post{
+    background-color: #9F496E;
+    width: 1vw;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+}
+
 /*-------------------------------------------------*/
 
 /*--------------------Log-in-----------------------*/
@@ -1332,6 +1339,7 @@ a:focus {
 .button-log-in:hover {
     background-color: #9F496E;
     color: white;
+    
 }
 
 /*---------------------Admin Page----------------------*/

@@ -19,10 +19,15 @@
             {{#each comments}}
             <div class="comment-box">
                 <div class="empty-comment-box-header">
-                    <div class="comment-name">{{ this.poster_name }}</div>
-                    <div class="comment-date">{{ this.comment_timestamp }}</div>
+                    <div class="comment-name">{{ username }}</div>
+                    <div class="comment-date">{{ created_at }}</div>
+                    {{#if (isEqual username session.user.username)}}
+                    <a href=""><button type="delete-post" id="delete-post" name="delete-post">X</button></a>
+                    {{/if}}
                 </div>
-                <div class="comment-content">{{ this.comment_post }}</div>
+                <div class="comment-content">{{ post }}</div>
+                <div class="user-info">
+                </div>
             </div>
             {{/each}}
             {{else}}
