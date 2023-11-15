@@ -1,4 +1,4 @@
-# TGWK12-Denis-Ureke-Project 
+# CSS Website
 Created a CSS only part of a website, no images just CSS or fonts used.
 
 
